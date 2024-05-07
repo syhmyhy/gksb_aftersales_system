@@ -1,0 +1,58 @@
+<!-- registerstaff.html latest -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles/registrationstaff.css">
+    <script src="../static/scripts/registration.js"></script>
+    <title>Daftar Pengguna</title>
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Daftar Pengguna</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{{ 'error-msg' if message.startswith('Failed') else 'success-msg' }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form id="staffRegistrationForm" action="/register_staff" method="post" onsubmit="return validateForm()">
+            <label for="staffID">Staff ID:</label>
+            <input type="text" id="staffID" name="staffID" required><br><br>
+            
+            <label for="staffEmail">Email:</label>
+            <input type="email" id="staffEmail" name="staffEmail" required><br><br>
+
+            <label for="firstName">Nama Pertama:</label>
+            <input type="text" id="firstName" name="firstName" required><br><br>
+            
+            <label for="lastName">Nama Akhir:</label>
+            <input type="text" id="lastName" name="lastName" required><br><br>
+            
+            <label for="password">Kata Laluan:</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
+                <label for="togglePassword">Papar Kata Laluan</label>
+            </div><br><br>
+            
+            <label for="confirmPassword">Sahkan Kata Laluan:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch()" required>
+            <span id="passwordMatchMsg" class="password-match-msg"></span><br><br>
+                       
+            <label for="role">Jawatan:</label>
+            <select id="role" name="role">
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Staff">Staff</option>
+            </select><br><br>
+            
+            <input type="submit" id="submitBtn" value="Submit">
+        </form>
+        <p>Sudah mempunyai akaun? <a href="{{ url_for('show_login_form') }}">Log Masuk</a>.</p>
+    </div>
+</body>
+</html>

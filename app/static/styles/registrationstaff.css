@@ -1,0 +1,86 @@
+/* registrationstaff.css */
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styles */
+.registration-container {
+    width: 100%;
+    max-width: 400px; /* Set a maximum width for better readability */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 80px auto;
+}
+
+/* Heading styles */
+.registration-container h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form styles */
+form {
+    margin-top: 20px;
+}
+
+form label {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Input and select styles */
+form input[type="text"],
+form input[type="password"],
+form input[type="submit"],
+form input[type="email"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding and border are included in the width calculation */
+}
+
+
+form input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Error message styles */
+.error-msg {
+    color: #dc3545;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Success message styles */
+.success-msg {
+    color: #28a745;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Link styles */
+p a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

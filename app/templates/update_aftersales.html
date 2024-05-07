@@ -1,0 +1,258 @@
+<!-- update_aftersales.html latest -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kemaskini Maklumat Aftersales</title>
+    <link rel="stylesheet" href="../static/styles/aftersales.css">
+    <script src="../static/scripts/update_aftersales.js"></script>
+</head>
+<body>
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">Halaman Utama</a>
+            <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
+            <a href="{{ url_for('show_aftersales_form') }}" class="active">Aftersales</a>
+            <a href="{{ url_for('show_job_management') }}">Pengurusan Tugas</a>
+            <a href="{{ url_for('show_job_form') }}">Tugas</a>
+            <a href="{{ url_for('show_staff_profile') }}">Profil</a>
+            <a href="#" onclick="confirmLogout()">Log Keluar</a>
+        </div>
+        <div class="container mt-5">
+            <h2>Kemaskini Rekod Kenderaan</h2>
+            <hr>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <h5>No. Pendaftaran Kenderaan: {{ aftersales.registrationNo }} </h5>
+            <form id="updateForm" method="POST" action="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}" onsubmit="return confirmUpdate()">
+                <!-- Aftersales form fields here -->
+                <label for="jobNo">Job No:</label>
+                <input type="text" id="jobNo" name="jobNo" value="{{ aftersales.jobNo }}: {{ job.title }}" placeholder="Masukkan dan Cari Job No..." readonly>
+
+                <label for="custName">Nama Pelanggan:</label><br>
+                <input type="text" id="custName" name="custName" value="{{ job.custName }}" disabled><br>
+
+                <label for="endUser">Nama Pengguna:</label><br>
+                <input type="text" id="endUser" name="endUser" value="{{ aftersales.endUser }}" required><br>
+                
+                <label for="vehicleType">Jenis Kenderaan:</label><br>
+                <input type="text" id="vehicleType" name="vehicleType" value="{{ job.vehicleType }}" disabled><br>
+                
+                <label for="bodyType">Kod Badan Dan Kenderaan:</label><br>
+                <input type="text" id="bodyType" name="bodyType" list="bodyTypeList" value="{{ aftersales.bodyType }}" required> 
+                <datalist id="bodyTypeList">
+                    <!-- Populate datalist with body types -->
+                    <option value="">PILIH KOD BADAN KENDERAAN</option>
+                    <option value="AMB - AMBULANS">AMB - AMBULANS</option>
+                    <option value="BAP - BAS PERKHIDMATAN BERGERAK">BAP - BAS PERKHIDMATAN BERGERAK</option>
+                    <option value="BAS - BAS" data-calc="">BAS - BAS</option>
+                    <option value="BLE - BACKHOE LOADER/EXCAVATOR" data-calc="">BLE - BACKHOE LOADER/EXCAVATOR</option>
+                    <option value="BLM - BLACK MARIA" data-calc="">BLM - BLACK MARIA</option>
+                    <option value="BOM - BOMBA/FIRE ENGINE" data-calc="">BOM - BOMBA/FIRE ENGINE</option>
+                    <option value="COM - COMPACTOR" data-calc="">COM - COMPACTOR</option>
+                    <option value="JIP - JIP" data-calc="">JIP - JIP</option>
+                    <option value="KDP - KENDERAAN PERISAI" data-calc="">KDP - KENDERAAN PERISAI</option>
+                    <option value="KLB - KENDERAAN PERPUSTAKAAN BERGERAK" data-calc="">KLB - KENDERAAN PERPUSTAKAAN BERGERAK</option>
+                    <option value="KOC - KENDERAAN ORANG CACAT" data-calc="">KOC - KENDERAAN ORANG CACAT</option>
+                    <option value="KPB - KLINIK PERKHIDMATAN BERGERAK" data-calc="">KPB - KLINIK PERKHIDMATAN BERGERAK</option>
+                    <option value="KVN - KARAVAN" data-calc="">KVN - KARAVAN</option>
+                    <option value="LFC - LORI FOOD CATERING" data-calc="">LFC - LORI FOOD CATERING</option>
+                    <option value="LIB - LORI IKLAN BERGERAK" data-calc="">LIB - LORI IKLAN BERGERAK</option>
+                    <option value="LJB - LORI JENTERA BERGERAK" data-calc="">LJB - LORI JENTERA BERGERAK</option>
+                    <option value="LHP - LORI RIGID - HASIL PERTANIAN" data-calc="">LHP - LORI RIGID - HASIL PERTANIAN</option>
+                    <option value="LRA - LORI RIGID - KARGO AM" data-calc="">LRA - LORI RIGID - KARGO AM</option>
+                    <option value="LRB - LORI RIGID - MINUMAN BOTOL" data-calc="">LRB - LORI RIGID - MINUMAN BOTOL</option>
+                    <option value="LRC - LORI RIGID - CONCRETE MIXER" data-calc="">LRC - LORI RIGID - CONCRETE MIXER</option>
+                    <option value="LRD - LORI RIGID DUMPER/TIPPER" data-calc="">LRD - LORI RIGID DUMPER/TIPPER</option>
+                    <option value="LRF - LORI RIGID - ROLL ON - ROLL OFF" data-calc="">LRF - LORI RIGID - ROLL ON - ROLL OFF</option>
+                    <option value="LRH - LORI RIGID - KANDANG HAIWAN" data-calc="">LRH - LORI RIGID - KANDANG HAIWAN</option>
+                    <option value="LRK - LORI RIGID - KOMBINASI" data-calc="">LRK - LORI RIGID - KOMBINASI</option>
+                    <option value="LRL - LORI RIGID -LUTON/KOTAK" data-calc="">LRL - LORI RIGID -LUTON/KOTAK</option>
+                    <option value="LRP - LORI RIGID - PERKHIDMATAN BERGERAK" data-calc="">LRP - LORI RIGID - PERKHIDMATAN BERGERAK</option>
+                    <option value="LRR - LORI RIGID - REFRIGERATED" data-calc="">LRR - LORI RIGID - REFRIGERATED</option>
+                    <option value="LRS - LORI RIGID - SAMPAH" data-calc="">LRS - LORI RIGID - SAMPAH</option>
+                    <option value="LRT - LORI RIGID - TUNDA" data-calc="">LRT - LORI RIGID - TUNDA</option>
+                    <option value="LRV - LORI RIGID - VEHICLE CARRIER" data-calc="">LRV - LORI RIGID - VEHICLE CARRIER</option>
+                    <option value="LTA - LORI TANGKI RIGID - AIR" data-calc="">LTA - LORI TANGKI RIGID - AIR</option>
+                    <option value="LTN - LORI TANGKI RIGID - NAJIS" data-calc="">LTN - LORI TANGKI RIGID - NAJIS</option>
+                    <option value="MAP - MOBILE AERIAL PLATFORM" data-calc="">MAP - MOBILE AERIAL PLATFORM</option>
+                    <option value="MOC - MOBILE CRANE" data-calc="">MOC - MOBILE CRANE</option>
+                    <option value="PIC - PICKUP" data-calc="">PIC - PICKUP</option>
+                    <option value="PBB - PICKUP PERKHIDMATAN BERGERAK" data-calc="">PBB - PICKUP PERKHIDMATAN BERGERAK</option>
+                    <option value="ROS - ROAD SWEEPER" data-calc="">ROS - ROAD SWEEPER</option>
+                    <option value="SJB - SEMI TRAILER - JENTERA BERGERAK" data-calc="">SJB - SEMI TRAILER - JENTERA BERGERAK</option>
+                    <option value="SJR - SEMI TRAILER - TIMBER JINKER" data-calc="">SJR - SEMI TRAILER - TIMBER JINKER</option>
+                    <option value="SKA - SEMI TRAILER - KARGO AM" data-calc="">SKA - SEMI TRAILER - KARGO AM</option>
+                    <option value="SKD - SEMI TRAILER - DUMPER/TIPPER" data-calc="">SKD - SEMI TRAILER - DUMPER/TIPPER</option>
+                    <option value="SKH - SEMI TRAILER - KANDANG HAIWAN" data-calc="">SKH - SEMI TRAILER - KANDANG HAIWAN</option>
+                    <option value="SPP - SEMI TRAILER - PERKHIDMATAN BERGERAK" data-calc="">SPP - SEMI TRAILER - PERKHIDMATAN BERGERAK</option>
+                    <option value="SRE - SEMI TRAILER - REFRIGERATED" data-calc="">SRE - SEMI TRAILER - REFRIGERATED</option>
+                    <option value="STA - SEMI TRAILER TANGKI - AIR" data-calc="">STA - SEMI TRAILER TANGKI - AIR</option>
+                    <option value="STD - SEMI TRAILER TANGKI - DIESEL" data-calc="">STD - SEMI TRAILER TANGKI - DIESEL</option>
+                    <option value="STP - SEMI TRAILER TANGKI - PETROL" data-calc="">STP - SEMI TRAILER TANGKI - PETROL</option>
+                    <option value="THP - TRAILER - HASIL PERTANIAN" data-calc="">THP - TRAILER - HASIL PERTANIAN</option>
+                    <option value="TIB - TRAILER - IKLAN BERGERAK" data-calc="">TIB - TRAILER - IKLAN BERGERAK</option>
+                    <option value="TJB - TRAILER - JENTERA BERGERAK" data-calc="">TJB - TRAILER - JENTERA BERGERAK</option>
+                    <option value="TJK - TRAILER - JANAKUASA" data-calc="">TJK - TRAILER - JANAKUASA</option>
+                    <option value="TKA - TRAILER - KARGO AM" data-calc="">TKA - TRAILER - KARGO AM</option>
+                    <option value="TKH - TRAILER - KANDANG HAIWAN" data-calc="">TKH - TRAILER - KANDANG HAIWAN</option>
+                    <option value="TKK - TRAILER - KANDANG KUDA" data-calc="">TKK - TRAILER - KANDANG KUDA</option>
+                    <option value="TKV - TRAILER - KARAVAN" data-calc="">TKV - TRAILER - KARAVAN</option>
+                    <option value="TPP - TRAILER - PERKHIDMATAN BERGERAK" data-calc="">TPP - TRAILER - PERKHIDMATAN BERGERAK</option>
+                    <option value="TSB - TRAILER - SAMPAN/BOT" data-calc="">TSB - TRAILER - SAMPAN/BOT</option>
+                    <option value="TTD - TRAILER - TIPPER/DUMPER" data-calc="">TTD - TRAILER - TIPPER/DUMPER</option>
+                    <option value="TTI - TRAILER - TANGKI" data-calc="">TTI - TRAILER - TANGKI</option>
+                    <option value="TVC - TRAILER - VEHICLE CARRIER" data-calc="">TVC - TRAILER - VEHICLE CARRIER</option>
+                    <option value="VAM - VAN MAYAT" data-calc="">VAM - VAN MAYAT</option>
+                    <option value="VAN - WINDOW VAN" data-calc="">VAN - WINDOW VAN</option>
+                    <option value="VAP - PANEL VAN" data-calc="">VAP - PANEL VAN</option>
+                    <option value="VAS - SEMI-PANEL VAN" data-calc="">VAS - SEMI-PANEL VAN</option>
+                    <option value="VMS - VAN PERKHIDMATAN BERGERAK" data-calc="">VMS - VAN PERKHIDMATAN BERGERAK</option>
+                    <option value="VSA - VAN SEKURITI" data-calc="">VSA - VAN SEKURITI</option>
+                    {% for body_type in body_types %}
+                    <option value="{{ body_type }}">{{ body_type }}</option>
+                    {% endfor %}
+                </datalist><br>
+                
+                <label for="chassisType">Buatan Chassis:</label><br>
+                <input type="text" id="chassisType" name="chassisType" list="chassisList" placeholder="Masukkan atau Pilih Buatan Chassis..." value="{{ aftersales.chassisType }}" required>
+                <datalist id="chassisList">
+                    <!-- Add dynamic options here -->
+                    <option value="FOTON" data-calc="">FOTON</option>
+                    <option value="FORD" data-calc="">FORD</option>
+                    <option value="HINO" data-calc="">HINO</option>
+                    <option value="ISUZU" data-calc="">ISUZU</option>
+                    <option value="MAN" data-calc="">MAN</option>
+                    <option value="MAXUS" data-calc="">MAXUS</option>
+                    <option value="MITSUBISHI" data-calc="">MITSUBISHI</option>
+                    <option value="MODENAS" data-calc="">MODENAS</option>
+                    <option value="NISSAN" data-calc="">NISSAN</option>
+                    <option value="PROTON" data-calc="">PROTON</option>
+                    <option value="SCANIA" data-calc="">SCANIA</option>
+                    <option value="TATRA" data-calc="">TATRA</option>
+                    <option value="TOYOTA" data-calc="">TOYOTA</option>
+                    <option value="VAMTAC" data-calc="">VAMTAC</option>
+                    <option value="YAMAHA" data-calc="">YAMAHA</option>
+                    {% for chassis_type in chassis_types %}
+                        <option value="{{ chassis_type }}">{{ chassis_type }}</option>
+                    {% endfor %}
+                </datalist><br>
+                
+                <label for="chassisModel">Model Chassis:</label><br>
+                <input type="text" id="chassisModel" name="chassisModel" value="{{ aftersales.chassisModel }}" required><br>
+                
+                <label for="chassisNo">No. Chassis:</label><br>
+                <input type="text" id="chassisNo" name="chassisNo" value="{{ aftersales.chassisNo }}" required><br>
+                
+                <label for="engineNo">No. Enjin:</label><br>
+                <input type="text" id="engineNo" name="engineNo" value="{{ aftersales.engineNo }}" required><br>
+                
+                <label for="dateDelivered">Tarikh Penghantaran:</label><br>
+                <input type="date" id="dateDelivered" name="dateDelivered" value="{{ aftersales.dateDelivered }}" required><br>
+                
+                <label for="stateLocality">Penempatan Kenderaan:</label><br>
+                <input type="text" list="stateLocality" id="stateLocalityInput" name="stateLocality" value="{{ aftersales.stateLocality }}" required>
+                <datalist id="stateLocality">
+                    <!-- Populate datalist with states in Malaysia -->
+                    <option value="JOHOR">JOHOR</option>
+                    <option value="KEDAH">KEDAH</option>
+                    <option value="KELANTAN">KELANTAN</option>
+                    <option value="MELAKA">MELAKA</option>
+                    <option value="NEGERI SEMBILAN">NEGERI SEMBILAN</option>
+                    <option value="PAHANG">PAHANG</option>
+                    <option value="PERAK">PERAK</option>
+                    <option value="PERLIS">PERLIS</option>
+                    <option value="PENANG">PENANG</option>
+                    <option value="SABAH">SABAH</option>
+                    <option value="SARAWAK">SARAWAK</option>
+                    <option value="SELANGOR">SELANGOR</option>
+                    <option value="TERENGGANU">TERENGGANU</option>
+                    <option value="WILAYAH PERSEKUTUAN KUALA LUMPUR">WILAYAH PERSEKUTUAN KUALA LUMPUR</option>
+                    <option value="WILAYAH PERSEKUTUAN LABUAN">WILAYAH PERSEKUTUAN LABUAN</option>
+                    <option value="WILAYAH PERSEKUTUAN PUTRAJAYA">WILAYAH PERSEKUTUAN PUTRAJAYA</option>
+                    {% for body_type in body_types %}
+                    <option value="{{ body_type }}">{{ body_type }}</option>
+                    {% endfor %}
+                </datalist><br>      
+                
+                <label for="detailLocality">Nota: Penempatan Kenderaan:</label><br>
+                <input type="text" id="detailLocality" name="detailLocality" value="{{ aftersales.detailLocality }}" required><br>
+                
+                <label for="chassisMileageWarranty">Waranti Chassis(KM):</label><br>
+                <input type="number" id="chassisMileageWarranty" name="chassisMileageWarranty" value="{{ aftersales.chassisMileageWarranty }}" min="0" step="10000" max="300000" required><br>
+                
+                <label for="chassisPeriodWarranty">Tempoh Waranti Chassis (Tahun):</label><br>
+                <input type="number" id="chassisPeriodWarranty" name="chassisPeriodWarranty" value="{{ aftersales.chassisPeriodWarranty }}" min="0" max="5" required><br>
+                
+                <label for="chassisExpired">Tarikh Tamat Warranti (Chassis):</label><br>
+                <input type="date" id="chassisExpired" name="chassisExpired" value="{{ aftersales.chassisExpired }}" required><br>
+                
+                <label for="bodyPeriodWarranty">Tempoh Waranti Badan (Tahun):</label><br>
+                <input type="number" id="bodyPeriodWarranty" name="bodyPeriodWarranty" value="{{ aftersales.bodyPeriodWarranty }}" min="0" max="5" required><br>
+                
+                <label for="bodyExpired">Tarikh Tamat Waranti (Badan):</label><br>
+                <input type="date" id="bodyExpired" name="bodyExpired" value="{{ aftersales.bodyExpired }}" required><br>
+                
+                <label for="noService">Servis Percuma (Bilangan):</label><br>
+                <input type="number" id="noService" name="noService" value="{{ aftersales.noService }}" min="0" max="100" required><br>
+                
+                <label for="mileageService">Servis Percuma (KM):</label><br>
+                <input type="number" id="mileageService" name="mileageService" value="{{ aftersales.mileageService }}" min="0" step="10000" max="300000" required><br>
+                
+                <label for="custPhone">No. Telefon Pelanggan:</label><br>
+                <input type="tel" id="custPhone" name="custPhone" value="{{ aftersales.custPhone }}" placeholder="cth: 012-3456789..."><br>
+                
+                <label for="custEmail">Emel Pelanggan:</label><br>
+                <input type="email" id="custEmail" name="custEmail" value="{{ aftersales.custEmail }}" placeholder="Masukkan Email Pelanggan..."><br>
+                
+                <label for="notes">Nota Tambahan:</label><br>
+                <input type="text" id="notes" name="notes" rows="4" cols="50" value="{{ aftersales.notes }}" placeholder="Tambah Nota (jika ada)..."></input><br>
+
+                <input type="submit" value="Kemaskini"><br>
+            </form>
+            <hr>
+            <p><a href="{{ url_for('show_aftersales_management') }}">Batal</a></p>
+        </div>
+</body>
+<script>
+    // JavaScript functions here
+
+        // Event listener for dateDelivered input affecting chassisExpired
+        document.getElementById('dateDelivered').addEventListener('change', function() {
+            calculateExpired('dateDelivered', 'chassisPeriodWarranty', 'chassisExpired');
+            calculateExpired('dateDelivered', 'bodyPeriodWarranty', 'bodyExpired');
+            // Call other calculation functions if needed
+        });
+
+        // Event listener for chassisPeriodWarranty input affecting chassisExpired
+        document.getElementById('chassisPeriodWarranty').addEventListener('input', function() {
+            calculateExpired('dateDelivered', 'chassisPeriodWarranty', 'chassisExpired');
+            // Call other calculation functions if needed
+        });
+
+        // Event listener for bodyPeriodWarranty input affecting bodyExpired
+        document.getElementById('bodyPeriodWarranty').addEventListener('input', function() {
+            calculateExpired('dateDelivered', 'bodyPeriodWarranty', 'bodyExpired');
+            // Call other calculation functions if needed
+        });
+        
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+
+        function confirmUpdate() {
+            return confirm("Adakah anda pasti ingin kemaskini rekod kenderaan?");
+        }
+        // Add event listeners for other inputs if needed
+</script>
+</html>

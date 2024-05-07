@@ -1,0 +1,153 @@
+<!--aftersales_management.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengurusan Aftersales</title>
+    <link rel="stylesheet" href="../static/styles/aftersales_management.css">
+    <script src="../static/scripts/filter_aftersales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">Halaman Utama</a>
+            <a href="{{ url_for('show_aftersales_management') }}" class="active">Pengurusan Aftersales</a>
+            <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
+            <a href="{{ url_for('show_job_management') }}">Pengurusan Tugas</a>
+            <a href="{{ url_for('show_job_form') }}">Tugas</a>
+            <a href="{{ url_for('show_staff_profile') }}">Profil</a>
+            <a href="#" onclick="confirmLogout()">Log Keluar</a>
+        </div>
+        <div class="content">
+            <h2>Rekod Aftersales</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <a href="{{ url_for('show_aftersales_form') }}">++ Tambah Rekod Aftersales ++</a><br><br>
+            <hr>
+            <!-- Filter Input -->
+            <div class="filter-container">
+                <label for="filterInput">Carian:</label>
+                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Carian...">
+            </div>         
+            <!-- Display existing Aftersales records -->
+            <table id="aftersalesTable">
+                <thead>
+                    <tr>
+                        <th>#</th> <!-- Count column -->
+                        <th class="jobNo">Job No</th>
+                        <th class="endUser">Nama Pengguna</th>
+                        <th class="bodyType">Kod Badan Dan Kenderaan</th>
+                        <th class="chassisType">Buatan Chassis</th>
+                        <th class="chassisModel">Model Chassis</th>
+                        <th class="chassisNo">No. Chassis</th>
+                        <th class="engineNo">No. Engine</th>
+                        <th class="registrationNo">No. Pendaftaran Kenderaan</th>
+                        <th class="stateLocality">Penempatan Kenderaan</th>
+                        <th class="detailLocality">Nota: Penempatan Kenderaan</th>
+                        <th class="chassisMileageWarranty">Waranti Chassis(KM)</th>
+                        <th class="chassisPeriodWarranty">Tempoh Waranti Chasis(Tahun)</th>
+                        <th class="chassisExpired">Tarikh Tamat Waranti(Chassis)</th>
+                        <th class="bodyPeriodWarranty">Tempoh Waranti Badan(Tahun)</th>
+                        <th class="bodyExpired">Tarikh Tamat Waranti(Badan)</th>
+                        <th class="noService">Servis Percuma(Bil)</th>
+                        <th class="mileageService">Servis Percuma(KM)</th>
+                        <th class="custPhone">No. Tel Pelanggan</th>
+                        <th class="custEmail">Emel Pelanggan</th>
+                        <th class="notes">Nota</th>
+                        <th class="action">Actions</th>
+                        <th class="action"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aftersales in aftersales_data %}
+                        <tr>
+                            <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
+                            <td class="jobNo">{{ aftersales.jobNo }}</td>
+                            <td class="endUser">{{ aftersales.endUser }}</td>
+                            <td class="bodyType">{{ aftersales.bodyType }}</td>
+                            <td class="chassisType">{{ aftersales.chassisType }}</td>
+                            <td class="chassisModel">{{ aftersales.chassisModel }}</td>
+                            <td class="chassisNo">{{ aftersales.chassisNo }}</td>
+                            <td class="engineNo">{{ aftersales.engineNo }}</td>
+                            <td class="registrationNo">{{ aftersales.registrationNo }}</td>
+                            <td class="stateLocality">{{ aftersales.stateLocality }}</td>
+                            <td class="detailLocality">{{ aftersales.detailLocality }}</td>
+                            <td class="chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
+                            <td class="chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
+                            <td class="chassisExpired">{{ aftersales.chassisExpired }}</td>
+                            <td class="bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
+                            <td class="bodyExpired">{{ aftersales.bodyExpired }}</td>
+                            <td class="noService">{{ aftersales.noService }}</td>
+                            <td class="mileageService">{{ aftersales.mileageService }}</td>
+                            <td class="custPhone">{{ aftersales.custPhone }}</td>
+                            <td class="custEmail">{{ aftersales.custEmail }}</td>
+                            <td class="notes">{{ aftersales.notes }}</td>
+                            <td class="action">
+                                <div class="action-button edit-button">
+                                    <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-button delete-button">
+                                    <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
+                                </div>
+                            </td>                                                     
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table><br><br>
+            <hr>
+            <button onclick="exportToExcel()">Muat Turun Rekod Aftersales</button>
+        </div>
+    </div>
+    <script>
+        function confirmDelete(registrationNo) {
+            if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
+                const url = `/delete_aftersales/${registrationNo}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload(); // Reload page on successful deletion
+                    } else {
+                        throw new Error('Failed to delete aftersales record');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting aftersales record:', error);
+                    alert('Gagal memadam rekod Aftersales. Sila cuba lagi.');
+                });
+            }
+        }
+
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+
+        function exportToExcel() {
+            const table = document.getElementById('aftersalesTable');
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'aftersales_data.xlsx');
+        }
+    </script>
+</body>
+</html>

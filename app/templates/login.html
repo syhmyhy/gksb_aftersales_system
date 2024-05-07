@@ -1,0 +1,57 @@
+<!-- login.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Masuk Pengguna</title>
+    <link rel="stylesheet" href="../static/styles/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
+        <h2></h2>
+        {% if status == 'error' %}
+            <div class="error-msg">ID Staff atau kata laluan tidak sah. Sila cuba lagi.</div>
+        {% endif %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{{ 'error-msg' if message.startswith('Gagal') else 'success-msg' }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form id="loginForm" action="/" method="post">
+            <label for="staffID">ID Staff:</label><br>
+            <input type="text" id="staffID" name="staffID" required><br><br>
+            
+            <label for="password">Kata Laluan:</label><br>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <input type="checkbox" id="togglePassword"> Papar Kata Laluan
+            </div><br><br>
+            
+            <input type="submit" value="Log Masuk">
+        </form>
+        <p>Tiada akaun? <a href="{{ url_for('show_staff_registration_form') }}">Daftar</a>.</p>
+    </div>
+</body>
+<script>
+    // Disable browser back button to prevent access to cached pages after logout
+    window.history.replaceState(null, "", window.location.href);
+    window.addEventListener("popstate", function() {
+        window.history.replaceState(null, "", window.location.href);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('change', function() {
+            const isChecked = this.checked;
+            password.type = isChecked ? 'text' : 'password';
+        });
+    });
+</script>
+</html>

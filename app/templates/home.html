@@ -1,0 +1,50 @@
+<!-- home.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama</title>
+    <link rel="stylesheet" href="../static/styles/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/scripts/home_chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}"  class="active">Halaman Utama</a>
+            <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
+            <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
+            <a href="{{ url_for('show_job_management') }}">Pengurusan Tugas</a>
+            <a href="{{ url_for('show_job_form') }}">Tugas</a>
+            <a href="{{ url_for('show_staff_profile') }}">Profil</a>
+            <a href="#" onclick="confirmLogout()">Log Keluar</a>
+        </div>
+        <div class="content-container">
+            <div class="content">
+                <!-- Content to slide in -->
+                <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br>
+                {% if 'staff_id' in session %}
+                    {% if session['firstName'] %}
+                        <h4>Hello, {{ session['firstName'] }}! Selamat Datang ke Global Komited Sdn Bhd</h4>
+                    {% else %}
+                        <p>Selamat Datang.</p>
+                    {% endif %}
+                {% else %}
+                    <p>Selamat Datang.</p>
+                {% endif %}
+                <hr>
+                <br><canvas id="jobQuantityChart" width="400" height="300"></canvas><br><br>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+</script>
+</html>

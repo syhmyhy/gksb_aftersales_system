@@ -1,0 +1,73 @@
+/* home.css */
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 200px; /* Adjust width as needed */
+    height: 100%; /* Full height of the viewport */
+    background-color: #333;
+    position: fixed; /* Fixed positioning */
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* Allow vertical scrolling if needed */
+    padding-top: 40px;
+}
+
+.sidebar a {
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #f2f2f2;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.sidebar a.active {
+    background-color: #ddd;
+    color: #333;
+}
+
+/* Container styles */
+.container {
+    width: 50%; /* Adjust width as needed */
+    margin: 50px auto; /* Center the container vertically and horizontally */
+    background-color: #fff; /* Background color for the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
+    padding: 20px;
+    text-align: left; /* Align text to the left */
+}
+
+/* Logo styles */
+.logo {
+    width: 300px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Make the image a block element for centering */
+    margin: 0 auto 20px auto; /* Center the logo vertically and add spacing */
+}
+
+/* Anchor styles */
+a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 16px;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+a:hover {
+    background-color: #333;
+    color: #fff;
+}

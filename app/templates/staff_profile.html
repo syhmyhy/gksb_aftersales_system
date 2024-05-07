@@ -1,0 +1,74 @@
+<!--staff_profile.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kemaskini Profil</title>
+    <link rel="stylesheet" href="../static/styles/aftersales.css">
+    <script src="../static/scripts/staff_profile.js"></script>
+</head>
+<body>
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">Halaman Utama</a>
+            <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
+            <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
+            <a href="{{ url_for('show_job_management') }}">Pengurusan Tugas</a>
+            <a href="{{ url_for('show_job_form') }}">Tugas</a>
+            <a href="{{ url_for('show_staff_profile') }}" class="active">Profil</a>
+            <a href="#" onclick="confirmLogout()">Log Keluar</a>
+        </div>
+        <div class="container mt-5">
+            <h2>Kemaskini Profil</h2>
+            <hr>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <h5>Staff ID: {{ staff.staffID }} </h5>
+            <form id="staffProfileForm" action="/update_staff_profile" method="post" onsubmit="return confirmSubmit()">        
+                <label for="staffEmail">Email:</label><br>
+                <input type="email" id="staffEmail" name="staffEmail" value="{{ staff.staffEmail }}" placeholder="Email Staff..." required><br>
+    
+                <label for="firstName">Nama Pertama:</label><br>
+                <input type="text" id="firstName" name="firstName" value="{{ staff.firstName }}" placeholder="Email Nama Pertama..." required><br>
+                    
+                <label for="lastName">Nama Akhir:</label><br>
+                <input type="text" id="lastName" name="lastName" value="{{ staff.lastName }}" placeholder="Email Nama Terakhir..." required><br>
+                    
+                <label for="role">Jawatan:</label><br>
+                <input type="text" id="role" name="role" value="{{ staff.role }}" readonly><br>
+                    
+                <label for="currentPassword">Kata Laluan Semasa:</label><br>
+                <input type="password" id="currentPassword" name="currentPassword" placeholder="Kata Laluan Semasa..."><br>
+                
+                <label for="newPassword">Kata Laluan Baru:</label><br>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Kata Laluan Baru..."><br>
+                
+                <label for="confirmPassword">Sahkan Kata Laluan Baru:</label><br>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Sahkan Kata Laluan..."><br>
+    
+                <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
+                <label for="togglePassword">Papar Kata Laluan</label><br><br>
+    
+                <input type="submit" id="submitBtn" value="Kemaskini Profil">
+            </form>
+            <hr>
+            <p><a href="{{ url_for('home') }}">Kembali ke Laman Utama</a>.</p>
+        </div>
+    <script>
+        // JavaScript functions here
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+</body>
+</html>
