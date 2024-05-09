@@ -33,7 +33,7 @@ def process_staff_registration():
             return redirect(url_for('show_login_form'))
         except Exception as e:
             db.session.rollback()
-            flash(f'Error occurred during registration: {str(e)}', 'error')
+            flash(f'Gagal mendaftarkan Staff: {str(e)}', 'error')
 
     # Redirect to staff registration form if not a POST request or if registration fails
     return redirect(url_for('show_staff_registration_form'))

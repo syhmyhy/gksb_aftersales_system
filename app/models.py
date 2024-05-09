@@ -25,7 +25,6 @@ class Aftersales(db.Model):
     custPhone = db.Column(db.String(20))
     custEmail = db.Column(db.String(255))
     notes = db.Column(db.String(255))
-    custFile = db.Column(db.String(255))
 
 class Job(db.Model):
     __tablename__ = 'job'

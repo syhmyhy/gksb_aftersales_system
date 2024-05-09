@@ -1,8 +1,9 @@
 #app\views.py
 
-from flask import Flask, render_template, request, redirect, url_for, session, make_response, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, flash, jsonify, abort
 from app.controllers import auth_controller, job_controller, staff_controller, aftersales_controller
 from app.models import Job, Aftersales, Staff
+from app.constants import ROLES
 from app import app, db
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash # Import the generate_password_hash function
@@ -94,7 +95,7 @@ def update_aftersales_route(registrationNo):
             aftersales.custPhone = request.form['custPhone']
             aftersales.custEmail = request.form['custEmail']
             aftersales.notes = request.form['notes']
-            aftersales.custFile = request.form['custFile']
+            # aftersales.custFile = request.form['custFile']
             # Add other fields here...
 
             db.session.commit()
@@ -151,8 +152,23 @@ def submit_aftersales_form():
 def show_job_form():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
-    response = make_response(job_controller.show_job_form())
-    return prevent_caching(response)
+
+    role = session.get('role')
+    print("User Role:", role)
+    print("Session Data:", session)
+
+    if role in (ROLES['admin'], ROLES['CEO']):
+        # Allow access for admin and CEO roles
+        response = make_response(render_template('job.html'))
+        return prevent_caching(response)
+    elif role == ROLES['staff']:
+        # Fetch job data for staff (view-only mode)
+        job_data = Job.query.all()
+        return render_template('viewonly_job.html')
+    else:
+        # Handle unauthorized access for other roles
+        print(f"Unauthorized role: {role}")
+        abort(403)
 
 @app.route('/submit_job_form', methods=['POST'])
 def submit_job_form():
@@ -165,8 +181,19 @@ def show_job_management():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
 
-    job_data = Job.query.all()
-    return render_template('job_management.html', job_data=job_data)
+    role = session.get('role')
+
+    if role in (ROLES['admin'], ROLES['CEO']):
+        # Allow access for admin and CEO roles
+        job_data = Job.query.all()
+        return render_template('job_management.html', job_data=job_data)
+    elif role == ROLES['staff']:
+        # Fetch job data for staff (view-only mode)
+        job_data = Job.query.all()
+        return render_template('viewonly_job_management.html', job_data=job_data)
+    else:
+        # Handle unauthorized access for other roles
+        abort(403)
 
 @app.route('/get_job_details', methods=['GET'])
 def get_job_details():

@@ -1,0 +1,131 @@
+<!-- viewonly_job_management.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengurusan Tugas</title>
+    <link rel="stylesheet" href="../static/styles/job_management.css">
+    <script src="../static/scripts/filter_job.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">Halaman Utama</a>
+            <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
+            <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
+            <a href="{{ url_for('show_job_management') }}"  class="active">Pengurusan Tugas</a>
+            <a href="{{ url_for('show_job_form') }}">Tugas</a>
+            <a href="{{ url_for('show_staff_profile') }}">Profil</a>
+            <a href="#" onclick="confirmLogout()">Log Keluar</a>
+        </div>
+        <div class="content">
+            <h2>Rekod Tugas</h2>
+            <p>Halaman ini adalah untuk paparan sahaja. Sila dapatkan kebenaran untuk membuat sebarang pengubahsuaian.</p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <hr>
+            <!-- Filter Input -->
+            <div class="filter-container">
+                <label for="filterInput">Carian:</label>
+                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Carian...">
+            </div> 
+            <!-- Display existing Job records -->
+            <table id="jobTable">
+                <thead>
+                    <tr>
+                        <th>#</th> <!-- Count column -->
+                        <th class="jobNo">Job No</th>
+                        <th class="title">Tajuk</th>
+                        <th class="custName">Nama Pelanggan</th>
+                        <th class="vehicleType">Jenis Kenderaan</th>
+                        <th class="quantity">Kuantiti</th>
+                        <th class="dateReceived">Tarikh SST</th>
+                        <th class="costUnit">Kos(RM) /Unit</th>
+                        <th class="totalCost">Jumlah Kos(RM)</th>
+                        <th class="profitUnit">Untung(RM) /Unit</th>
+                        <th class="totalProfit">Jumlah Untung(RM)</th>
+                        <th class="jobDateDelivered">Tarikh Penghantaran</th>
+                        <th class="staffID">Staff ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in job_data %}
+                    <tr>
+                        <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
+                        <td class="jobNo">{{ job.jobNo }}</td>
+                        <td class="title">{{ job.title }}</td>
+                        <td class="custName">{{ job.custName }}</td>
+                        <td class="vehicleType">{{ job.vehicleType }}</td>
+                        <td class="quantity">{{ job.quantity }}</td>
+                        <td class="dateReceived">{{ job.dateReceived }}</td>
+                        <td class="costUnit">{{ job.costUnit }}</td>
+                        <td class="totalCost">{{ job.totalCost }}</td>
+                        <td class="profitUnit">{{ job.profitUnit }}</td>
+                        <td class="totalProfit">{{ job.totalProfit }}</td>
+                        <td class="jobDateDelivered">{{ job.jobDateDelivered }}</td>
+                        <td class="staffID">{{ job.staffID }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table><br><br>
+            <hr>
+            <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button>
+        </div>
+    </div>
+
+    <!-- JavaScript function to confirm deletion -->
+    <script>
+        function confirmDelete(jobNo) {
+            if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
+                // Construct the URL for the delete action
+                const url = `/delete_job/${jobNo}`;
+
+                // Send a POST request to the delete route
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jobNo })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Reload the page after successful deletion
+                        window.location.reload();
+                    } else {
+                        throw new Error('Failed to delete job record');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting job record:', error);
+                    alert('Gagal memadam rekod tugas. Sila cuba lagi.');
+                });
+            }
+        }
+
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+
+        function exportToExcel() {
+            const table = document.getElementById('jobTable');
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'job_data.xlsx');
+        }
+    </script>
+</body>
+</html>

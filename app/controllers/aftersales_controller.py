@@ -50,7 +50,6 @@ def submit_aftersales_form():
                 custPhone=aftersales_data.get('custPhone'),
                 custEmail=aftersales_data.get('custEmail'),
                 notes=aftersales_data.get('notes'),
-                custFile=aftersales_data.get('custFile')
             )
 
             db.session.add(new_aftersales)
