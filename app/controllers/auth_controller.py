@@ -25,7 +25,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Staff ID atau kata laluan tidak sah', 'error')
-
+            
     return redirect(url_for('show_login_form'))
 
 def logout():
