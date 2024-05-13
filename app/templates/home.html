@@ -26,8 +26,8 @@
                 <!-- Content to slide in -->
                 <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br>
                 {% if 'staff_id' in session %}
-                    {% if session['firstName'] %}
-                        <h4>Hello, {{ session['firstName'] }}! Selamat Datang ke Global Komited Sdn Bhd</h4>
+                    {% if session['staffName'] %}
+                        <h4>Selamat Datang ke Global Komited Sdn Bhd</h4>
                     {% else %}
                         <p>Selamat Datang.</p>
                     {% endif %}

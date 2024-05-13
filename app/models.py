@@ -51,7 +51,7 @@ class Staff(db.Model):
     __tablename__ = 'staff'
     staffID = db.Column(db.Integer, primary_key=True)
     staffEmail = db.Column(db.String(255), nullable=False)  # Add email field
-    firstName = db.Column(db.String(255), nullable=False)
-    lastName = db.Column(db.String(255), nullable=False)
+    staffName = db.Column(db.String(255), nullable=False)
+    department = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(45), nullable=False)
     role = db.Column(db.String(255), nullable=False)

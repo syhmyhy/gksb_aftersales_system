@@ -20,35 +20,54 @@
             {% endif %}
         {% endwith %}
         <form id="staffRegistrationForm" action="/register_staff" method="post" onsubmit="return validateForm()">
-            <label for="staffID">Staff ID:</label>
-            <input type="text" id="staffID" name="staffID" required><br><br>
+            <label for="staffID">Employee No:</label>
+            <input type="text" id="staffID" name="staffID" placeholder="GSK001..." required><br>
             
             <label for="staffEmail">Email:</label>
-            <input type="email" id="staffEmail" name="staffEmail" required><br><br>
+            <input type="email" id="staffEmail" name="staffEmail" placeholder="abc@weststardefence.com.my..." required><br>
 
-            <label for="firstName">Nama Pertama:</label>
-            <input type="text" id="firstName" name="firstName" required><br><br>
+            <label for="staffName">Nama:</label>
+            <input type="text" id="staffName" name="staffName" placeholder="Masukkan Nama..." required><br>
             
-            <label for="lastName">Nama Akhir:</label>
-            <input type="text" id="lastName" name="lastName" required><br><br>
+            <label for="department">Jabatan:</label><br>
+            <input type="text" list="departments" id="department" name="department" placeholder="Pilih Jabatan..." required>
+            <datalist id="departments">
+                <option value="">Pilih Jabatan</option>
+                <option value="Management">Management</option>
+                <option value="Design Department">Design Department</option>
+                <option value="Production">Production</option>
+                <option value="Quality Assurance">Quality Assurance</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Special Project & Business Development">Special Project & Business Development</option>
+                <option value="Aftersales/Logistic">Aftersales/Logistic</option>
+                <option value="Administration/Account/Purchasing">Administration/Account/Purchasing</option>
+            </datalist><br>
             
             <label for="password">Kata Laluan:</label>
             <div class="password-container">
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan..." required>
                 <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
                 <label for="togglePassword">Papar Kata Laluan</label>
-            </div><br><br>
+            </div><br>
             
             <label for="confirmPassword">Sahkan Kata Laluan:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch()" required>
-            <span id="passwordMatchMsg" class="password-match-msg"></span><br><br>
+            <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch()" placeholder="Sahkan Kata Laluan..." required>
+            <span id="passwordMatchMsg" class="password-match-msg"></span><br>
                        
             <label for="role">Jawatan:</label>
-            <select id="role" name="role">
-                <option value="admin">Admin</option>
-                <option value="CEO">CEO</option>
-                <option value="staff">Staff</option>
-            </select><br><br>
+            <select id="role" name="role" required>
+                <option value="">Pilih Jawatan</option>
+                <option value="Chief Executive Officer">CEO</option>
+                <option value="Senior Manager">Senior Manager</option>
+                <option value="Manager">Manager</option>
+                <option value="Assistant Manager">Assistant Manager</option>
+                <option value="Senior Executive">Sr. Executive</option>
+                <option value="Executive">Executive</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Engineer">Engineer</option>
+                <option value="Technician">Technician</option>
+                <option value="Programmer">Programmer</option>
+            </select><br>
             
             <input type="submit" id="submitBtn" value="Submit">
         </form>

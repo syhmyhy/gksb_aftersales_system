@@ -43,6 +43,8 @@ def home():
         flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
     
+    staffID = session.get('staff_id')
+    print("Staff ID:", staffID)
     response = make_response(render_template('home.html'))
     return prevent_caching(response)
 
@@ -153,22 +155,18 @@ def show_job_form():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
 
-    role = session.get('role')
-    print("User Role:", role)
+    staffID = session.get('staff_id')
+    print("Staff ID:", staffID)
     print("Session Data:", session)
 
-    if role in (ROLES['admin'], ROLES['CEO']):
-        # Allow access for admin and CEO roles
+    if staffID in ('GSK39', 'GSK51'):
+        # Allow access for specific staffID values ('GSK39' or 'GSK51')
         response = make_response(render_template('job.html'))
         return prevent_caching(response)
-    elif role == ROLES['staff']:
-        # Fetch job data for staff (view-only mode)
+    else:
+        # For all other staffID values, render view-only job content
         job_data = Job.query.all()
         return render_template('viewonly_job.html')
-    else:
-        # Handle unauthorized access for other roles
-        print(f"Unauthorized role: {role}")
-        abort(403)
 
 @app.route('/submit_job_form', methods=['POST'])
 def submit_job_form():
@@ -181,19 +179,17 @@ def show_job_management():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
 
-    role = session.get('role')
-
-    if role in (ROLES['admin'], ROLES['CEO']):
-        # Allow access for admin and CEO roles
+    staffID = session.get('staff_id')
+    print("Staff ID:", staffID)
+    
+    if staffID in ('GSK39', 'GSK51'):
+        # Allow access for specific staffID values ('GSK39' or 'GSK51')
         job_data = Job.query.all()
         return render_template('job_management.html', job_data=job_data)
-    elif role == ROLES['staff']:
-        # Fetch job data for staff (view-only mode)
+    else:
+        # For all other staffID values, render view-only job management content
         job_data = Job.query.all()
         return render_template('viewonly_job_management.html', job_data=job_data)
-    else:
-        # Handle unauthorized access for other roles
-        abort(403)
 
 @app.route('/get_job_details', methods=['GET'])
 def get_job_details():
@@ -319,8 +315,8 @@ def update_staff_profile():
     try:
         # Update staff profile with form data
         staff.staffEmail = request.form['staffEmail']
-        staff.firstName = request.form['firstName']
-        staff.lastName = request.form['lastName']
+        staff.staffName = request.form['staffName']
+        staff.department = request.form['department']
         staff.role = request.form['role']
 
         # Check if the user wants to change the password

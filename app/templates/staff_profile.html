@@ -31,16 +31,28 @@
                     </ul>
                 {% endif %}
             {% endwith %}
-            <h5>Staff ID: {{ staff.staffID }} </h5>
+            <h5>Employee No: {{ staff.staffID }} </h5>
             <form id="staffProfileForm" action="/update_staff_profile" method="post" onsubmit="return confirmSubmit()">        
                 <label for="staffEmail">Email:</label><br>
-                <input type="email" id="staffEmail" name="staffEmail" value="{{ staff.staffEmail }}" placeholder="Email Staff..." required><br>
+                <input type="email" id="staffEmail" name="staffEmail" value="{{ staff.staffEmail }}" placeholder="Email..." required><br>
     
-                <label for="firstName">Nama Pertama:</label><br>
-                <input type="text" id="firstName" name="firstName" value="{{ staff.firstName }}" placeholder="Email Nama Pertama..." required><br>
+                <label for="staffName">Nama Pekerja:</label><br>
+                <input type="text" id="staffName" name="staffName" value="{{ staff.staffName }}" placeholder="Nama..." required><br>
                     
-                <label for="lastName">Nama Akhir:</label><br>
-                <input type="text" id="lastName" name="lastName" value="{{ staff.lastName }}" placeholder="Email Nama Terakhir..." required><br>
+                <label for="department">Jabatan:</label><br>
+                <input type="text" list="departments" id="department" name="department" value="{{ staff.department }}" placeholder="Pilih Jabatan..." required>
+                <datalist id="departments">
+                    <option value="">Pilih Jabatan</option>
+                    <option value="Management">Management</option>
+                    <option value="Design Department">Design Department</option>
+                    <option value="Production">Production</option>
+                    <option value="Quality Assurance">Quality Assurance</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Special Project & Business Development">Special Project & Business Development</option>
+                    <option value="Aftersales/Logistic">Aftersales/Logistic</option>
+                    <option value="Administration/Account/Purchasing">Administration/Account/Purchasing</option>
+                </datalist><br>
+
                     
                 <label for="role">Jawatan:</label><br>
                 <input type="text" id="role" name="role" value="{{ staff.role }}" readonly><br>

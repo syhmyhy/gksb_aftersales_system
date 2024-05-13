@@ -9,8 +9,8 @@ def process_staff_registration():
     if request.method == 'POST':
         staff_id = request.form['staffID']
         staff_email = request.form['staffEmail']
-        first_name = request.form['firstName']
-        last_name = request.form['lastName']
+        staff_name = request.form['staffName']
+        department = request.form['department']
         password = request.form['password']
         role = request.form['role']
 
@@ -24,7 +24,7 @@ def process_staff_registration():
         hashed_password = generate_password_hash(password)
 
         # Create a new staff member record
-        new_staff = Staff(staffID=staff_id, staffEmail=staff_email, firstName=first_name, lastName=last_name, password=hashed_password, role=role)
+        new_staff = Staff(staffID=staff_id, staffEmail=staff_email, staffName=staff_name, department=department, password=hashed_password, role=role)
 
         try:
             db.session.add(new_staff)

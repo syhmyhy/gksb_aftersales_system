@@ -19,8 +19,8 @@ def login():
 
         if staff and check_password_hash(staff.password, password):
             session['staff_id'] = staff.staffID
-            session['firstName'] = staff.firstName
-            session['lastName'] = staff.lastName
+            session['staffName'] = staff.staffName
+            session['department'] = staff.department
             session['role'] = staff.role  # Set the user's role in the session
             return redirect(url_for('home'))
         else:
