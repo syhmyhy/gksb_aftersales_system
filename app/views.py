@@ -2,8 +2,10 @@
 
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, flash, jsonify, abort
 from app.controllers import auth_controller, job_controller, staff_controller, aftersales_controller
-from app.models import Job, Aftersales, Staff
-from app.constants import ROLES
+# from app.models import Job, Aftersales, Staff
+from app.models.aftersales_model import Aftersales
+from app.models.job_model import Job
+from app.models.staff_model import Staff
 from app import app, db
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash # Import the generate_password_hash function

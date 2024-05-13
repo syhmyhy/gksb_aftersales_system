@@ -2,7 +2,7 @@
 
 from flask import render_template, request, redirect, url_for, jsonify, flash
 from app import db
-from app.models import Job
+from app.models.job_model import Job
 from sqlalchemy.exc import IntegrityError
 
 def show_job_form():

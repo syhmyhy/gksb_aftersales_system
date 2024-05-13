@@ -2,7 +2,7 @@
 
 from flask import render_template, request, redirect, url_for, flash, session
 from app import db
-from app.models import Staff
+from app.models.staff_model import Staff
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 import string
