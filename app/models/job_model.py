@@ -1,4 +1,4 @@
-# app\job_model.py
+# app\models\job_model.py
 
 from app import db
 

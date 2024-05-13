@@ -1,4 +1,4 @@
-# app\aftersales_model.py
+# app\models\aftersales_model.py
 
 from app import db
 

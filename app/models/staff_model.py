@@ -1,4 +1,4 @@
-# app\staff_model.py
+# app\models\staff_model.py
 
 from app import db
 

@@ -9,5 +9,5 @@ app.config.from_object('config')  # Load app configurations from config.py
 
 db = SQLAlchemy(app)
 
-from app import views, models
+from app import models, views
 
