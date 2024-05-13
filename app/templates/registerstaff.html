@@ -44,15 +44,14 @@
             </datalist><br>
             
             <label for="password">Kata Laluan:</label>
-            <div class="password-container">
-                <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan..." required>
-                <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
-                <label for="togglePassword">Papar Kata Laluan</label>
-            </div><br>
+            <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan..." required>
             
             <label for="confirmPassword">Sahkan Kata Laluan:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch()" placeholder="Sahkan Kata Laluan..." required>
             <span id="passwordMatchMsg" class="password-match-msg"></span><br>
+
+            <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
+            <label for="togglePassword">Papar Kata Laluan</label><br><br>
                        
             <label for="role">Jawatan:</label>
             <select id="role" name="role" required>
