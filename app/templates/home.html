@@ -1,4 +1,4 @@
-<!-- home.html-->
+<!--home.html-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <a href="{{ url_for('home') }}"  class="active">Halaman Utama</a>
+            <a href="{{ url_for('home') }}" class="active">Halaman Utama</a>
             <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
             <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
             <a href="{{ url_for('show_job_management') }}">Pengurusan Tugas</a>
@@ -22,9 +22,9 @@
             <a href="#" onclick="confirmLogout()">Log Keluar</a>
         </div>
         <div class="content-container">
+            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br><br>
             <div class="content">
                 <!-- Content to slide in -->
-                <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br>
                 {% if 'staff_id' in session %}
                     {% if session['staffName'] %}
                         <h4>Selamat Datang ke Global Komited Sdn Bhd.</h4>
@@ -35,16 +35,28 @@
                     <p>Selamat Datang.</p>
                 {% endif %}
                 <hr>
-                <br><canvas id="jobQuantityChart" width="400" height="300"></canvas><br><br>
+                <div class="chart-container">
+                    <!-- Chart 2: Job Costs and Profits -->
+                    <h4>Purata Kos dan Untung Per Unit Kenderaan</h4>
+                    <canvas id="jobCostsProfitsChart"></canvas>
+                </div><br><br>
+                <hr>
+                <div class="chart-container">
+                    <!-- Chart 1: Job Quantity -->
+                    <h4>Kuantiti Kenderaan Mengikut Jenis</h4>
+                    <canvas id="jobQuantityChart"></canvas>
+                </div><br><br>
+                <hr>
             </div>
         </div>
     </div>
-</body>
-<script>
+
+    <script>
         function confirmLogout() {
             if (confirm("Adakah anda pasti ingin log keluar?")) {
                 window.location.href = "{{ url_for('logout') }}";
             }
         }
-</script>
+    </script>
+</body>
 </html>

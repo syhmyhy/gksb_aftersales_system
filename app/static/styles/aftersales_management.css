@@ -46,7 +46,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-left: 200px;
+    margin-left: 210px;
     overflow-x: auto; /* Allow horizontal scrolling for the table */
 }
 

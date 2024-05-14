@@ -6,7 +6,9 @@ from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
 from app.models.staff_model import Staff
 from app import app, db
+from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 from werkzeug.security import check_password_hash, generate_password_hash # Import the generate_password_hash function
 import os
 
@@ -347,3 +349,25 @@ def update_staff_profile():
     return redirect(url_for('show_staff_profile'))
     
 # Other routes and functions as needed
+
+
+# Add the new route for getting job costs and profits
+@app.route('/get_job_costs_profits')
+def get_job_costs_profits():
+    # Query job data to calculate costs and profits per unit
+    job_data = db.session.query(
+        Job.vehicleType,
+        db.func.avg(Job.costUnit).label('avg_cost_unit'),
+        db.func.avg(Job.profitUnit).label('avg_profit_unit')
+    ).group_by(Job.vehicleType).all()
+
+    # Prepare data to be sent as JSON
+    job_types = [item[0] for item in job_data]
+    costs_per_unit = [float(item[1]) if item[1] else 0.0 for item in job_data]
+    profits_per_unit = [float(item[2]) if item[2] else 0.0 for item in job_data]
+
+    return jsonify({
+        'jobTypes': job_types,
+        'costsPerUnit': costs_per_unit,
+        'profitsPerUnit': profits_per_unit
+    })
