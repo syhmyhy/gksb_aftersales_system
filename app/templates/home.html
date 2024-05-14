@@ -15,6 +15,7 @@
 <body>
     <div class="container">
         <div class="sidebar">
+            <a href="https://www.weststar.com.my/twg/twg2/wgk.php" target="_blank">GKSB</a>
             <a href="{{ url_for('home') }}" class="active">Halaman Utama</a>
             <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
             <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
@@ -24,52 +25,46 @@
             <a href="#" onclick="confirmLogout()">Log Keluar</a>
         </div>
         <div class="content-container">
-            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br><br>
+            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">
             <div class="content">
-                <!-- Content to slide in -->
                 {% if 'staff_id' in session %}
                     {% if session['staffName'] %}
-                        <h4>Selamat Datang ke Global Komited Sdn Bhd.</h4>
+                        <h3>Selamat Datang ke Global Komited Sdn Bhd!</h3>
                     {% else %}
-                        <p>Selamat Datang.</p>
+                        <h3>Selamat Datang!</h3>
                     {% endif %}
                 {% else %}
-                    <p>Selamat Datang.</p>
+                    <h3>Selamat Datang!</h3>
                 {% endif %}
-                <hr>
+                <hr><br>
                 <div class="chart-container">
                     <!-- Chart 1: Job Costs and Profits -->
-                    <h4>Purata Kos dan Untung Per Unit Kenderaan</h4>
-                    <canvas id="jobCostsProfitsChart"></canvas>
-                </div><br><br>
-                <hr>
-                <div class="chart-container">
-                    <!-- Chart 2: Job Quantity -->
-                    <h4>Kuantiti Kenderaan Mengikut Jenis</h4>
-                    <canvas id="jobQuantityChart"></canvas>
-                </div><br><br>
-                <hr>
-                <div class="chart-container">
-                    <!-- Chart 3: Job Profitability Trends -->
-                    <h4>Trend Keuntungan Pekerjaan Mengikut Tarikh Penghantaran</h4>
-                    <canvas id="jobProfitabilityTrendChart"></canvas>
-                </div><br><br>
-                <div class="slider-container">
-                    <label for="dateRangeSlider">Pilih Julat Tarikh:</label>
-                    <input type="range" min="0" max="100" value="100" class="slider" id="dateRangeSlider">
-                    <span id="dateRangeLabel"></span>
-                </div><br><br>
-                <hr>
-                <div class="chart-container">
+                    <div>
+                        <h4>Purata Kos dan Untung Per Unit Kenderaan</h4>
+                        <canvas id="jobCostsProfitsChart"></canvas>
+                    </div>
+                    <!-- Chart 2: Job Profitability Trends -->
+                    <div>
+                        <h4>Trend Keuntungan Pekerjaan Mengikut Tarikh Penghantaran</h4>
+                        <canvas id="jobProfitabilityTrendChart"></canvas>
+                        <div class="slider-container">
+                            <label for="dateRangeSlider">Pilih Julat Tarikh:</label>
+                            <input type="range" min="0" max="100" value="100" class="slider" id="dateRangeSlider">
+                            <span id="dateRangeLabel">(100 data points)</span>
+                        </div>
+                    </div>
+                    <!-- Chart 3: Job Quantity -->
+                    <div>
+                        <h4>Kuantiti Kenderaan Mengikut Jenis</h4>
+                        <canvas id="jobQuantityChart"></canvas>
+                    </div>
                     <!-- Chart 4: Job Distribution by Vehicle Type -->
-                    <h4"Peluang Penyakit dan Penyelidikan Tugas  "></h4>
-                    <canvas id="jobDistributionChart"></canvas>
-                </div><br><br>
-                <div class="slider-container">
-                    <label for="dateRangeSlider">Pilih Julat Tarikh:</label>
-                    <input type="range" min="0" max="100" value="100" class="slider" id="dateRangeSlider">
-                    <span id="dateRangeLabel">(100 data points)</span>
-                </div><br><br>                                
+                    <div>
+                        <h4>Jumlah Tugas Mengikut Jenis Kenderaan</h4>
+                        <canvas id="jobDistributionChart"></canvas>
+                    </div>
+                </div><br>
+                <hr>
             </div>
         </div>
     </div>
