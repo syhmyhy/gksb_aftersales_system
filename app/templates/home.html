@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../static/styles/home.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../static/scripts/home_chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -36,17 +38,27 @@
                 {% endif %}
                 <hr>
                 <div class="chart-container">
-                    <!-- Chart 2: Job Costs and Profits -->
+                    <!-- Chart 1: Job Costs and Profits -->
                     <h4>Purata Kos dan Untung Per Unit Kenderaan</h4>
                     <canvas id="jobCostsProfitsChart"></canvas>
                 </div><br><br>
                 <hr>
                 <div class="chart-container">
-                    <!-- Chart 1: Job Quantity -->
+                    <!-- Chart 2: Job Quantity -->
                     <h4>Kuantiti Kenderaan Mengikut Jenis</h4>
                     <canvas id="jobQuantityChart"></canvas>
                 </div><br><br>
                 <hr>
+                <div class="chart-container">
+                    <!-- Chart 4: Job Profitability Trends -->
+                    <h4>Trend Keuntungan Pekerjaan Mengikut Tarikh Penghantaran</h4>
+                    <canvas id="jobProfitabilityTrendChart"></canvas>
+                </div><br><br>
+                <div class="slider-container">
+                    <label for="dateRangeSlider">Pilih Julat Tarikh:</label>
+                    <input type="range" min="0" max="100" value="100" class="slider" id="dateRangeSlider">
+                    <span id="dateRangeLabel"></span>
+                </div>           
             </div>
         </div>
     </div>

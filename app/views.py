@@ -350,7 +350,6 @@ def update_staff_profile():
     
 # Other routes and functions as needed
 
-
 # Add the new route for getting job costs and profits
 @app.route('/get_job_costs_profits')
 def get_job_costs_profits():
@@ -370,4 +369,19 @@ def get_job_costs_profits():
         'jobTypes': job_types,
         'costsPerUnit': costs_per_unit,
         'profitsPerUnit': profits_per_unit
+    })
+
+# Add new route for getting job profitability trends
+@app.route('/get_job_profitability_trends')
+def get_job_profitability_trends():
+    # Query job data sorted by delivery date and collect profits
+    job_data = Job.query.order_by(Job.jobDateDelivered).all()
+
+    # Prepare data to be sent as JSON
+    job_dates = [job.jobDateDelivered.strftime('%Y-%m-%d') for job in job_data]
+    profits = [float(job.totalProfit) for job in job_data]
+
+    return jsonify({
+        'jobDates': job_dates,
+        'profits': profits
     })

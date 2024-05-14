@@ -90,3 +90,64 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching job costs and profits:', error));
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    let chart; // Chart instance variable
+
+    // Fetch job profitability trends data from server
+    fetch('/get_job_profitability_trends')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('jobProfitabilityTrendChart').getContext('2d');
+
+            // Initialize the chart with full dataset
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.jobDates,
+                    datasets: [{
+                        label: 'Keuntungan (RM)',
+                        borderColor: 'rgba(255, 159, 64, 0.6)',
+                        data: data.profits
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Set initial label for the date range slider
+            const maxDataPoints = data.jobDates.length;
+            document.getElementById('dateRangeLabel').textContent = `(${maxDataPoints} data points)`;
+
+            // Update chart based on slider input
+            const slider = document.getElementById('dateRangeSlider');
+            const label = document.getElementById('dateRangeLabel');
+
+            slider.oninput = function() {
+                const rangeValue = parseInt(this.value);
+                const maxIndex = Math.floor((rangeValue / 100) * maxDataPoints);
+
+                // Update chart labels and data based on selected date range
+                chart.data.labels = data.jobDates.slice(0, maxIndex);
+                chart.data.datasets[0].data = data.profits.slice(0, maxIndex);
+                chart.update();
+
+                // Update the label to show the number of data points displayed
+                label.textContent = `(${maxIndex} data points)`;
+            };
+        })
+        .catch(error => console.error('Error fetching job profitability trends:', error));
+});
