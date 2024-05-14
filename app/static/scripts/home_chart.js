@@ -151,3 +151,71 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching job profitability trends:', error));
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch initial job distribution data for multiple vehicle types
+    fetchJobDistributionData();
+
+    function fetchJobDistributionData() {
+        fetch('/get_job_distribution_by_vehicle_type')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('jobDistributionChart').getContext('2d');
+                const vehicleTypes = data.vehicleTypes;
+                const years = Array.from(new Set(data.dates.map(date => new Date(date).getFullYear())));
+                const quantities = data.quantities;
+
+                // Prepare datasets for each vehicle type
+                const datasets = [];
+                vehicleTypes.forEach((vehicleType, index) => {
+                    const quantityByYear = years.map(year => {
+                        const totalQuantity = quantities[vehicleType].reduce((acc, qty, idx) => {
+                            const dateYear = new Date(data.dates[idx]).getFullYear();
+                            return dateYear === year ? acc + qty : acc;
+                        }, 0);
+                        return totalQuantity;
+                    });
+
+                    datasets.push({
+                        label: vehicleType,
+                        data: quantityByYear,
+                        borderColor: `rgba(${getRandomValue()}, ${getRandomValue()}, ${getRandomValue()}, 0.6)`,
+                        fill: false
+                    });
+                });
+
+                // Destroy previous chart instance (if exists) to prevent duplicates
+                if (window.chartInstance) {
+                    window.chartInstance.destroy();
+                }
+
+                // Create a new line chart
+                window.chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: years,
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            },
+                            x: {
+                                type: 'category'  // Use categorical x-axis
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'black'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching job distribution data:', error));
+    }
+});

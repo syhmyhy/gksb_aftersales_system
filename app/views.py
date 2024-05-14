@@ -47,7 +47,7 @@ def home():
         return redirect(url_for('show_login_form'))
     
     staffID = session.get('staff_id')
-    print("Staff ID:", staffID)
+    print("Login Staff ID:", staffID)
     response = make_response(render_template('home.html'))
     return prevent_caching(response)
 
@@ -384,4 +384,37 @@ def get_job_profitability_trends():
     return jsonify({
         'jobDates': job_dates,
         'profits': profits
+    })
+
+from collections import defaultdict
+
+@app.route('/get_job_distribution_by_vehicle_type')
+def get_job_distribution_by_vehicle_type():
+    # Query job data to get the distribution of job quantities by vehicle type and date
+    job_data = db.session.query(
+        Job.vehicleType,
+        Job.jobDateDelivered,
+        db.func.sum(Job.quantity).label('total_quantity')
+    ).group_by(Job.vehicleType, Job.jobDateDelivered).order_by(Job.jobDateDelivered).all()
+
+    # Prepare data to be sent as JSON
+    vehicle_types = set([item[0] for item in job_data])
+    dates = sorted(set([item[1].strftime('%Y-%m-%d') for item in job_data]))
+    
+    # Initialize quantities dictionary with empty lists for each vehicle type
+    quantities = defaultdict(list)
+    
+    # Populate quantities dictionary with data for each vehicle type
+    for vehicle_type in vehicle_types:
+        quantities[vehicle_type] = [0] * len(dates)
+
+    for item in job_data:
+        vehicle_type = item[0]
+        date_index = dates.index(item[1].strftime('%Y-%m-%d'))
+        quantities[vehicle_type][date_index] += item[2]
+
+    return jsonify({
+        'vehicleTypes': list(vehicle_types),
+        'dates': dates,
+        'quantities': quantities
     })
