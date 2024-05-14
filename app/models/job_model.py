@@ -15,7 +15,7 @@ class Job(db.Model):
     profitUnit = db.Column(db.Numeric(65, 2), nullable=False)  # Assuming profitUnit is a decimal field
     totalProfit = db.Column(db.Numeric(65, 2), nullable=False)  # Assuming totalProfit is a decimal field
     jobDateDelivered = db.Column(db.Date, nullable=False)
-    staffID = db.Column(db.Integer, db.ForeignKey('staff.staffID'))
+    staffID = db.Column(db.String(10), db.ForeignKey('staff.staffID'))
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
     aftersales_count = db.Column(db.Integer, default=0)  # New field to track aftersales entries
 

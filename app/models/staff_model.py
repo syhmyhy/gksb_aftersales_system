@@ -4,7 +4,7 @@ from app import db
 
 class Staff(db.Model):
     __tablename__ = 'staff'
-    staffID = db.Column(db.Integer, primary_key=True)
+    staffID = db.Column(db.String(10), primary_key=True)
     staffEmail = db.Column(db.String(255), nullable=False)  # Add email field
     staffName = db.Column(db.String(255), nullable=False)
     department = db.Column(db.String(255), nullable=False)

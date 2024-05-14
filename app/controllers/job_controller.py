@@ -26,7 +26,7 @@ def submit_job_form():
                 profitUnit=float(job_data['profitUnit']),
                 totalProfit=float(job_data['totalProfit']),
                 jobDateDelivered=job_data['jobDateDelivered'],
-                staffID=int(job_data['staffID'])
+                staffID=job_data['staffID']
             )
 
             db.session.add(new_job)

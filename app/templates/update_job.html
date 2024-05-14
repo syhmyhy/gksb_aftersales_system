@@ -101,13 +101,13 @@
                 <input type="number" id="costUnit" name="costUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.costUnit }}" required><br>
                 
                 <label for="totalCost">Jumlah Kos (RM):</label><br>
-                <input type="number" id="totalCost" name="totalCost" step="0.01" min="0" placeholder="0.00" value="{{ job.totalCost }}" required><br>
+                <input type="number" id="totalCost" name="totalCost" step="0.01" min="0" placeholder="0.00" value="{{ job.totalCost }}" readonly><br>
                 
                 <label for="profitUnit">Unit Keuntungan (RM):</label><br>
                 <input type="number" id="profitUnit" name="profitUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.profitUnit }}" required><br>
                 
                 <label for="totalProfit">Jumlah Keuntungan (RM):</label><br>
-                <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.totalProfit }}" required><br>
+                <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.totalProfit }}" readonly><br>
 
                 <label for="jobDateDelivered">Tarikh Penghantaran:</label>
                 <input type="date" id="jobDateDelivered" name="jobDateDelivered" value="{{ job.jobDateDelivered }}" required>
