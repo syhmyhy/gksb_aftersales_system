@@ -1,5 +1,3 @@
-<!--home.html-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +13,6 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <a href="https://www.weststar.com.my/twg/twg2/wgk.php" target="_blank">GKSB</a>
             <a href="{{ url_for('home') }}" class="active">Halaman Utama</a>
             <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
             <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
@@ -25,26 +22,24 @@
             <a href="#" onclick="confirmLogout()">Log Keluar</a>
         </div>
         <div class="content-container">
-            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">
+            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">           
             <div class="content">
                 {% if 'staff_id' in session %}
                     {% if session['staffName'] %}
-                        <h3>Selamat Datang ke Global Komited Sdn Bhd!</h3>
+                        <h4>Selamat Datang ke Global Komited Sdn Bhd!</h4>
                     {% else %}
-                        <h3>Selamat Datang!</h3>
+                        <h4>Selamat Datang!</h4>
                     {% endif %}
-                {% else %}
-                    <h3>Selamat Datang!</h3>
                 {% endif %}
                 <hr><br>
                 <div class="chart-container">
                     <!-- Chart 1: Job Costs and Profits -->
-                    <div>
+                    <div class="chart-item">
                         <h4>Purata Kos dan Untung Per Unit Kenderaan</h4>
                         <canvas id="jobCostsProfitsChart"></canvas>
                     </div>
                     <!-- Chart 2: Job Profitability Trends -->
-                    <div>
+                    <div class="chart-item">
                         <h4>Trend Keuntungan Pekerjaan Mengikut Tarikh Penghantaran</h4>
                         <canvas id="jobProfitabilityTrendChart"></canvas>
                         <div class="slider-container">
@@ -54,13 +49,13 @@
                         </div>
                     </div>
                     <!-- Chart 3: Job Quantity -->
-                    <div>
-                        <h4>Kuantiti Kenderaan Mengikut Jenis</h4>
+                    <div class="chart-item">
+                        <h4>Kuantiti Jenis Kenderaan</h4>
                         <canvas id="jobQuantityChart"></canvas>
                     </div>
                     <!-- Chart 4: Job Distribution by Vehicle Type -->
-                    <div>
-                        <h4>Jumlah Tugas Mengikut Jenis Kenderaan</h4>
+                    <div class="chart-item">
+                        <h4>Jumlah Tugas Tahunan Mengikut Jenis Kenderaan</h4>
                         <canvas id="jobDistributionChart"></canvas>
                     </div>
                 </div><br>

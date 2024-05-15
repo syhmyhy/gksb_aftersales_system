@@ -22,21 +22,34 @@ document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('jobQuantityChart').getContext('2d');
 
             new Chart(ctx, {
-                type: 'pie',  // Change chart type to 'pie'
+                type: 'pie',
                 data: {
                     labels: data.vehicleTypes,
                     datasets: [{
-                        label: 'Jenis Kenderaan',  // Label for the dataset (without color association)
+                        label: 'Jenis Kenderaan',
                         data: data.quantities,
+                        /* backgroundColor: generateRandomColors(data.vehicleTypes.length),*/
                         borderWidth: 1
                     }]
                 },
                 options: {
+                    responsive: true,
                     plugins: {
                         legend: {
                             display: true,
                             labels: {
-                                color: 'black'  // Set legend label color (if needed)
+                                color: 'black'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (tooltipItem, data) => {
+                                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                                    const total = dataset.data.reduce((acc, value) => acc + value, 0);
+                                    const currentValue = dataset.data[tooltipItem.index];
+                                    const percentage = Math.round((currentValue / total) * 100);
+                                    return `${data.labels[tooltipItem.index]}: ${currentValue} (${percentage}%)`;
+                                }
                             }
                         }
                     }
@@ -58,23 +71,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: 'bar',
                 data: {
                     labels: data.jobTypes,
-                    datasets: [
-                        {
-                            label: 'Cost per Unit',
-                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                            data: data.costsPerUnit
-                        },
-                        {
-                            label: 'Profit per Unit',
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            data: data.profitsPerUnit
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Cost per Unit',
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        data: data.costsPerUnit
+                    },
+                    {
+                        label: 'Profit per Unit',
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        data: data.profitsPerUnit
+                    }]
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                color: 'black'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'black'
+                            }
                         }
                     },
                     plugins: {
@@ -83,10 +103,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             labels: {
                                 color: 'black'
                             }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (tooltipItem) => {
+                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw.toFixed(2);
+                                }
+                            }
                         }
                     }
                 }
             });
+            
         })
         .catch(error => console.error('Error fetching job costs and profits:', error));
 });
@@ -190,19 +218,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // Create a new line chart
-                window.chartInstance = new Chart(ctx, {
+                new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: years,
                         datasets: datasets
                     },
                     options: {
+                        responsive: true,
                         scales: {
                             y: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'black'
+                                }
                             },
                             x: {
-                                type: 'category'  // Use categorical x-axis
+                                type: 'category',
+                                ticks: {
+                                    color: 'black'
+                                }
                             }
                         },
                         plugins: {
@@ -211,10 +246,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                 labels: {
                                     color: 'black'
                                 }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: (tooltipItem) => {
+                                        return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                                    }
+                                }
                             }
                         }
                     }
                 });
+                
             })
             .catch(error => console.error('Error fetching job distribution data:', error));
     }
