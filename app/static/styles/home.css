@@ -1,5 +1,3 @@
-/* home.css */
-
 /* Body styles */
 body {
     font-family: Arial, sans-serif;
@@ -41,23 +39,60 @@ body {
 
 /* Container styles */
 .container {
-    width: 50%; /* Adjust width as needed */
+    display: grid;
+    grid-template-columns: auto auto; /* Two columns of equal width */
+    gap: 10px; /* Spacing between grid items */
+    /* width: 100%; /* Adjust width as needed */
     margin: 50px auto; /* Center the container vertically and horizontally */
     background-color: #fff; /* Background color for the container */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
-    padding: 20px;
+    padding: 10px;
+    margin-left: 210px;
     text-align: left; /* Align text to the left */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    padding: 20px; /* Example padding, adjust as needed */
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+}
+
+/* Chart canvas styles */
+.chart-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.chart-container canvas {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.slider-container {
+    margin-top: 20px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: relative;
+    }
 }
 
 /* Logo styles */
 .logo {
-    width: 300px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Make the image a block element for centering */
-    margin: 0 auto 20px auto; /* Center the logo vertically and add spacing */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
 }
-
+    
 /* Anchor styles */
 a {
     text-decoration: none;
