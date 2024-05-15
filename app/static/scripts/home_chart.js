@@ -22,34 +22,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('jobQuantityChart').getContext('2d');
 
             new Chart(ctx, {
-                type: 'pie',
+                type: 'pie',  // Change chart type to 'pie'
                 data: {
                     labels: data.vehicleTypes,
                     datasets: [{
-                        label: 'Jenis Kenderaan',
+                        label: 'Jenis Kenderaan',  // Label for the dataset (without color association)
                         data: data.quantities,
-                        /* backgroundColor: generateRandomColors(data.vehicleTypes.length),*/
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    responsive: true,
                     plugins: {
                         legend: {
                             display: true,
                             labels: {
-                                color: 'black'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: (tooltipItem, data) => {
-                                    const dataset = data.datasets[tooltipItem.datasetIndex];
-                                    const total = dataset.data.reduce((acc, value) => acc + value, 0);
-                                    const currentValue = dataset.data[tooltipItem.index];
-                                    const percentage = Math.round((currentValue / total) * 100);
-                                    return `${data.labels[tooltipItem.index]}: ${currentValue} (${percentage}%)`;
-                                }
+                                color: 'black'  // Set legend label color (if needed)
                             }
                         }
                     }
