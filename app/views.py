@@ -265,20 +265,6 @@ def delete_job_route(jobNo):
 
     return redirect(url_for('show_job_management'))
 
-@app.route('/get_job_quantities')
-def get_job_quantities():
-    # Query job data grouped by vehicle type and sum the quantities
-    job_data = db.session.query(Job.vehicleType, db.func.sum(Job.quantity)).group_by(Job.vehicleType).all()
-
-    # Prepare data to be sent as JSON
-    vehicle_types = [item[0] for item in job_data]
-    quantities = [item[1] for item in job_data]
-
-    return jsonify({
-        'vehicleTypes': vehicle_types,
-        'quantities': quantities
-    })
-
 # Staff Routes
 @app.route('/register_staff', methods=['GET', 'POST'])
 def register_staff():
@@ -350,7 +336,22 @@ def update_staff_profile():
     
 # Other routes and functions as needed
 
-# Add the new route for getting job costs and profits
+# bar chart
+@app.route('/get_job_quantities')
+def get_job_quantities():
+    # Query job data grouped by vehicle type and sum the quantities
+    job_data = db.session.query(Job.vehicleType, db.func.sum(Job.quantity)).group_by(Job.vehicleType).all()
+
+    # Prepare data to be sent as JSON
+    vehicle_types = [item[0] for item in job_data]
+    quantities = [item[1] for item in job_data]
+
+    return jsonify({
+        'vehicleTypes': vehicle_types,
+        'quantities': quantities
+    })
+
+# bar chart 
 @app.route('/get_job_costs_profits')
 def get_job_costs_profits():
     # Query job data to calculate costs and profits per unit
@@ -371,7 +372,7 @@ def get_job_costs_profits():
         'profitsPerUnit': profits_per_unit
     })
 
-# Add new route for getting job profitability trends
+# line chart
 @app.route('/get_job_profitability_trends')
 def get_job_profitability_trends():
     # Query job data sorted by delivery date and collect profits
@@ -386,35 +387,22 @@ def get_job_profitability_trends():
         'profits': profits
     })
 
-from collections import defaultdict
+# Define the route to fetch aftersales data
+@app.route('/get_aftersales_data')
+def get_aftersales_data():
+    try:
+        # Query aftersales data from the database
+        aftersales_data = Aftersales.query.all()
 
-@app.route('/get_job_distribution_by_vehicle_type')
-def get_job_distribution_by_vehicle_type():
-    # Query job data to get the distribution of job quantities by vehicle type and date
-    job_data = db.session.query(
-        Job.vehicleType,
-        Job.jobDateDelivered,
-        db.func.sum(Job.quantity).label('total_quantity')
-    ).group_by(Job.vehicleType, Job.jobDateDelivered).order_by(Job.jobDateDelivered).all()
+        # Prepare the data to be sent as JSON
+        data = [{
+            'chassisType': aftersales.chassisType,
+            'registrationNo': aftersales.registrationNo,
+            'dateDelivered': aftersales.dateDelivered.strftime('%Y-%m-%d'),  # Format date as string
+            # Add other relevant fields as needed
+        } for aftersales in aftersales_data]
 
-    # Prepare data to be sent as JSON
-    vehicle_types = set([item[0] for item in job_data])
-    dates = sorted(set([item[1].strftime('%Y-%m-%d') for item in job_data]))
-    
-    # Initialize quantities dictionary with empty lists for each vehicle type
-    quantities = defaultdict(list)
-    
-    # Populate quantities dictionary with data for each vehicle type
-    for vehicle_type in vehicle_types:
-        quantities[vehicle_type] = [0] * len(dates)
-
-    for item in job_data:
-        vehicle_type = item[0]
-        date_index = dates.index(item[1].strftime('%Y-%m-%d'))
-        quantities[vehicle_type][date_index] += item[2]
-
-    return jsonify({
-        'vehicleTypes': list(vehicle_types),
-        'dates': dates,
-        'quantities': quantities
-    })
+        # Return the aftersales data as JSON response
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500  # Return error message with 500 status code if an exception occurs
