@@ -58,23 +58,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: 'bar',
                 data: {
                     labels: data.jobTypes,
-                    datasets: [
-                        {
-                            label: 'Cost per Unit',
-                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                            data: data.costsPerUnit
-                        },
-                        {
-                            label: 'Profit per Unit',
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            data: data.profitsPerUnit
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Kos per Unit(Purata)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        data: data.costsPerUnit
+                    },
+                    {
+                        label: 'Untung per Unit(Purata)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        data: data.profitsPerUnit
+                    }]
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                color: 'black'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'black'
+                            }
                         }
                     },
                     plugins: {
@@ -83,10 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             labels: {
                                 color: 'black'
                             }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (tooltipItem) => {
+                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw.toFixed(2);
+                                }
+                            }
                         }
                     }
                 }
             });
+            
         })
         .catch(error => console.error('Error fetching job costs and profits:', error));
 });
@@ -153,69 +168,59 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch initial job distribution data for multiple vehicle types
-    fetchJobDistributionData();
+    fetch('/get_aftersales_data')
+        .then(response => response.json())
+        .then(data => {
+            const chassisTypes = data.map(item => item.chassisType); // Extract chassis types
+            const chassisTypeCounts = {}; // Object to store counts of each chassis type
 
-    function fetchJobDistributionData() {
-        fetch('/get_job_distribution_by_vehicle_type')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('jobDistributionChart').getContext('2d');
-                const vehicleTypes = data.vehicleTypes;
-                const years = Array.from(new Set(data.dates.map(date => new Date(date).getFullYear())));
-                const quantities = data.quantities;
-
-                // Prepare datasets for each vehicle type
-                const datasets = [];
-                vehicleTypes.forEach((vehicleType, index) => {
-                    const quantityByYear = years.map(year => {
-                        const totalQuantity = quantities[vehicleType].reduce((acc, qty, idx) => {
-                            const dateYear = new Date(data.dates[idx]).getFullYear();
-                            return dateYear === year ? acc + qty : acc;
-                        }, 0);
-                        return totalQuantity;
-                    });
-
-                    datasets.push({
-                        label: vehicleType,
-                        data: quantityByYear,
-                        borderColor: `rgba(${getRandomValue()}, ${getRandomValue()}, ${getRandomValue()}, 0.6)`,
-                        fill: false
-                    });
-                });
-
-                // Destroy previous chart instance (if exists) to prevent duplicates
-                if (window.chartInstance) {
-                    window.chartInstance.destroy();
+            // Count occurrences of each chassis type
+            chassisTypes.forEach(type => {
+                if (chassisTypeCounts[type]) {
+                    chassisTypeCounts[type]++;
+                } else {
+                    chassisTypeCounts[type] = 1;
                 }
+            });
 
-                // Create a new line chart
-                window.chartInstance = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: years,
-                        datasets: datasets
+            // Prepare data in the format required for bar chart
+            const labels = Object.keys(chassisTypeCounts);
+            const dataCounts = Object.values(chassisTypeCounts);
+            const backgroundColors = generateRandomColors(labels.length);
+
+            const barChartData = {
+                labels: labels,
+                datasets: [{
+                    label: '',
+                    data: dataCounts,
+                    backgroundColor: backgroundColors
+                }]
+            };
+
+            // Render bar chart
+            const ctx = document.getElementById('aftersalesBarChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false,
+                            position: 'bottom'
+                        }
                     },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            },
-                            x: {
-                                type: 'category'  // Use categorical x-axis
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                labels: {
-                                    color: 'black'
-                                }
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const chassisType = labels[tooltipItem.index];
+                                const count = dataCounts[tooltipItem.index];
+                                return `${chassisType}: ${count}`; // Display chassisType: count
                             }
                         }
                     }
-                });
-            })
-            .catch(error => console.error('Error fetching job distribution data:', error));
-    }
+                }
+            });
+
+        })
+        .catch(error => console.error('Error fetching aftersales data:', error));
 });

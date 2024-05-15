@@ -48,11 +48,12 @@ body {
     padding: 20px;
     margin-left: 210px;
     overflow-x: auto; /* Allow horizontal scrolling for the table */
+    border: 1px solid #ddd;
 }
 
 /* Heading styles */
-.container h2 {
-    text-align: center;
+.container h3 {
+    text-align: left;
     color: #333;
     margin-bottom: 20px;
 }
@@ -149,4 +150,13 @@ button:hover {
     .filter-container input[type="text"] {
         width: 100%; /* Ensure input spans full width */
     }
+}
+
+
+/* Logo styles */
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
 }

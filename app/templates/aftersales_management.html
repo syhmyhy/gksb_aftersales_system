@@ -21,8 +21,9 @@
             <a href="{{ url_for('show_staff_profile') }}">Profil</a>
             <a href="#" onclick="confirmLogout()">Log Keluar</a>
         </div>
+        <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">
         <div class="content">
-            <h2>Rekod Aftersales</h2>
+            <h3>Rekod Aftersales</h3>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <ul class="flash-messages">
