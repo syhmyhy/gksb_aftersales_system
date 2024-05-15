@@ -22,15 +22,8 @@
             <a href="#" onclick="confirmLogout()">Log Keluar</a>
         </div>
         <div class="content-container">
-            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">           
+            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br>          
             <div class="content">
-                {% if 'staff_id' in session %}
-                    {% if session['staffName'] %}
-                        <h4>Selamat Datang ke Global Komited Sdn Bhd!</h4>
-                    {% else %}
-                        <h4>Selamat Datang!</h4>
-                    {% endif %}
-                {% endif %}
                 <hr><br>
                 <div class="chart-container">
                     <!-- Chart 1: Job Costs and Profits -->
