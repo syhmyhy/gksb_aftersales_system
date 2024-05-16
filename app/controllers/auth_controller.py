@@ -11,6 +11,10 @@ def show_login_form():
     return render_template('login.html')
 
 def login():
+    if 'staff_id' in session:
+        # If user already has an active session, redirect to home page
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         staff_id = request.form['staffID']
         password = request.form['password']
@@ -25,7 +29,8 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Staff ID atau kata laluan tidak sah', 'error')
-            
+    
+    # If login fails or it's a GET request, show the login form
     return redirect(url_for('show_login_form'))
 
 def logout():

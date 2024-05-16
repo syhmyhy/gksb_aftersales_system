@@ -11,15 +11,15 @@
     <script src="../static/scripts/job_calculation.js"></script>
 </head>
 <body>
-        <div class="sidebar">
-            <a href="{{ url_for('home') }}">Halaman Utama</a>
-            <a href="{{ url_for('show_aftersales_management') }}">Pengurusan Aftersales</a>
-            <a href="{{ url_for('show_aftersales_form') }}">Aftersales</a>
-            <a href="{{ url_for('show_job_management') }}">Pengurusan Tugas</a>
-            <a href="{{ url_for('show_job_form') }}" class="active">Tugas</a>
-            <a href="{{ url_for('show_staff_profile') }}">Profil</a>
-            <a href="#" onclick="confirmLogout()">Log Keluar</a>
-        </div>
+    <div class="sidebar">
+        <a href="{{ url_for('home') }}">Halaman Utama</a>
+        <a href="{{ url_for('show_aftersales_management') }}">Aftersales</a>
+        <a href="{{ url_for('show_aftersales_form') }}">Borang Aftersales</a>
+        <a href="{{ url_for('show_job_management') }}">Tugas</a>
+        <a href="{{ url_for('show_job_form') }}" class="active">Borang Tugas</a>
+        <a href="{{ url_for('show_staff_profile') }}">Profil</a>
+        <a href="#" onclick="confirmLogout()">Log Keluar</a>
+    </div>
         <div class="container mt-5">
             <h2>Kemaskini Rekod Tugas</h2>
             {% with messages = get_flashed_messages(with_categories=true) %}

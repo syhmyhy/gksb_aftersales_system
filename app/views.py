@@ -22,6 +22,10 @@ def prevent_caching(response):
 # Authentication Routes
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if 'staff_id' in session:
+        # If user is logged in, redirect to home page
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         return auth_controller.login()
     else:
@@ -48,8 +52,7 @@ def home():
     
     staffID = session.get('staff_id')
     print("Login Staff ID:", staffID)
-    response = make_response(render_template('home.html'))
-    return prevent_caching(response)
+    return render_template('home.html')
 
 # Aftersales Routes
 @app.route('/aftersales.html')
@@ -336,7 +339,7 @@ def update_staff_profile():
     
 # Other routes and functions as needed
 
-# bar chart
+# pie chart
 @app.route('/get_job_quantities')
 def get_job_quantities():
     # Query job data grouped by vehicle type and sum the quantities
@@ -387,7 +390,7 @@ def get_job_profitability_trends():
         'profits': profits
     })
 
-# Define the route to fetch aftersales data
+# bar chart
 @app.route('/get_aftersales_data')
 def get_aftersales_data():
     try:

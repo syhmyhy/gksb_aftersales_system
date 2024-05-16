@@ -3,7 +3,6 @@
 from flask import render_template, request, redirect, url_for, flash, session
 from sqlalchemy.exc import IntegrityError
 from app import db
-# from app.models import Aftersales, Job
 from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
 
