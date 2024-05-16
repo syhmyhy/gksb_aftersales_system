@@ -339,7 +339,7 @@ def update_staff_profile():
     
 # Other routes and functions as needed
 
-# bar chart
+# pie chart
 @app.route('/get_job_quantities')
 def get_job_quantities():
     # Query job data grouped by vehicle type and sum the quantities
@@ -390,7 +390,7 @@ def get_job_profitability_trends():
         'profits': profits
     })
 
-# Define the route to fetch aftersales data
+# bar chart
 @app.route('/get_aftersales_data')
 def get_aftersales_data():
     try:
