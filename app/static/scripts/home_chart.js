@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: data.vehicleTypes,
                     datasets: [{
-                        label: 'Jenis Kenderaan',  // Label for the dataset (without color association)
+                        label: 'Jumlah',  // Label for the dataset (without color association)
                         data: data.quantities,
                         borderWidth: 1
                     }]
