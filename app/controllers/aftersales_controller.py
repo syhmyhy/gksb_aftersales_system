@@ -60,6 +60,7 @@ def submit_aftersales_form():
             job.aftersales_count += 1
             db.session.commit()
 
+            print("Add Aftersales: ", new_aftersales)
             flash('Rekod Aftersales berjaya ditambah', 'success')
             return redirect(url_for('show_aftersales_form'))
 

@@ -31,7 +31,7 @@ def submit_job_form():
 
             db.session.add(new_job)
             db.session.commit()
-            print("Job Added")
+            print("Add Job: ", new_job)
             flash('Rekod Job berjaya ditambah', 'success')  # Mesej kejayaan dalam Bahasa Melayu
             return render_template('job.html', status='success')
 

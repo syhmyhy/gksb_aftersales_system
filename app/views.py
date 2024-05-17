@@ -51,7 +51,8 @@ def home():
         return redirect(url_for('show_login_form'))
     
     staffID = session.get('staff_id')
-    print("Login Staff ID:", staffID)
+    print("Staff ID:", staffID)
+    print("Session Data:", session)
     return render_template('home.html')
 
 # Aftersales Routes
@@ -107,6 +108,7 @@ def update_aftersales_route(registrationNo):
             # Add other fields here...
 
             db.session.commit()
+            print("Update Aftersales: ", aftersales)
             flash('Rekod Aftersales berjaya dikemaskini', 'success')
         except KeyError as e:
             flash(f'Gagal mengemaskini rekod: Ruang diperlukan "{e.args[0]}" hilang', 'error')
@@ -161,9 +163,7 @@ def show_job_form():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
 
-    staffID = session.get('staff_id')
-    print("Staff ID:", staffID)
-    print("Session Data:", session)
+    staffID = session.get('staff_id')    
 
     if staffID in ('GSK39', 'GSK51'):
         # Allow access for specific staffID values ('GSK39' or 'GSK51')
@@ -186,7 +186,6 @@ def show_job_management():
         return redirect(url_for('show_login_form'))
 
     staffID = session.get('staff_id')
-    print("Staff ID:", staffID)
     
     if staffID in ('GSK39', 'GSK51'):
         # Allow access for specific staffID values ('GSK39' or 'GSK51')
@@ -238,6 +237,7 @@ def update_job_route(jobNo):
             job.jobDateDelivered = request.form['jobDateDelivered']
 
             db.session.commit()
+            print("Update Job: ", job)
             flash('Rekod Job berjaya dikemaskini', 'success')
         except Exception as e:
             db.session.rollback()
