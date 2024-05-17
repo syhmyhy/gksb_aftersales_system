@@ -20,3 +20,6 @@ daemon = False
 
 # Set Gunicorn to log errors to stderr
 errorlog = '-'
+
+# run using command
+# waitress-serve --listen=0.0.0.0:5000 app:app
