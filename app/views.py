@@ -52,7 +52,6 @@ def home():
     
     staffID = session.get('staff_id')
     print("Staff ID:", staffID)
-    print("Session Data:", session)
     return render_template('home.html')
 
 # Aftersales Routes
