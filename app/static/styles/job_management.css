@@ -83,6 +83,11 @@ tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+/* Hover effect for table rows */
+tbody tr:hover {
+    background-color: #ddd;
+}
+
 /* Anchor styles */
 a {
     text-decoration: none;
