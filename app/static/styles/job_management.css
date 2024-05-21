@@ -60,8 +60,8 @@ body {
 
 /* Table styles */
 table {
-    width: 100%; /* Ensure table fills the container */
-    max-width: 100%; /* Limit table width to 100% of the container */
+    width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     font-size: 11px;
     margin-top: 20px;
@@ -81,6 +81,11 @@ th {
 /* Zebra stripe table */
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+/* Hover effect for table rows */
+tbody tr:hover {
+    background-color: #ddd;
 }
 
 /* Anchor styles */
