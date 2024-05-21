@@ -12,7 +12,7 @@ body {
 .sidebar {
     width: 200px; /* Adjust width as needed */
     height: 100%; /* Full height of the viewport */
-    background-color: #333;
+    background-color: #333333f1;
     position: fixed; /* Fixed positioning */
     top: 0;
     left: 0;
