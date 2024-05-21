@@ -408,3 +408,13 @@ def get_aftersales_data():
         return jsonify(data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # Return error message with 500 status code if an exception occurs
+
+@app.route('/api/top-jobs')
+def top_jobs():
+    # Fetch top 5 most profitable jobs
+    top_jobs_data = Job.query.order_by(Job.totalProfit.desc()).limit(5).all()
+    top_jobs_list = [
+        {"jobNo": job.jobNo, "title": job.title, "custName": job.custName, "totalProfit": job.totalProfit}
+        for job in top_jobs_data
+    ]
+    return jsonify(top_jobs_list)
