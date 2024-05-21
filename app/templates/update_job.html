@@ -120,16 +120,23 @@
             <hr>
             <p><a href="{{ url_for('show_job_management') }}">Batal</a></p>
         </div>
-</body>
-<script>
-    function confirmUpdate() {
-        return confirm("Adakah anda pasti ingin kemaskini rekod kenderaan?");
-    }
-
-    function confirmLogout() {
-        if (confirm("Adakah anda pasti ingin log keluar?")) {
-            window.location.href = "{{ url_for('logout') }}";
+        <br><br>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Global Komited Sdn Bhd. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        function confirmUpdate() {
+            return confirm("Adakah anda pasti ingin kemaskini rekod kenderaan?");
         }
-    }  
-</script>
+
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }  
+    </script>
+</body>
 </html>

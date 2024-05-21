@@ -7,13 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Utama</title>
     <link rel="stylesheet" href="../static/styles/home.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../static/scripts/home_chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="../static/scripts/home_chart.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap" defer></script>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+    </header>
+
     <div class="container">
         <div class="sidebar">
             <a href="{{ url_for('home') }}" class="active">Halaman Utama</a>
@@ -31,7 +35,7 @@
                 <hr>
                 <!-- Top 5 Most Profitable Jobs -->
                 <div class="top-jobs-container">
-                    <h4>Top 5 Most Profitable Jobs</h4>
+                    <h4>5 Tugas Teratas Paling Menguntungkan</h4>
                     <table class="top-jobs-table">
                         <thead>
                             <tr>
@@ -80,7 +84,13 @@
             </div>
         </div>
     </div>
-
+    <br><br>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Global Komited Sdn Bhd. All rights reserved.</p>
+        </div>
+    </footer>
     <script>
         function confirmLogout() {
             if (confirm("Adakah anda pasti ingin log keluar?")) {

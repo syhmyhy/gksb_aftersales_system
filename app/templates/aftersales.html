@@ -11,6 +11,10 @@
     <script src="../static/scripts/calculate_warranty.js"></script>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+    </header>
+
     <div class="sidebar">
         <a href="{{ url_for('home') }}">Halaman Utama</a>
         <a href="{{ url_for('show_aftersales_management') }}">Aftersales</a>
@@ -228,51 +232,59 @@
             <input type="reset" value="Reset">
         </form>
     </div>
+    <br><br>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Global Komited Sdn Bhd. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // JavaScript functions here
+        function confirmSubmit() {
+                var confirmation = confirm("Adakah anda pasti ingin hantar Aftersales ini?");
+                return confirmation;
+            }
+            
+            // Function to hide success or error message after 2 seconds
+            setTimeout(function() {
+                var aftersalesErrorMsg = document.getElementById('aftersalesErrorMsg');
+                var aftersalesSuccessMsg = document.getElementById('aftersalesSuccessMsg');
+                if (aftersalesErrorMsg) {
+                    aftersalesErrorMsg.style.display = 'none';
+                }
+                if (aftersalesSuccessMsg) {
+                    aftersalesSuccessMsg.style.display = 'none';
+                }
+            }, 2000);  // 2000 milliseconds = 2 seconds
+
+            // Event listener for dateDelivered input affecting chassisExpired
+            document.getElementById('dateDelivered').addEventListener('change', function() {
+                calculateExpired('dateDelivered', 'chassisPeriodWarranty', 'chassisExpired');
+                calculateExpired('dateDelivered', 'bodyPeriodWarranty', 'bodyExpired');
+                // Call other calculation functions if needed
+            });
+
+            // Event listener for chassisPeriodWarranty input affecting chassisExpired
+            document.getElementById('chassisPeriodWarranty').addEventListener('input', function() {
+                calculateExpired('dateDelivered', 'chassisPeriodWarranty', 'chassisExpired');
+                // Call other calculation functions if needed
+            });
+
+            // Event listener for bodyPeriodWarranty input affecting bodyExpired
+            document.getElementById('bodyPeriodWarranty').addEventListener('input', function() {
+                calculateExpired('dateDelivered', 'bodyPeriodWarranty', 'bodyExpired');
+                // Call other calculation functions if needed
+            });
+            
+            function confirmLogout() {
+                if (confirm("Adakah anda pasti ingin log keluar?")) {
+                    window.location.href = "{{ url_for('logout') }}";
+                }
+            }
+            // Add event listeners for other inputs if needed
+
+    </script>
 </body>
-<script>
-    // JavaScript functions here
-    function confirmSubmit() {
-            var confirmation = confirm("Adakah anda pasti ingin hantar Aftersales ini?");
-            return confirmation;
-        }
-        
-        // Function to hide success or error message after 2 seconds
-        setTimeout(function() {
-            var aftersalesErrorMsg = document.getElementById('aftersalesErrorMsg');
-            var aftersalesSuccessMsg = document.getElementById('aftersalesSuccessMsg');
-            if (aftersalesErrorMsg) {
-                aftersalesErrorMsg.style.display = 'none';
-            }
-            if (aftersalesSuccessMsg) {
-                aftersalesSuccessMsg.style.display = 'none';
-            }
-        }, 2000);  // 2000 milliseconds = 2 seconds
-
-        // Event listener for dateDelivered input affecting chassisExpired
-        document.getElementById('dateDelivered').addEventListener('change', function() {
-            calculateExpired('dateDelivered', 'chassisPeriodWarranty', 'chassisExpired');
-            calculateExpired('dateDelivered', 'bodyPeriodWarranty', 'bodyExpired');
-            // Call other calculation functions if needed
-        });
-
-        // Event listener for chassisPeriodWarranty input affecting chassisExpired
-        document.getElementById('chassisPeriodWarranty').addEventListener('input', function() {
-            calculateExpired('dateDelivered', 'chassisPeriodWarranty', 'chassisExpired');
-            // Call other calculation functions if needed
-        });
-
-        // Event listener for bodyPeriodWarranty input affecting bodyExpired
-        document.getElementById('bodyPeriodWarranty').addEventListener('input', function() {
-            calculateExpired('dateDelivered', 'bodyPeriodWarranty', 'bodyExpired');
-            // Call other calculation functions if needed
-        });
-        
-        function confirmLogout() {
-            if (confirm("Adakah anda pasti ingin log keluar?")) {
-                window.location.href = "{{ url_for('logout') }}";
-            }
-        }
-        // Add event listeners for other inputs if needed
-
-</script>
 </html>

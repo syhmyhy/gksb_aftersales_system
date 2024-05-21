@@ -82,3 +82,14 @@ p a:hover {
     display: block; /* Make the image a block element for centering */
     margin: 0 auto 20px auto; /* Center the logo vertically and add spacing */
 }
+
+/* Footer styles */
+.footer-container {
+    background-color: #3333333a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

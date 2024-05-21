@@ -36,22 +36,29 @@
         </form>
         <p>Tiada akaun? <a href="{{ url_for('show_staff_registration_form') }}">Daftar</a>.</p>
     </div>
-</body>
-<script>
-    // Disable browser back button to prevent access to cached pages after logout
-    window.history.replaceState(null, "", window.location.href);
-    window.addEventListener("popstate", function() {
+    <br><br>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Global Komited Sdn Bhd. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Disable browser back button to prevent access to cached pages after logout
         window.history.replaceState(null, "", window.location.href);
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#password');
-
-        togglePassword.addEventListener('change', function() {
-            const isChecked = this.checked;
-            password.type = isChecked ? 'text' : 'password';
+        window.addEventListener("popstate", function() {
+            window.history.replaceState(null, "", window.location.href);
         });
-    });
-</script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.querySelector('#togglePassword');
+            const password = document.querySelector('#password');
+
+            togglePassword.addEventListener('change', function() {
+                const isChecked = this.checked;
+                password.type = isChecked ? 'text' : 'password';
+            });
+        });
+    </script>
+</body>
 </html>

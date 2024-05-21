@@ -84,3 +84,14 @@ p a {
 p a:hover {
     text-decoration: underline;
 }
+
+/* Footer styles */
+.footer-container {
+    background-color: #3333333a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

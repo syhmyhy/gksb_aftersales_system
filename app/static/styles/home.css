@@ -10,14 +10,17 @@ body {
 
 /* Sidebar styles */
 .sidebar {
-    width: 200px; /* Adjust width as needed */
-    height: 100%; /* Full height of the viewport */
+    width: 200px;
+    height: 100%;
     background-color: #333;
-    position: fixed; /* Fixed positioning */
+    position: fixed;
     top: 0;
     left: 0;
-    overflow-y: auto; /* Allow vertical scrolling if needed */
+    overflow-y: auto;
     padding-top: 40px;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+    z-index: 1000; /* Ensure sidebar is above other content */
 }
 
 .sidebar a {
@@ -29,58 +32,58 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.sidebar a:hover {
+.sidebar a:hover, .sidebar a.active {
     background-color: #ddd;
     color: #333;
 }
 
-.sidebar a.active {
-    background-color: #ddd;
-    color: #333;
+.sidebar.active {
+    transform: translateX(-100%);
 }
 
 /* Container styles */
 .container {
-    display: grid;
-    grid-template-columns: auto auto; /* Two columns of equal width */
-    gap: 10px; /* Spacing between grid items */
-    margin: 50px auto; /* Center the container vertically and horizontally */
-    background-color: #ffffff; /* Background color for the container */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
-    padding: 20px; /* Example padding, adjust as needed */
-    box-sizing: border-box; /* Ensure padding is included in width calculation */
+    display: flex;
+    margin: 50px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
     margin-left: 210px;
     border: 1px solid #ddd;
+    transition: margin-left 0.3s ease;
 }
 
-/* Chart canvas styles */
+.container.sidebar-active {
+    margin-left: 10px;
+}
+
+/* Main content styles */
+.content-container {
+    flex: 1;
+    margin-left: 20px;
+}
+
+/* Chart container styles */
 .chart-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px; /* Adjust gap between charts */
+    gap: 20px;
     border-radius: 8px;
     padding: 20px;
-    background-color: #f2f2f2; /* Lighter gray background */
-    border-color: #ffffff; /* Light gray border */
+    background-color: #f2f2f2;
 }
 
-.chart-container canvas {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-/* Apply border to grid items (charts) */
 .chart-item {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
-    background-color: #fff; /* White background for chart items */
-    border-color: #ddd; /* Light border color */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Slider container styles */
 .slider-container {
     margin-top: 20px;
 }
@@ -88,23 +91,32 @@ body {
 /* Responsive styles */
 @media screen and (max-width: 768px) {
     .container {
-        grid-template-columns: auto;
+        flex-direction: column;
+        margin-left: 0;
     }
 
     .sidebar {
         width: 100%;
         position: relative;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .chart-container {
+        grid-template-columns: 1fr;
     }
 }
 
 /* Logo styles */
 .logo {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     width: 20%;
 }
-    
+
 /* Anchor styles */
 a {
     text-decoration: none;
@@ -159,4 +171,24 @@ a:hover {
     text-align: left;
     background-color: #333;
     color: white;
+}
+
+/* Header styles */
+.header-container {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+/* Footer styles */
+.footer-container {
+    background-color: #3333333a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
