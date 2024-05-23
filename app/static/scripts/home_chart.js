@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             slider.oninput = function() {
                 const rangeValue = parseInt(this.value);
-                const maxIndex = Math.floor((rangeValue / 100) * maxDataPoints);
+                const maxIndex = Math.floor((rangeValue / 500) * maxDataPoints);
 
                 // Update chart labels and data based on selected date range
                 chart.data.labels = data.jobDates.slice(0, maxIndex);

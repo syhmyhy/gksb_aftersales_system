@@ -56,12 +56,24 @@ def get_job_costs_profits():
 # line chart
 @app.route('/get_job_profitability_trends')
 def get_job_profitability_trends():
-    # Query job data sorted by delivery date and collect profits
-    job_data = Job.query.order_by(Job.jobDateDelivered).all()
+    from sqlalchemy import extract
+
+    # Query job data grouped by year and month, and sum the profits
+    job_data = db.session.query(
+        extract('year', Job.jobDateDelivered).label('year'),
+        extract('month', Job.jobDateDelivered).label('month'),
+        db.func.sum(Job.totalProfit).label('monthly_profit')
+    ).group_by(
+        extract('year', Job.jobDateDelivered),
+        extract('month', Job.jobDateDelivered)
+    ).order_by(
+        extract('year', Job.jobDateDelivered),
+        extract('month', Job.jobDateDelivered)
+    ).all()
 
     # Prepare data to be sent as JSON
-    job_dates = [job.jobDateDelivered.strftime('%Y-%m-%d') for job in job_data]
-    profits = [float(job.totalProfit) for job in job_data]
+    job_dates = [f"{item.month:02}/{item.year}" for item in job_data]
+    profits = [float(item.monthly_profit) for item in job_data]
 
     return jsonify({
         'jobDates': job_dates,
