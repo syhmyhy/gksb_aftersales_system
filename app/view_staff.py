@@ -16,11 +16,13 @@ def prevent_caching(response):
 # Staff Routes
 @app.route('/register_staff', methods=['GET', 'POST'])
 def register_staff():
-    return staff_controller.process_staff_registration()
+    response = make_response(staff_controller.process_staff_registration())
+    return prevent_caching(response)
 
 @app.route('/show_staff_registration_form')
 def show_staff_registration_form():
-    return staff_controller.show_staff_registration_form()
+    response = make_response(staff_controller.show_staff_registration_form())
+    return prevent_caching(response)
 
 @app.route('/show_staff_profile')
 def show_staff_profile():
@@ -35,7 +37,8 @@ def show_staff_profile():
         flash('Rekod Staff tidak dijumpai', 'error')
         return redirect(url_for('home'))  # Redirect to home page if staff record not found
 
-    return render_template('staff_profile.html', staff=staff)
+    response = make_response(render_template('staff_profile.html', staff=staff))
+    return prevent_caching(response)
 
 @app.route('/update_staff_profile', methods=['POST'])
 def update_staff_profile():
@@ -80,4 +83,5 @@ def update_staff_profile():
         db.session.rollback()
         flash(f'Gagal mengemaskini profil Staff: {str(e)}', 'error')
 
-    return redirect(url_for('show_staff_profile'))
+    response = make_response(redirect(url_for('show_staff_profile')))
+    return prevent_caching(response)

@@ -1,10 +1,17 @@
 # app\view_home.py
 
-from flask import Flask, jsonify, session, render_template
+from flask import Flask, jsonify, session, render_template, make_response, flash, redirect, url_for
 from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
 from app import db, app
 from sqlalchemy import func
+
+def prevent_caching(response):
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    response.headers['Cache-Control'] = 'no-store'
+    return response
 
 # Home and Main Pages
 @app.route('/home.html')
@@ -15,7 +22,8 @@ def home():
     
     staffID = session.get('staff_id')
     print("Staff ID:", staffID)
-    return render_template('home.html')
+    response = make_response(render_template('home.html'))
+    return prevent_caching(response)
 
 # pie chart
 @app.route('/get_job_quantities')
@@ -27,10 +35,11 @@ def get_job_quantities():
     vehicle_types = [item[0] for item in job_data]
     quantities = [item[1] for item in job_data]
 
-    return jsonify({
+    response = make_response(jsonify({
         'vehicleTypes': vehicle_types,
         'quantities': quantities
-    })
+    }))
+    return prevent_caching(response)
 
 # bar chart 
 @app.route('/get_job_costs_profits')
@@ -47,11 +56,12 @@ def get_job_costs_profits():
     costs_per_unit = [float(item[1]) if item[1] else 0.0 for item in job_data]
     profits_per_unit = [float(item[2]) if item[2] else 0.0 for item in job_data]
 
-    return jsonify({
+    response = make_response(jsonify({
         'jobTypes': job_types,
         'costsPerUnit': costs_per_unit,
         'profitsPerUnit': profits_per_unit
-    })
+    }))
+    return prevent_caching(response)
 
 # line chart
 @app.route('/get_job_profitability_trends')
@@ -75,10 +85,11 @@ def get_job_profitability_trends():
     job_dates = [f"{item.month:02}/{item.year}" for item in job_data]
     profits = [float(item.monthly_profit) for item in job_data]
 
-    return jsonify({
+    response = make_response(jsonify({
         'jobDates': job_dates,
         'profits': profits
-    })
+    }))
+    return prevent_caching(response)
 
 # bar chart
 @app.route('/get_aftersales_data')
@@ -96,9 +107,11 @@ def get_aftersales_data():
         } for aftersales in aftersales_data]
 
         # Return the aftersales data as JSON response
-        return jsonify(data)
+        response = make_response(jsonify(data))
+        return prevent_caching(response)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500  # Return error message with 500 status code if an exception occurs
+        response = make_response(jsonify({'error': str(e)}), 500)
+        return prevent_caching(response)  # Return error message with 500 status code if an exception occurs
 
 @app.route('/api/top-jobs')
 def top_jobs():
@@ -108,4 +121,5 @@ def top_jobs():
         {"jobNo": job.jobNo, "title": job.title, "custName": job.custName, "totalProfit": job.totalProfit}
         for job in top_jobs_data
     ]
-    return jsonify(top_jobs_list)
+    response = make_response(jsonify(top_jobs_list))
+    return prevent_caching(response)

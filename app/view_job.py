@@ -33,7 +33,8 @@ def show_job_form():
 def submit_job_form():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
-    return job_controller.submit_job_form()
+    response = make_response(job_controller.submit_job_form())
+    return prevent_caching(response)
 
 @app.route('/show_job_management')
 def show_job_management():
@@ -45,18 +46,21 @@ def show_job_management():
     if staffID in ('GSK39', 'GSK51'):
         # Allow access for specific staffID values ('GSK39' or 'GSK51')
         job_data = Job.query.all()
-        return render_template('job_management.html', job_data=job_data)
+        response = make_response(render_template('job_management.html', job_data=job_data))
+        return prevent_caching(response)
     else:
         # For all other staffID values, render view-only job management content
         job_data = Job.query.all()
-        return render_template('viewonly_job_management.html', job_data=job_data)
+        response = make_response(render_template('viewonly_job_management.html', job_data=job_data))
+        return prevent_caching(response)
 
 @app.route('/get_job_details', methods=['GET'])
 def get_job_details():
     if 'staff_id' not in session:
         return redirect(url_for('show_login_form'))
     job_no = request.args.get('jobNo')
-    return job_controller.get_job_details(job_no)
+    response = make_response(job_controller.get_job_details(job_no))
+    return prevent_caching(response)
 
 @app.route('/update_job/<int:jobNo>', methods=['GET', 'POST'])
 def update_job_route(jobNo):
@@ -101,7 +105,8 @@ def update_job_route(jobNo):
         return redirect(url_for('show_job_management'))
 
     # Render the update form with pre-filled data for GET request
-    return render_template('update_job.html', job=job)
+    response = make_response(render_template('update_job.html', job=job))
+    return prevent_caching(response)
 
 @app.route('/delete_job/<int:jobNo>', methods=['POST'])
 def delete_job_route(jobNo):
@@ -121,4 +126,5 @@ def delete_job_route(jobNo):
             db.session.rollback()
             flash(f'Gagal memadam rekod Job: {str(e)}', 'error')
 
-    return redirect(url_for('show_job_management'))
+    response = make_response(redirect(url_for('show_job_management')))
+    return prevent_caching(response)
