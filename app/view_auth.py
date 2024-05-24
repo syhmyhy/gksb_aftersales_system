@@ -16,29 +16,23 @@ def prevent_caching(response):
 def index():
     if 'staff_id' in session:
         # If user is logged in, redirect to home page
-        response = redirect(url_for('home'))
+        return redirect(url_for('home'))
+
+    if request.method == 'POST':
+        return auth_controller.login()
     else:
-        if request.method == 'POST':
-            response = auth_controller.login()
-        else:
-            response = auth_controller.show_login_form()
-    
-    return prevent_caching(response)
+        return auth_controller.show_login_form()
 
 @app.route('/logout')
 def logout():
     session.clear()  # Clear the session data
     flash('Anda telah berjaya log keluar', 'success')
-    response = redirect(url_for('show_login_form'))
-    return prevent_caching(response)
+    return redirect(url_for('show_login_form'))
 
 @app.route('/show_login_form')
 def show_login_form():
     if 'staff_id' in session:
-        response = redirect(url_for('home'))  # Redirect to home if already logged in
-    else:
-        response = auth_controller.show_login_form()
-    
-    return prevent_caching(response)
+        return redirect(url_for('home'))  # Redirect to home if already logged in
+    return auth_controller.show_login_form()
 
 # Other routes and functions as needed
