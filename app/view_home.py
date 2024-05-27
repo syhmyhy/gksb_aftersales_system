@@ -6,6 +6,27 @@ from app.models.job_model import Job
 from app import db, app
 from sqlalchemy import func
 
+@app.route('/combined_view')
+def combined_view():
+    if 'staff_id' not in session:
+        return redirect(url_for('show_login_form'))
+
+    jobs = Job.query.all()
+    
+    # Pre-fetch aftersales data and map it to jobNo for easy access
+    aftersales_data = Aftersales.query.all()
+    aftersales_map = {}
+    for aftersales in aftersales_data:
+        if aftersales.jobNo not in aftersales_map:
+            aftersales_map[aftersales.jobNo] = []
+        aftersales_map[aftersales.jobNo].append(aftersales)
+    
+    # Attach the aftersales data to the respective jobs
+    for job in jobs:
+        job.aftersales = aftersales_map.get(job.jobNo, [])
+
+    return render_template('combined_view.html', jobs=jobs)
+
 # Home and Main Pages
 @app.route('/home.html')
 def home():
