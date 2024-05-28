@@ -15,7 +15,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-left: auto;
     overflow-x: auto; /* Allow horizontal scrolling for the table */
     border: 1px solid #ddd;
     transition: margin-left 0.3s ease; /* Smooth transition */
@@ -31,12 +30,10 @@ body {
     color: #fff;
     text-align: center;
     padding: 10px 0;
-    position: relative;
 }
 
 /* Heading styles */
 .container h3 {
-    text-align: left;
     color: #333;
     margin-bottom: 20px;
 }
@@ -44,32 +41,36 @@ body {
 /* Table styles */
 table {
     width: 100%; /* Ensure table fills the container */
-    max-width: 100%; /* Limit table width to 100% of the container */
     border-collapse: collapse;
-    font-size: 11px;
+    font-size: 10px;
     margin-top: 20px;
 }
 
 th, td {
-    padding: 10px;
+    padding: 3px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #d1d1d1;
 }
 
 th {
-    background-color: #f2f2f2;
-    color: #333;
+    background-color: #333;
+    color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-/* Zebra stripe table */
 tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f2f2f2;
 }
 
-/* Hover effect for table rows */
 tbody tr:hover {
     background-color: #ddd;
 }
+
+th, td {
+    border-radius: 6px;
+}
+
 
 /* Anchor styles */
 a {
@@ -154,7 +155,6 @@ button:hover {
 /* Logo styles */
 .logo {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     width: 15%;
 }
