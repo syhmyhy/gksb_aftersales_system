@@ -138,13 +138,14 @@ a:hover {
 
 .top-jobs-table {
     width: 100%;
+    font-size: 15px;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
 .top-jobs-table th, .top-jobs-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 3px;
     text-align: left;
 }
 
