@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function calculateTotalSales() {
         const salesUnit = parseFloat(salesUnitInput.value) || 0;
-        const quantity = parseInt(quantityInput.value) || 0;
+        const quantity = parseFloat(quantityInput.value) || 0;
         const totalSales = salesUnit * quantity;
         totalSalesInput.value = totalSales.toFixed(2);
         calculateMarginProfit();
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function calculateTotalProfit() {
         const profitUnit = parseFloat(profitUnitInput.value) || 0;
-        const quantity = parseInt(quantityInput.value) || 0;
+        const quantity = parseFloat(quantityInput.value) || 0;
         const totalProfit = profitUnit * quantity;
         totalProfitInput.value = totalProfit.toFixed(2);
         calculateMarginProfit();

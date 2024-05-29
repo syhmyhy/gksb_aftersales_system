@@ -92,7 +92,7 @@
                 </datalist><br>
 
                 <label for="quantity">Kuantiti:</label>
-                <input type="number" id="quantity" name="quantity" value="{{ job.quantity }}" min="0" max="10000" required>
+                <input type="number" id="quantity" name="quantity" value="{{ job.quantity }}" step="0.1" min="0" max="10000" required>
                 
                 <label for="dateReceived">Tarikh SST:</label>
                 <input type="date" id="dateReceived" name="dateReceived" value="{{ job.dateReceived }}" required>
