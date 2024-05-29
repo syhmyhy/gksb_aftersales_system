@@ -54,21 +54,22 @@
                 <a href="{{ url_for('combined_view') }}">Klik Untuk Lihat Data</a><br><br>
                 <hr><br>
                 <div class="chart-container">
-                    <!-- Chart 1: Job Costs and Profits -->
+                    <!-- Chart 1: -->
                     <div class="chart-item">
-                        <h4>Purata Kos dan Untung Per Unit Kenderaan</h4>
-                        <canvas id="jobSalesProfitsChart"></canvas>
+                        <h4>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Terima SST</h4>
+                        <canvas id="jobCombinedChart"></canvas>
                     </div>
                     <!-- Chart 2: Job Profitability Trends -->
                     <div class="chart-item">
-                        <h4>Trend Keuntungan Pekerjaan Mengikut Bulan Penghantaran</h4>
+                        <h4>Trend Jualan dan Keuntungan Mengikut Tahun Terima SST</h4>
                         <canvas id="jobProfitabilityTrendChart"></canvas>
                         <div class="slider-container">
                             <label for="dateRangeSlider">Pilih Julat Bulan:</label>
                             <input type="range" min="0" max="500" value="500" class="slider" id="dateRangeSlider">
                             <span id="dateRangeLabel">(500 data points)</span>
+                            <span id="dateRangeLabel"></span>
                         </div>
-                    </div>
+                    </div>                    
                     <!-- Chart 3: Job Quantity -->
                     <div class="chart-item">
                         <h4>Jumlah Kuantiti Mengikut Jenis Kenderaan</h4>

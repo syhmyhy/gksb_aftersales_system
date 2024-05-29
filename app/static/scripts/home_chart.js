@@ -15,6 +15,141 @@ function getRandomValue() {
     return Math.floor(Math.random() * 256);
 }
 
+// Chart number 1: Combined chart for margin profit, total sales, and total profit every year
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get_combined_job_data')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('jobCombinedChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.years,
+                    datasets: [{
+                        type: 'line',
+                        label: 'Margin Keuntungan (%)',
+                        borderColor: 'rgba(54, 162, 235, 0.6)',
+                        data: data.margin_profit,
+                        tension: 0.4, // Adjust the tension for curve
+                        yAxisID: 'y1'
+                    }, {
+                        type: 'bar',
+                        label: 'Jumlah Jualan (RM)',
+                        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                        data: data.total_sales,
+                        yAxisID: 'y2'
+                    }, {
+                        type: 'bar',
+                        label: 'Jumlah Keuntungan (RM)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        data: data.total_profit,
+                        yAxisID: 'y2'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Margin Keuntungan (%)'
+                            }
+                        },
+                        y2: {
+                            type: 'linear',
+                            position: 'left',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Jumlah (RM)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching combined job data:', error));
+});
+
+// line chart number 2
+document.addEventListener('DOMContentLoaded', function() {
+    let chart; // Chart instance variable
+
+    // Fetch job profitability trends data from server
+    fetch('/get_job_profitability_trends')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('jobProfitabilityTrendChart').getContext('2d');
+
+            // Initialize the chart with full dataset
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.years,
+                    datasets: [{
+                        label: 'Jumlah Jualan (RM)',
+                        borderColor: 'rgba(255, 159, 64, 0.6)',
+                        data: data.total_sales,
+                        tension: 0.4 // Adjust the tension for curve
+                    }, {
+                        label: 'Jumlah Keuntungan (RM)',
+                        borderColor: 'rgba(75, 192, 192, 0.6)',
+                        data: data.total_profit,
+                        tension: 0.4 // Adjust the tension for curve
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Update the slider max attribute based on the number of data points
+            const maxDataPoints = data.years.length;
+            const slider = document.getElementById('dateRangeSlider');
+            slider.max = maxDataPoints;
+            slider.value = maxDataPoints; // Set initial value to max
+            document.getElementById('dateRangeLabel').textContent = `(${maxDataPoints} data points)`;
+
+            // Add event listener to update chart based on slider value
+            slider.addEventListener('input', function() {
+                const range = slider.value;
+                chart.data.labels = data.years.slice(0, range);
+                chart.data.datasets[0].data = data.total_sales.slice(0, range);
+                chart.data.datasets[1].data = data.total_profit.slice(0, range);
+                chart.update();
+                document.getElementById('dateRangeLabel').textContent = `(${range} data points)`;
+            });
+        })
+        .catch(error => console.error('Error fetching job profitability trends:', error));
+});
+
+// pie chart number 3
 document.addEventListener('DOMContentLoaded', function() {
     fetch('/get_job_quantities')
         .then(response => response.json())
@@ -46,127 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error fetching job quantities:', error));
 });
 
-
-// Modify home_chart.js to include a new chart for job costs and profits
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/get_job_sales_profits')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('jobSalesProfitsChart').getContext('2d');
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.jobTypes,
-                    datasets: [{
-                        label: 'Jualan per Unit(Purata)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                        data: data.salesPerUnit
-                    },
-                    {
-                        label: 'Untung per Unit(Purata)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                        data: data.profitsPerUnit
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: 'black'
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: 'black'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            labels: {
-                                color: 'black'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: (tooltipItem) => {
-                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw.toFixed(2);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            
-        })
-        .catch(error => console.error('Error fetching job costs and profits:', error));
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let chart; // Chart instance variable
-
-    // Fetch job profitability trends data from server
-    fetch('/get_job_profitability_trends')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('jobProfitabilityTrendChart').getContext('2d');
-
-            // Initialize the chart with full dataset
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.jobDates,
-                    datasets: [{
-                        label: 'Keuntungan (RM)',
-                        borderColor: 'rgba(255, 159, 64, 0.6)',
-                        data: data.profits
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            labels: {
-                                color: 'black'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Set initial label for the date range slider
-            const maxDataPoints = data.jobDates.length;
-            document.getElementById('dateRangeLabel').textContent = `(${maxDataPoints} data points)`;
-
-            // Update chart based on slider input
-            const slider = document.getElementById('dateRangeSlider');
-            const label = document.getElementById('dateRangeLabel');
-
-            slider.oninput = function() {
-                const rangeValue = parseInt(this.value);
-                const maxIndex = Math.floor((rangeValue / 500) * maxDataPoints);
-
-                // Update chart labels and data based on selected date range
-                chart.data.labels = data.jobDates.slice(0, maxIndex);
-                chart.data.datasets[0].data = data.profits.slice(0, maxIndex);
-                chart.update();
-
-                // Update the label to show the number of data points displayed
-                label.textContent = `(${maxIndex} data points)`;
-            };
-        })
-        .catch(error => console.error('Error fetching job profitability trends:', error));
-});
-
+// bar chart number 4
 document.addEventListener('DOMContentLoaded', function() {
     fetch('/get_aftersales_data')
         .then(response => response.json())

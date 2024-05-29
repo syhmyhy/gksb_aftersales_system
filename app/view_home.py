@@ -38,7 +38,66 @@ def home():
     print("Staff ID:", staffID)
     return render_template('home.html')
 
-# pie chart
+# chart number 1
+@app.route('/get_combined_job_data')
+def get_combined_job_data():
+    from sqlalchemy import extract
+
+    # Query job data grouped by year and calculate total sales, total profit, and margin profit for the year
+    job_data = db.session.query(
+        extract('year', Job.dateReceived).label('year'),
+        db.func.sum(Job.totalSales).label('total_sales'),
+        db.func.sum(Job.totalProfit).label('total_profit')
+    ).group_by(
+        extract('year', Job.dateReceived)
+    ).order_by(
+        extract('year', Job.dateReceived)
+    ).all()
+
+    # Calculate the margin profit for each year with the updated formula
+    years = [item.year for item in job_data]
+    total_sales = [float(item.total_sales) for item in job_data]
+    total_profit = [float(item.total_profit) for item in job_data]
+    
+    # Adjusted formula for margin profit calculation
+    margin_profit = [(profit / (sales - profit) * 100) if (sales - profit) != 0 else 0 
+                     for profit, sales in zip(total_profit, total_sales)]
+
+    return jsonify({
+        'years': years,
+        'margin_profit': margin_profit,
+        'total_sales': total_sales,
+        'total_profit': total_profit
+    })
+
+# line chart number 2
+@app.route('/get_job_profitability_trends')
+def get_job_profitability_trends():
+    from sqlalchemy import extract
+
+    # Query job data grouped by year and sum the sales and profits
+    job_data = db.session.query(
+        extract('year', Job.dateReceived).label('year'),
+        db.func.sum(Job.totalSales).label('total_sales'),
+        db.func.sum(Job.totalProfit).label('total_profit')
+    ).group_by(
+        extract('year', Job.dateReceived)
+    ).order_by(
+        extract('year', Job.dateReceived)
+    ).all()
+
+    # Prepare data to be sent as JSON
+    years = [item.year for item in job_data]
+    total_sales = [float(item.total_sales) for item in job_data]
+    total_profit = [float(item.total_profit) for item in job_data]
+
+    return jsonify({
+        'years': years,
+        'total_sales': total_sales,
+        'total_profit': total_profit
+    })
+
+# pie chart number 3
 @app.route('/get_job_quantities')
 def get_job_quantities():
     # Query job data grouped by vehicle type and sum the quantities
@@ -53,55 +112,7 @@ def get_job_quantities():
         'quantities': quantities
     })
 
-# bar chart 
-@app.route('/get_job_sales_profits')
-def get_job_sales_profits():
-    # Query job data to calculate sales and profits per unit
-    job_data = db.session.query(
-        Job.vehicleType,
-        db.func.avg(Job.salesUnit).label('avg_sales_unit'),
-        db.func.avg(Job.profitUnit).label('avg_profit_unit')
-    ).group_by(Job.vehicleType).all()
-
-    # Prepare data to be sent as JSON
-    job_types = [item[0] for item in job_data]
-    sales_per_unit = [float(item[1]) if item[1] else 0.0 for item in job_data]
-    profits_per_unit = [float(item[2]) if item[2] else 0.0 for item in job_data]
-
-    return jsonify({
-        'jobTypes': job_types,
-        'salesPerUnit': sales_per_unit,
-        'profitsPerUnit': profits_per_unit
-    })
-
-# line chart
-@app.route('/get_job_profitability_trends')
-def get_job_profitability_trends():
-    from sqlalchemy import extract
-
-    # Query job data grouped by year and month, and sum the profits
-    job_data = db.session.query(
-        extract('year', Job.jobDateDelivered).label('year'),
-        extract('month', Job.jobDateDelivered).label('month'),
-        db.func.sum(Job.totalProfit).label('monthly_profit')
-    ).group_by(
-        extract('year', Job.jobDateDelivered),
-        extract('month', Job.jobDateDelivered)
-    ).order_by(
-        extract('year', Job.jobDateDelivered),
-        extract('month', Job.jobDateDelivered)
-    ).all()
-
-    # Prepare data to be sent as JSON
-    job_dates = [f"{item.month:02}/{item.year}" for item in job_data]
-    profits = [float(item.monthly_profit) for item in job_data]
-
-    return jsonify({
-        'jobDates': job_dates,
-        'profits': profits
-    })
-
-# bar chart
+# bar chart number 4
 @app.route('/get_aftersales_data')
 def get_aftersales_data():
     try:

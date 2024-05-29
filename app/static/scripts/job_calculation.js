@@ -26,9 +26,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const totalSales = parseFloat(totalSalesInput.value) || 0;
         const totalProfit = parseFloat(totalProfitInput.value) || 0;
         let marginProfit = 0;
+    
+        // Check if the denominator is not zero
         if (totalSales !== totalProfit) {
             marginProfit = (totalProfit / (totalSales - totalProfit)) * 100;
+        } else {
+            // Handle division by zero scenario
+            marginProfit = Infinity; // or any other value or message you prefer
         }
+    
         marginProfitInput.value = marginProfit.toFixed(2);
     }
 
