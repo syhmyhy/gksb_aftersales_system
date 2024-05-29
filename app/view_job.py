@@ -71,7 +71,7 @@ def update_job_route(jobNo):
 
     if request.method == 'POST':
         try:
-            new_quantity = int(request.form['quantity'])
+            new_quantity = float(request.form['quantity'])
 
             # Get the current count of aftersales records associated with this job
             current_aftersales_count = job.aftersales_count
@@ -85,10 +85,11 @@ def update_job_route(jobNo):
             job.vehicleType = request.form['vehicleType']
             job.quantity = new_quantity
             job.dateReceived = request.form['dateReceived']
-            job.costUnit = request.form['costUnit']
-            job.totalCost = request.form['totalCost']
+            job.salesUnit = request.form['salesUnit']
+            job.totalSales = request.form['totalSales']
             job.profitUnit = request.form['profitUnit']
             job.totalProfit = request.form['totalProfit']
+            job.marginProfit =  request.form['marginProfit']
             job.jobDateDelivered = request.form['jobDateDelivered']
 
             db.session.commit()

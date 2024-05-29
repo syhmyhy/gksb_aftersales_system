@@ -19,12 +19,13 @@ def submit_job_form():
                 title=job_data['title'],
                 custName=job_data['custName'],
                 vehicleType=job_data['vehicleType'],
-                quantity=int(job_data['quantity']),
+                quantity=float(job_data['quantity']),
                 dateReceived=job_data['dateReceived'],
-                costUnit=float(job_data['costUnit']),
-                totalCost=float(job_data['totalCost']),
+                salesUnit=float(job_data['salesUnit']),
+                totalSales=float(job_data['totalSales']),
                 profitUnit=float(job_data['profitUnit']),
                 totalProfit=float(job_data['totalProfit']),
+                marginProfit=float(job_data['marginProfit']),
                 jobDateDelivered=job_data['jobDateDelivered'],
                 staffID=job_data['staffID']
             )

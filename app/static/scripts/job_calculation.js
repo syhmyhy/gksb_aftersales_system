@@ -1,30 +1,39 @@
-// Wait for the document to fully load before running JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    // Get references to the input fields
+document.addEventListener('DOMContentLoaded', (event) => {
+    const salesUnitInput = document.getElementById('salesUnit');
     const quantityInput = document.getElementById('quantity');
-    const costUnitInput = document.getElementById('costUnit');
+    const totalSalesInput = document.getElementById('totalSales');
     const profitUnitInput = document.getElementById('profitUnit');
-    const totalCostInput = document.getElementById('totalCost');
     const totalProfitInput = document.getElementById('totalProfit');
+    const marginProfitInput = document.getElementById('marginProfit');
 
-    // Add event listeners to listen for changes in quantity, costUnit, and profitUnit fields
-    quantityInput.addEventListener('input', calculateTotals);
-    costUnitInput.addEventListener('input', calculateTotals);
-    profitUnitInput.addEventListener('input', calculateTotals);
-
-    // Function to calculate totalCost and totalProfit
-    function calculateTotals() {
-        // Get values from input fields and convert to numbers
+    function calculateTotalSales() {
+        const salesUnit = parseFloat(salesUnitInput.value) || 0;
         const quantity = parseInt(quantityInput.value) || 0;
-        const costUnit = parseFloat(costUnitInput.value) || 0;
-        const profitUnit = parseFloat(profitUnitInput.value) || 0;
-
-        // Calculate total cost and total profit
-        const totalCost = quantity * costUnit;
-        const totalProfit = quantity * profitUnit;
-
-        // Update the totalCost and totalProfit input fields with calculated values
-        totalCostInput.value = totalCost.toFixed(2); // Display totalCost rounded to 2 decimal places
-        totalProfitInput.value = totalProfit.toFixed(2); // Display totalProfit rounded to 2 decimal places
+        const totalSales = salesUnit * quantity;
+        totalSalesInput.value = totalSales.toFixed(2);
+        calculateMarginProfit();
     }
+
+    function calculateTotalProfit() {
+        const profitUnit = parseFloat(profitUnitInput.value) || 0;
+        const quantity = parseInt(quantityInput.value) || 0;
+        const totalProfit = profitUnit * quantity;
+        totalProfitInput.value = totalProfit.toFixed(2);
+        calculateMarginProfit();
+    }
+
+    function calculateMarginProfit() {
+        const totalSales = parseFloat(totalSalesInput.value) || 0;
+        const totalProfit = parseFloat(totalProfitInput.value) || 0;
+        let marginProfit = 0;
+        if (totalSales !== totalProfit) {
+            marginProfit = (totalProfit / (totalSales - totalProfit)) * 100;
+        }
+        marginProfitInput.value = marginProfit.toFixed(2);
+    }
+
+    salesUnitInput.addEventListener('input', calculateTotalSales);
+    quantityInput.addEventListener('input', calculateTotalSales);
+    profitUnitInput.addEventListener('input', calculateTotalProfit);
+    quantityInput.addEventListener('input', calculateTotalProfit);
 });

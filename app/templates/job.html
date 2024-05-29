@@ -93,16 +93,16 @@
                 </datalist><br>
                 
                 <label for="quantity">Kuantiti:</label><br>
-                <input type="number" id="quantity" name="quantity" min="1" max="10000" placeholder="0" required><br>
+                <input type="number" id="quantity" name="quantity" min="0" max="10000" placeholder="0" required><br>
                 
-                <label for="ateReceived">Tarikh SST:</label><br>
+                <label for="dateReceived">Tarikh SST:</label><br>
                 <input type="date" id="dateReceived" name="dateReceived" required><br>
 
-                <label for="costUnit">Unit Kos (RM):</label><br>
-                <input type="number" id="costUnit" name="costUnit" step="0.01" min="0" placeholder="0.00" required><br>
+                <label for="salesUnit">Unit Jualan (RM):</label><br>
+                <input type="number" id="salesUnit" name="salesUnit" step="0.01" min="0" placeholder="0.00" required><br>
                 
-                <label for="totalCost">Jumlah Kos (RM):</label><br>
-                <input type="number" id="totalCost" name="totalCost" step="0.01" min="0" placeholder="0.00" readonly><br>
+                <label for="totalSales">Jumlah Jualan (RM):</label><br>
+                <input type="number" id="totalSales" name="totalSales" step="0.01" min="0" placeholder="0.00" readonly><br>
                 
                 <label for="profitUnit">Unit Keuntungan (RM):</label><br>
                 <input type="number" id="profitUnit" name="profitUnit" step="0.01" min="0" placeholder="0.00" required><br>
@@ -110,6 +110,9 @@
                 <label for="totalProfit">Jumlah Keuntungan (RM):</label><br>
                 <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" readonly><br>
                 
+                <label for="marginProfit">Margin Keuntungan (%):</label><br>
+                <input type="number" id="marginProfit" name="marginProfit" step="0.01" min="0" placeholder="0.00" readonly><br>
+
                 <label for="jobDateDelivered">Tarikh Penghantaran:</label><br>
                 <input type="date" id="jobDateDelivered" name="jobDateDelivered" required><br>
                 

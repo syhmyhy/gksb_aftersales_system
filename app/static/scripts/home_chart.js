@@ -49,19 +49,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Modify home_chart.js to include a new chart for job costs and profits
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/get_job_costs_profits')
+    fetch('/get_job_sales_profits')
         .then(response => response.json())
         .then(data => {
-            const ctx = document.getElementById('jobCostsProfitsChart').getContext('2d');
+            const ctx = document.getElementById('jobSalesProfitsChart').getContext('2d');
 
             new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: data.jobTypes,
                     datasets: [{
-                        label: 'Kos per Unit(Purata)',
+                        label: 'Jualan per Unit(Purata)',
                         backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                        data: data.costsPerUnit
+                        data: data.salesPerUnit
                     },
                     {
                         label: 'Untung per Unit(Purata)',

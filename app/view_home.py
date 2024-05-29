@@ -54,23 +54,23 @@ def get_job_quantities():
     })
 
 # bar chart 
-@app.route('/get_job_costs_profits')
-def get_job_costs_profits():
-    # Query job data to calculate costs and profits per unit
+@app.route('/get_job_sales_profits')
+def get_job_sales_profits():
+    # Query job data to calculate sales and profits per unit
     job_data = db.session.query(
         Job.vehicleType,
-        db.func.avg(Job.costUnit).label('avg_cost_unit'),
+        db.func.avg(Job.salesUnit).label('avg_sales_unit'),
         db.func.avg(Job.profitUnit).label('avg_profit_unit')
     ).group_by(Job.vehicleType).all()
 
     # Prepare data to be sent as JSON
     job_types = [item[0] for item in job_data]
-    costs_per_unit = [float(item[1]) if item[1] else 0.0 for item in job_data]
+    sales_per_unit = [float(item[1]) if item[1] else 0.0 for item in job_data]
     profits_per_unit = [float(item[2]) if item[2] else 0.0 for item in job_data]
 
     return jsonify({
         'jobTypes': job_types,
-        'costsPerUnit': costs_per_unit,
+        'salesPerUnit': sales_per_unit,
         'profitsPerUnit': profits_per_unit
     })
 
