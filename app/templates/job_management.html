@@ -33,7 +33,7 @@
                     </ul>
                 {% endif %}
             {% endwith %}
-            <a href="{{ url_for('show_job_form') }}">++ Tambah Rekod Job ++</a><br><br>
+            <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button>
             <hr>
             <!-- Filter Input -->
             <div class="filter-container">
@@ -94,7 +94,6 @@
                 </tbody>
             </table><br><br>
             <hr>
-            <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button>
         </div>
     </div>
     <br><br>
