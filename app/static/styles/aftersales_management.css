@@ -18,12 +18,6 @@ body {
     left: 0;
     overflow-y: auto;
     padding-top: 40px;
-    transition: transform 0.3s ease; /* Smooth transition */
-    transform: translateX(0); /* Initially shown */
-}
-
-.sidebar.active {
-    transform: translateX(-100%); /* Move sidebar off screen */
 }
 
 .sidebar a {
@@ -53,36 +47,10 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-left: 210px;
-    overflow-x: auto; /* Allow horizontal scrolling for the table */
+    /* overflow-x: auto; */ /* Remove horizontal scrolling from the container */
     border: 1px solid #ddd;
-    transition: margin-left 0.3s ease; /* Smooth transition */
-}
-
-.container.sidebar-active {
-    margin-left: 10px; /* Adjusted margin when sidebar is toggled */
-}
-
-/* Header styles */
-.header-container {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-}
-
-.toggle-sidebar {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    font-size: 20px;
-    padding: 10px;
-    cursor: pointer;
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1001; /* Ensure toggle button is above other content */
+    max-height: calc(100vh - 100px); /* Set max height to ensure the container doesn't exceed viewport height */
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds container height */
 }
 
 /* Heading styles */
@@ -99,6 +67,7 @@ table {
     border-collapse: collapse;
     font-size: 11px;
     margin-top: 20px;
+    
 }
 
 th, td {
@@ -163,27 +132,17 @@ a:hover {
 /* Style for the Download Excel button */
 button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #008000;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 button:hover {
-    background-color: #0056b3;
-}
-
-/* Footer styles */
-.footer-container {
-    background-color: #3333333a;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    background-color: #355E3B;
 }
 
 /* Responsive styles for smaller screens */
@@ -202,10 +161,22 @@ button:hover {
     }
 }
 
+
 /* Logo styles */
 .logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 20%;
+}
+
+/* Footer styles */
+.footer-container {
+    background-color: #3333333a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }

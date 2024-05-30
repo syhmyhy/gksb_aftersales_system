@@ -25,7 +25,6 @@
             <a href="{{ url_for('show_staff_profile') }}">Profil</a>
             <a href="#" onclick="confirmLogout()">Log Keluar</a>
         </nav>
-
         <main class="content-container">
             <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">
             <div class="content">
@@ -39,7 +38,8 @@
                         </ul>
                     {% endif %}
                 {% endwith %}
-                <a href="{{ url_for('show_aftersales_form') }}">++ Tambah Rekod Aftersales ++</a><br><br>
+                <br>
+                <button onclick="exportToExcel()">Muat Turun Rekod Aftersales</button>
                 <hr>
                 <!-- Filter Input -->
                 <div class="filter-container">
@@ -114,18 +114,10 @@
                     </tbody>
                 </table><br><br>
                 <hr>
-                <button onclick="exportToExcel()">Muat Turun Rekod Aftersales</button>
             </div>
         </main>
     </div>
     <br><br>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <p>&copy; 2024 Global Komited Sdn Bhd. All rights reserved.</p>
-        </div>
-    </footer>
     <script>
         function confirmDelete(registrationNo) {
             if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
