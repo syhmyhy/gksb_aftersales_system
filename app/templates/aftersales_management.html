@@ -119,23 +119,7 @@
                     window.location.href = "{{ url_for('logout') }}";
                 }
             }
-            
-        $(document).ready(function() {
-            const table = $('#aftersalesTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "rowCallback": function(row, data, index) {
-                    // Re-order the row numbering
-                    $('td:eq(0)', row).html(index + 1);
-                }
-            });
-    
-            $('#filterInput').on('keyup', function() {
-                table.search(this.value).draw();
-            });
-    
+        
             function confirmDelete(registrationNo) {
                 if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
                     const url = `/delete_aftersales/${registrationNo}`;
@@ -158,6 +142,22 @@
                     });
                 }
             }
+        
+        $(document).ready(function() {
+            const table = $('#aftersalesTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "rowCallback": function(row, data, index) {
+                    // Re-order the row numbering
+                    $('td:eq(0)', row).html(index + 1);
+                }
+            });
+    
+            $('#filterInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
     
             function exportToExcel() {
                 const table = document.getElementById('aftersalesTable');

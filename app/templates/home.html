@@ -57,28 +57,35 @@
                     <!-- Chart 1: -->
                     <div class="chart-item">
                         <h4>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Terima SST</h4>
-                        <canvas id="jobCombinedChart"></canvas>
+                        <br>
+                        <canvas id="jobCombinedChart"></canvas><br>
+                        <div class="" id="overallTotals">
+                            <!-- Overall totals and margin percentage will be displayed here -->
+                        </div>
                     </div>
                     <!-- Chart 2: Job Profitability Trends -->
                     <div class="chart-item">
                         <h4>Trend Jualan dan Keuntungan Mengikut Tahun Terima SST</h4>
+                        <br>
                         <canvas id="jobProfitabilityTrendChart"></canvas>
                         <div class="slider-container">
                             <label for="dateRangeSlider">Pilih Julat Bulan:</label>
-                            <input type="range" min="0" max="500" value="500" class="slider" id="dateRangeSlider">
-                            <span id="dateRangeLabel">(500 data points)</span>
-                            <span id="dateRangeLabel"></span>
-                        </div>
-                    </div>                    
+                            <input type="range" id="dateRangeSlider" min="1" step="1">
+                            <label id="dateRangeLabel"></label>
+                        </div><br>
+                    </div>
+                    
                     <!-- Chart 3: Job Quantity -->
                     <div class="chart-item">
                         <h4>Jumlah Kuantiti Mengikut Jenis Kenderaan</h4>
-                        <canvas id="jobQuantityChart"></canvas>
+                        <br>
+                        <canvas id="jobQuantityChart"></canvas><br>
                     </div>
                     <!-- Chart 4: Aftersales Bar Chart -->
                     <div class="chart-item">
                         <h4>Jumlah Aftersales Mengikut Jenis Chassis</h4>
-                        <canvas id="aftersalesBarChart"></canvas>
+                        <br>
+                        <canvas id="aftersalesBarChart"></canvas><br>
                     </div>
                 </div>
                 <br>

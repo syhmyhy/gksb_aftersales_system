@@ -38,12 +38,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: 'Jumlah Jualan (RM)',
                         backgroundColor: 'rgba(255, 159, 64, 0.6)',
                         data: data.total_sales,
+                        tension: 0.1,
                         yAxisID: 'y2'
                     }, {
                         type: 'bar',
                         label: 'Jumlah Keuntungan (RM)',
                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
                         data: data.total_profit,
+                        tension: 0.1,
                         yAxisID: 'y2'
                     }]
                 },
@@ -81,6 +83,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
+            
+            // Format numbers as currency
+            const formatter = new Intl.NumberFormat('ms-MY', {
+                style: 'currency',
+                currency: 'MYR'
+            });
+
+            // Display overall totals and margin percentage
+            document.getElementById('overallTotals').innerHTML = `
+                <p>Jumlah Keseluruhan Jualan: ${formatter.format(data.overall_total_sales)}</p>
+                <p>Jumlah Keseluruhan Keuntungan: ${formatter.format(data.overall_total_profit)}</p>
+                <p>Margin Keuntungan Keseluruhan: ${data.overall_margin_percentage.toFixed(2)}%</p>
+            `;
         })
         .catch(error => console.error('Error fetching combined job data:', error));
 });
@@ -157,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('jobQuantityChart').getContext('2d');
 
             new Chart(ctx, {
-                type: 'pie',  
+                type: 'doughnut',  
                 data: {
                     labels: data.vehicleTypes,
                     datasets: [{

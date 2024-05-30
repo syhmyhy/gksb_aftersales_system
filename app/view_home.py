@@ -63,11 +63,23 @@ def get_combined_job_data():
     margin_profit = [(profit / (sales - profit) * 100) if (sales - profit) != 0 else 0 
                      for profit, sales in zip(total_profit, total_sales)]
 
+    # Calculate overall totals
+    overall_total_sales = sum(total_sales)
+    overall_total_profit = sum(total_profit)
+    
+    # Calculate overall margin percentage
+    overall_margin_percentage = (overall_total_profit / (overall_total_sales - overall_total_profit) * 100 
+                                 if (overall_total_sales - overall_total_profit) != 0 else 0)
+
+
     return jsonify({
         'years': years,
         'margin_profit': margin_profit,
         'total_sales': total_sales,
-        'total_profit': total_profit
+        'total_profit': total_profit,
+        'overall_total_sales': overall_total_sales,
+        'overall_total_profit': overall_total_profit,
+        'overall_margin_percentage': overall_margin_percentage
     })
 
 # line chart number 2
