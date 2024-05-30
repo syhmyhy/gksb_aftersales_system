@@ -7,14 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengurusan Tugas dan Aftersales</title>
     <link rel="stylesheet" href="../static/styles/combined_view.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="content">
-            <br>
-            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo"><br>
-            <a href="{{ url_for('home') }}">Kembali ke Halaman Utama</a><br><br>
+            <img src="../static/images/wgk1.png" alt="Global Komited Sdn Bhd Logo" class="logo">
+            <a href="{{ url_for('home') }}">Kembali ke Halaman Utama</a>
             <h3>Rekod Tugas dan Aftersales</h3>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -25,17 +27,13 @@
                     </ul>
                 {% endif %}
             {% endwith %}
+            <button onclick="exportToExcel()">Muat Turun Rekod Tugas dan Aftersales</button>
             <hr>
-            <!-- Filter Input -->
-            <div class="filter-container">
-                <label for="filterInput">Carian:</label>
-                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Carian...">
-            </div> 
             <!-- Display existing Job and Aftersales records -->
             <table id="jobTable">
                 <thead>
                     <tr>
-                        <!-- Remove the count column -->
+                        <th>#</th> <!-- Count column -->
                         <th class="jobNo">Job No</th>
                         <th class="title">Tajuk</th>
                         <th class="custName">Nama Pelanggan</th>
@@ -60,7 +58,6 @@
                         <th class="custPhone">No. Tel Pelanggan</th>
                         <th class="custEmail">Emel Pelanggan</th>
                         <th class="notes">Nota</th>
-                        <th class="staffID">Staff ID</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +65,7 @@
                         {% if job.aftersales %}
                             {% for aftersales in job.aftersales %}
                             <tr>
-                                <!-- Remove the count column -->
+                                <td class="rowCount">{{ loop.index }}</td>
                                 <td class="jobNo">{{ job.jobNo }}</td>
                                 <td class="title">{{ job.title }}</td>
                                 <td class="custName">{{ job.custName }}</td>
@@ -93,66 +90,74 @@
                                 <td class="custPhone">{{ aftersales.custPhone }}</td>
                                 <td class="custEmail">{{ aftersales.custEmail }}</td>
                                 <td class="notes">{{ aftersales.notes }}</td>
-                                <td class="staffID">{{ job.staffID }}</td>
                             </tr>
                             {% endfor %}
                         {% else %}
                             <tr>
-                                <!-- Remove the count column -->
+                                <td class="rowCount">{{ loop.index }}</td>
                                 <td class="jobNo">{{ job.jobNo }}</td>
                                 <td class="title">{{ job.title }}</td>
                                 <td class="custName">{{ job.custName }}</td>
+                                <td class="endUser">-</td>
                                 <td class="vehicleType">{{ job.vehicleType }}</td>
-                                <td colspan="20" style="text-align:center;">Tiada Data Aftersales</td>
-                                <td class="staffID">{{ job.staffID }}</td>
+                                <td class="registrationNo">-</td>
+                                <td class="bodyType">-</td>
+                                <td class="chassisType">-</td>
+                                <td class="chassisModel">-</td>
+                                <td class="chassisNo">-</td>
+                                <td class="engineNo">-</td>
+                                <td class="dateDelivered">-</td>
+                                <td class="stateLocality">-</td>
+                                <td class="detailLocality">-</td>
+                                <td class="chassisMileageWarranty">-</td>
+                                <td class="chassisPeriodWarranty">-</td>
+                                <td class="chassisExpired">-</td>
+                                <td class="bodyPeriodWarranty">-</td>
+                                <td class="bodyExpired">-</td>
+                                <td class="noService">-</td>
+                                <td class="mileageService">-</td>
+                                <td class="custPhone">{{ job.custPhone }}</td>
+                                <td class="custEmail">{{ job.custEmail }}</td>
+                                <td class="notes">{{ job.notes }}</td>
                             </tr>
                         {% endif %}
                     {% endfor %}
                 </tbody>
-            </table><br><br>                            
+            </table>
             <hr>
-            <button onclick="exportToExcel()">Muat Turun Rekod Tugas dan Aftersales</button>
         </div>
-    <br><br>
     </div>
-    <br><br>
-    <!-- Footer -->
     <!-- JavaScript function to confirm logout and export to Excel -->
     <script>
-        function confirmLogout() {
-            if (confirm("Adakah anda pasti ingin log keluar?")) {
-                window.location.href = "{{ url_for('logout') }}";
-            }
-        }
-
-        function exportToExcel() {
-            const table = document.getElementById('jobTable');
-            const ws = XLSX.utils.table_to_sheet(table);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-            XLSX.writeFile(wb, 'job_aftersales_data.xlsx');
-        }
-        
-        function filterTable() {
-            const input = document.getElementById('filterInput');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('jobTable');
-            const trs = table.querySelectorAll('tbody tr');
-
-            trs.forEach(tr => {
-                const tds = tr.getElementsByTagName('td');
-                let display = false;
-
-                for (let i = 0; i < tds.length; i++) {
-                    if (tds[i].innerText.toLowerCase().indexOf(filter) > -1) {
-                        display = true;
-                        break;
-                    }
+        $(document).ready(function() {
+            const table = $('#jobTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "rowCallback": function(row, data, index) {
+                    $('td:eq(0)', row).html(index + 1);
                 }
-                
-                tr.style.display = display ? '' : 'none';
             });
-        }
+
+            $('#filterInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+
+            function confirmLogout() {
+                if (confirm("Adakah anda pasti ingin log keluar?")) {
+                    window.location.href = "{{ url_for('logout') }}";
+                }
+            }
+
+            function exportToExcel() {
+                const table = document.getElementById('jobTable');
+                const ws = XLSX.utils.table_to_sheet(table);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'job_aftersales_data.xlsx');
+            }
+        });
     </script>
 </body>
 </html>

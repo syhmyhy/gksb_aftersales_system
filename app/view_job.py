@@ -16,6 +16,7 @@ def prevent_caching(response):
 @app.route('/job.html')
 def show_job_form():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
 
     staffID = session.get('staff_id')    
@@ -32,12 +33,14 @@ def show_job_form():
 @app.route('/submit_job_form', methods=['POST'])
 def submit_job_form():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
     return job_controller.submit_job_form()
 
 @app.route('/show_job_management')
 def show_job_management():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
 
     staffID = session.get('staff_id')
@@ -54,6 +57,7 @@ def show_job_management():
 @app.route('/get_job_details', methods=['GET'])
 def get_job_details():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
     job_no = request.args.get('jobNo')
     return job_controller.get_job_details(job_no)
@@ -61,6 +65,7 @@ def get_job_details():
 @app.route('/update_job/<int:jobNo>', methods=['GET', 'POST'])
 def update_job_route(jobNo):
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
 
     job = Job.query.get(jobNo)
@@ -107,6 +112,7 @@ def update_job_route(jobNo):
 @app.route('/delete_job/<int:jobNo>', methods=['POST'])
 def delete_job_route(jobNo):
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
 
     job = Job.query.get(jobNo)

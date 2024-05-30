@@ -16,6 +16,7 @@ def prevent_caching(response):
 def index():
     if 'staff_id' in session:
         # If user is logged in, redirect to home page
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('home'))
 
     if request.method == 'POST':
@@ -32,6 +33,7 @@ def logout():
 @app.route('/show_login_form')
 def show_login_form():
     if 'staff_id' in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')        
         return redirect(url_for('home'))  # Redirect to home if already logged in
     return auth_controller.show_login_form()
 

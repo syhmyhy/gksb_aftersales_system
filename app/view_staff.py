@@ -40,6 +40,7 @@ def show_staff_profile():
 @app.route('/update_staff_profile', methods=['POST'])
 def update_staff_profile():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')  
         return redirect(url_for('show_login_form'))
 
     staff_id = session['staff_id']

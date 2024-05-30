@@ -2,14 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengurusan Tugas</title>
-    <link rel="stylesheet" href="../static/styles/job_management.css">
-    <script src="../static/scripts/filter_job.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pengurusan Tugas</title>
+        <link rel="stylesheet" href="../static/styles/job_management.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="../static/scripts/filter_job.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    </head>    
 <body>
     <div class="container">
         <div class="sidebar">
@@ -36,15 +39,11 @@
             <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button>
             <hr>
             <!-- Filter Input -->
-            <div class="filter-container">
-                <label for="filterInput">Carian:</label>
-                <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Carian...">
-            </div> 
             <!-- Display existing Job records -->
             <table id="jobTable">
                 <thead>
                     <tr>
-                        <th>#</th> <!-- Count column -->
+                        <th>#</th>
                         <th class="jobNo">Job No</th>
                         <th class="title">Tajuk</th>
                         <th class="custName">Nama Pelanggan</th>
@@ -65,7 +64,7 @@
                 <tbody>
                     {% for job in job_data %}
                     <tr>
-                        <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
+                        <td class="rowCount">{{ loop.index }}</td>
                         <td class="jobNo">{{ job.jobNo }}</td>
                         <td class="title">{{ job.title }}</td>
                         <td class="custName">{{ job.custName }}</td>
@@ -92,7 +91,8 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table><br><br>
+            </table>
+            <br><br>
             <hr>
         </div>
     </div>
@@ -100,47 +100,60 @@
     <!-- Footer -->
     <!-- JavaScript function to confirm deletion -->
     <script>
-        function confirmDelete(jobNo) {
-            if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
-                // Construct the URL for the delete action
-                const url = `/delete_job/${jobNo}`;
-
-                // Send a POST request to the delete route
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ jobNo })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Reload the page after successful deletion
-                        window.location.reload();
-                    } else {
-                        throw new Error('Failed to delete job record');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting job record:', error);
-                    alert('Gagal memadam rekod tugas. Sila cuba lagi.');
-                });
-            }
-        }
-
         function confirmLogout() {
-            if (confirm("Adakah anda pasti ingin log keluar?")) {
-                window.location.href = "{{ url_for('logout') }}";
+                if (confirm("Adakah anda pasti ingin log keluar?")) {
+                    window.location.href = "{{ url_for('logout') }}";
+                }
             }
-        }
-
-        function exportToExcel() {
-            const table = document.getElementById('jobTable');
-            const ws = XLSX.utils.table_to_sheet(table);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-            XLSX.writeFile(wb, 'job_data.xlsx');
-        }
-    </script>
+            
+        $(document).ready(function() {
+            const table = $('#jobTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "rowCallback": function(row, data, index) {
+                    // Re-order the row numbering
+                    $('td:eq(0)', row).html(index + 1);
+                }
+            });
+    
+            $('#filterInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+    
+            function confirmDelete(jobNo) {
+                if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
+                    const url = `/delete_job/${jobNo}`;
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ jobNo })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            throw new Error('Failed to delete job record');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting job record:', error);
+                        alert('Gagal memadam rekod tugas. Sila cuba lagi.');
+                    });
+                }
+            }
+    
+            function exportToExcel() {
+                const table = document.getElementById('jobTable');
+                const ws = XLSX.utils.table_to_sheet(table);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'job_data.xlsx');
+            }
+        });
+    </script>    
 </body>
 </html>

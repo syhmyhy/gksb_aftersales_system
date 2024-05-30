@@ -1,11 +1,42 @@
-/* combined_voew.css.css */
+/* job_management.css */
 
 /* General styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-color: #f2f2f2;
     margin: 0;
     padding: 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 200px;
+    height: 100%;
+    background-color: #333333f1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding-top: 40px;
+}
+
+.sidebar a {
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #f2f2f2;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.sidebar a.active {
+    background-color: #ddd;
+    color: #333;
 }
 
 /* Container styles */
@@ -15,25 +46,17 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    overflow-x: auto; /* Allow horizontal scrolling for the table */
+    margin-left: 20px;
+    margin-right: 20px;
+    /* overflow-x: auto; */ /* Remove horizontal scrolling from the container */
     border: 1px solid #ddd;
-    transition: margin-left 0.3s ease; /* Smooth transition */
-}
-
-.container.sidebar-active {
-    margin-left: 10px; /* Adjusted margin when sidebar is toggled */
-}
-
-/* Header styles */
-.header-container {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
+    max-height: calc(100vh - 100px); /* Set max height to ensure the container doesn't exceed viewport height */
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds container height */
 }
 
 /* Heading styles */
 .container h3 {
+    text-align: left;
     color: #333;
     margin-bottom: 20px;
 }
@@ -41,36 +64,33 @@ body {
 /* Table styles */
 table {
     width: 100%; /* Ensure table fills the container */
+    max-width: 100%; /* Limit table width to 100% of the container */
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 11px;
     margin-top: 20px;
+    
 }
 
 th, td {
-    padding: 3px;
+    padding: 10px;
     text-align: left;
-    border: 1px solid #d1d1d1;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #333;
-    color: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-tbody tr:nth-child(even) {
     background-color: #f2f2f2;
+    color: #333;
 }
 
+/* Zebra stripe table */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover effect for table rows */
 tbody tr:hover {
     background-color: #ddd;
 }
-
-th, td {
-    border-radius: 6px;
-}
-
 
 /* Anchor styles */
 a {
@@ -113,27 +133,17 @@ a:hover {
 /* Style for the Download Excel button */
 button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #008000;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 button:hover {
-    background-color: #0056b3;
-}
-
-/* Footer styles */
-.footer-container {
-    background-color: #3333333a;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    background-color: #355E3B;
 }
 
 /* Responsive styles for smaller screens */
@@ -152,9 +162,22 @@ button:hover {
     }
 }
 
+
 /* Logo styles */
 .logo {
     display: block;
-    margin: 0 auto;
-    width: 15%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+}
+
+/* Footer styles */
+.footer-container {
+    background-color: #3333333a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }

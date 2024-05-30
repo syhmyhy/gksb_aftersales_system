@@ -17,12 +17,14 @@ def prevent_caching(response):
 @app.route('/aftersales.html')
 def show_aftersales_form():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
     return render_template('aftersales.html')
 
 @app.route('/show_aftersales_management')
 def show_aftersales_management():
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
     aftersales_data = Aftersales.query.all()
@@ -31,6 +33,7 @@ def show_aftersales_management():
 @app.route('/update_aftersales/<string:registrationNo>', methods=['GET', 'POST'])
 def update_aftersales_route(registrationNo):
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
     aftersales = Aftersales.query.filter_by(registrationNo=registrationNo).first()
@@ -84,6 +87,7 @@ def update_aftersales_route(registrationNo):
 @app.route('/delete_aftersales/<string:registrationNo>', methods=['POST'])
 def delete_aftersales_route(registrationNo):
     if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
     aftersales = Aftersales.query.filter_by(registrationNo=registrationNo).first()

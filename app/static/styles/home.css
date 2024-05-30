@@ -132,47 +132,36 @@ a:hover {
 }
 
 /* Table styles */
-.top-jobs-container {
-    margin-top: 20px;
-}
-
-.top-jobs-table {
-    width: 100%;
-    font-size: 15px;
+table {
+    width: 100%; /* Ensure table fills the container */
+    max-width: 100%; /* Limit table width to 100% of the container */
     border-collapse: collapse;
-    margin-top: 10px;
+    font-size: 11px;
+    margin-top: 20px;
+    
 }
 
-.top-jobs-table th, .top-jobs-table td {
-    border: 1px solid #ddd;
-    padding: 3px;
+th, td {
+    padding: 10px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-.top-jobs-table th {
-    background-color: #333;
-    color: #fff;
-}
-
-.top-jobs-table tr:nth-child(even) {
+th {
     background-color: #f2f2f2;
+    color: #333;
 }
 
-.top-jobs-table tr:hover {
+/* Zebra stripe table */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover effect for table rows */
+tbody tr:hover {
     background-color: #ddd;
 }
 
-.top-jobs-table th, .top-jobs-table td {
-    border-radius: 8px;
-}
-
-.top-jobs-table th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #333;
-    color: white;
-}
 
 /* Header styles */
 .header-container {

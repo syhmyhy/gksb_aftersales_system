@@ -7,14 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengurusan Aftersales</title>
     <link rel="stylesheet" href="../static/styles/aftersales_management.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="../static/scripts/filter_aftersales.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-    </header>
-
     <div class="container">
         <nav class="sidebar" role="navigation">
             <a href="{{ url_for('home') }}">Halaman Utama</a>
@@ -40,17 +39,12 @@
                 {% endwith %}
                 <br>
                 <button onclick="exportToExcel()">Muat Turun Rekod Aftersales</button>
-                <hr>
-                <!-- Filter Input -->
-                <div class="filter-container">
-                    <label for="filterInput">Carian:</label>
-                    <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Carian...">
-                </div>         
+                <hr>       
                 <!-- Display existing Aftersales records -->
                 <table id="aftersalesTable" class="aftersalesTable">
                     <thead>
                         <tr>
-                            <th>#</th> <!-- Count column -->
+                            <th>#</th>
                             <th class="jobNo">Job No</th>
                             <th class="endUser">Nama Pengguna</th>
                             <th class="bodyType">Kod Badan Dan Kenderaan</th>
@@ -77,91 +71,103 @@
                     </thead>
                     <tbody>
                         {% for aftersales in aftersales_data %}
-                            <tr>
-                                <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
-                                <td class="jobNo">{{ aftersales.jobNo }}</td>
-                                <td class="endUser">{{ aftersales.endUser }}</td>
-                                <td class="bodyType">{{ aftersales.bodyType }}</td>
-                                <td class="chassisType">{{ aftersales.chassisType }}</td>
-                                <td class="chassisModel">{{ aftersales.chassisModel }}</td>
-                                <td class="chassisNo">{{ aftersales.chassisNo }}</td>
-                                <td class="engineNo">{{ aftersales.engineNo }}</td>
-                                <td class="registrationNo">{{ aftersales.registrationNo }}</td>
-                                <td class="stateLocality">{{ aftersales.stateLocality }}</td>
-                                <td class="detailLocality">{{ aftersales.detailLocality }}</td>
-                                <td class="chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
-                                <td class="chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
-                                <td class="chassisExpired">{{ aftersales.chassisExpired }}</td>
-                                <td class="bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
-                                <td class="bodyExpired">{{ aftersales.bodyExpired }}</td>
-                                <td class="noService">{{ aftersales.noService }}</td>
-                                <td class="mileageService">{{ aftersales.mileageService }}</td>
-                                <td class="custPhone">{{ aftersales.custPhone }}</td>
-                                <td class="custEmail">{{ aftersales.custEmail }}</td>
-                                <td class="notes">{{ aftersales.notes }}</td>
-                                <td class="action">
-                                    <div class="action-button edit-button">
-                                        <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="action-button delete-button">
-                                        <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
-                                    </div>
-                                </td>                                                     
-                            </tr>
+                        <tr>
+                            <td class="rowCount">{{ loop.index }}</td>
+                            <td class="jobNo">{{ aftersales.jobNo }}</td>
+                            <td class="endUser">{{ aftersales.endUser }}</td>
+                            <td class="bodyType">{{ aftersales.bodyType }}</td>
+                            <td class="chassisType">{{ aftersales.chassisType }}</td>
+                            <td class="chassisModel">{{ aftersales.chassisModel }}</td>
+                            <td class="chassisNo">{{ aftersales.chassisNo }}</td>
+                            <td class="engineNo">{{ aftersales.engineNo }}</td>
+                            <td class="registrationNo">{{ aftersales.registrationNo }}</td>
+                            <td class="stateLocality">{{ aftersales.stateLocality }}</td>
+                            <td class="detailLocality">{{ aftersales.detailLocality }}</td>
+                            <td class="chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
+                            <td class="chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
+                            <td class="chassisExpired">{{ aftersales.chassisExpired }}</td>
+                            <td class="bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
+                            <td class="bodyExpired">{{ aftersales.bodyExpired }}</td>
+                            <td class="noService">{{ aftersales.noService }}</td>
+                            <td class="mileageService">{{ aftersales.mileageService }}</td>
+                            <td class="custPhone">{{ aftersales.custPhone }}</td>
+                            <td class="custEmail">{{ aftersales.custEmail }}</td>
+                            <td class="notes">{{ aftersales.notes }}</td>
+                            <td class="action">
+                                <div class="action-button edit-button">
+                                    <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-button delete-button">
+                                    <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
+                                </div>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
-                </table><br><br>
+                </table>
+                <br><br>
                 <hr>
             </div>
         </main>
     </div>
     <br><br>
     <script>
-        function confirmDelete(registrationNo) {
-            if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
-                const url = `/delete_aftersales/${registrationNo}`;
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.reload(); // Reload page on successful deletion
-                    } else {
-                        throw new Error('Failed to delete aftersales record');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting aftersales record:', error);
-                    alert('Gagal memadam rekod Aftersales. Sila cuba lagi.');
-                });
-            }
-        }
-
         function confirmLogout() {
-            if (confirm("Adakah anda pasti ingin log keluar?")) {
-                window.location.href = "{{ url_for('logout') }}";
+                if (confirm("Adakah anda pasti ingin log keluar?")) {
+                    window.location.href = "{{ url_for('logout') }}";
+                }
             }
-        }
-
-        function exportToExcel() {
-            const table = document.getElementById('aftersalesTable');
-            const ws = XLSX.utils.table_to_sheet(table);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-            XLSX.writeFile(wb, 'aftersales_data.xlsx');
-        }
-
-        function toggleSidebar() {
-            document.querySelector('.sidebar').classList.toggle('active');
-            document.querySelector('.container').classList.toggle('sidebar-active');
-        }
-    </script>
+            
+        $(document).ready(function() {
+            const table = $('#aftersalesTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "rowCallback": function(row, data, index) {
+                    // Re-order the row numbering
+                    $('td:eq(0)', row).html(index + 1);
+                }
+            });
+    
+            $('#filterInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+    
+            function confirmDelete(registrationNo) {
+                if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
+                    const url = `/delete_aftersales/${registrationNo}`;
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            throw new Error('Failed to delete aftersales record');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting aftersales record:', error);
+                        alert('Gagal memadam rekod Aftersales. Sila cuba lagi.');
+                    });
+                }
+            }
+    
+            function exportToExcel() {
+                const table = document.getElementById('aftersalesTable');
+                const ws = XLSX.utils.table_to_sheet(table);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'aftersales_data.xlsx');
+            }
+        });
+    </script>    
 </body>
 </html>
 

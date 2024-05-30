@@ -1,6 +1,6 @@
 # app\view_home.py
 
-from flask import Flask, jsonify, session, render_template
+from flask import Flask, jsonify, session, render_template, flash, redirect,url_for
 from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
 from app import db, app

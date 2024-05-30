@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: 'Margin Keuntungan (%)',
                         borderColor: 'rgba(54, 162, 235, 0.6)',
                         data: data.margin_profit,
-                        tension: 0.4, // Adjust the tension for curve
+                        //tension: 0.1, // Adjust the tension for curve
                         yAxisID: 'y1'
                     }, {
                         type: 'bar',
@@ -104,12 +104,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: 'Jumlah Jualan (RM)',
                         borderColor: 'rgba(255, 159, 64, 0.6)',
                         data: data.total_sales,
-                        tension: 0.4 // Adjust the tension for curve
+                        tension: 0.3 // Adjust the tension for curve
                     }, {
                         label: 'Jumlah Keuntungan (RM)',
                         borderColor: 'rgba(75, 192, 192, 0.6)',
                         data: data.total_profit,
-                        tension: 0.4 // Adjust the tension for curve
+                        tension: 0.3 // Adjust the tension for curve
                     }]
                 },
                 options: {
@@ -157,12 +157,30 @@ document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('jobQuantityChart').getContext('2d');
 
             new Chart(ctx, {
-                type: 'pie',  // Change chart type to 'pie'
+                type: 'pie',  
                 data: {
                     labels: data.vehicleTypes,
                     datasets: [{
-                        label: 'Jumlah',  // Label for the dataset (without color association)
+                        label: 'Jumlah',  
                         data: data.quantities,
+                        backgroundColor: [ // Set custom colors for each data point
+                            'rgba(255, 99, 132, 0.8)',  // Red
+                            'rgba(54, 162, 235, 0.8)',  // Blue
+                            'rgba(255, 206, 86, 0.8)',  // Yellow
+                            'rgba(75, 192, 192, 0.8)',  // Green
+                            'rgba(153, 102, 255, 0.8)', // Purple
+                            'rgba(255, 159, 64, 0.8)',  // Orange
+                            'rgba(255, 0, 0, 0.8)',     // Bright Red
+                            'rgba(0, 255, 0, 0.8)',     // Bright Green
+                            'rgba(0, 0, 255, 0.8)',     // Bright Blue
+                            'rgba(128, 0, 128, 0.8)',   // Purple
+                            'rgba(255, 165, 0, 0.8)',   // Orange
+                            'rgba(0, 128, 128, 0.8)',   // Teal
+                            'rgba(128, 128, 0, 0.8)',   // Olive
+                            'rgba(128, 0, 0, 0.8)',     // Maroon
+                            'rgba(0, 128, 0, 0.8)',     // Green
+                            // Add more colors if needed
+                        ],
                         borderWidth: 1
                     }]
                 },
