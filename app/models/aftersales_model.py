@@ -4,7 +4,7 @@ from app import db
 
 class Aftersales(db.Model):
     __tablename__ = 'aftersales'
-    jobNo = db.Column(db.Integer, db.ForeignKey('job.jobNo'))
+    jobNo = db.Column(db.String(20), db.ForeignKey('job.jobNo'))
     endUser = db.Column(db.String(255), nullable=False)
     bodyType = db.Column(db.String(255), nullable=False)
     chassisType = db.Column(db.String(255), nullable=False)

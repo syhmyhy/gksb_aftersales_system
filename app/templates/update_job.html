@@ -101,16 +101,16 @@
                 <input type="number" id="salesUnit" name="salesUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.salesUnit }}" required><br>
                 
                 <label for="totalSales">Jumlah Jualan (RM):</label><br>
-                <input type="number" id="totalSales" name="totalSales" step="0.01" min="0" placeholder="0.00" value="{{ job.totalSales }}" readonly><br>
+                <input type="number" id="totalSales" name="totalSales" step="0.01" min="0" placeholder="0.00" value="{{ job.totalSales }}" required readonly><br>
                 
                 <label for="profitUnit">Unit Keuntungan (RM):</label><br>
                 <input type="number" id="profitUnit" name="profitUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.profitUnit }}" required><br>
                 
                 <label for="totalProfit">Jumlah Keuntungan (RM):</label><br>
-                <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.totalProfit }}" readonly><br>
+                <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.totalProfit }}" required readonly><br>
 
                 <label for="marginProfit">Margin Keuntungan (%):</label><br>
-                <input type="number" id="marginProfit" name="marginProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.marginProfit }}" readonly><br>
+                <input type="number" id="marginProfit" name="marginProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.marginProfit }}" required readonly><br>
 
                 <label for="jobDateDelivered">Tarikh Penghantaran:</label>
                 <input type="date" id="jobDateDelivered" name="jobDateDelivered" value="{{ job.jobDateDelivered }}" required>

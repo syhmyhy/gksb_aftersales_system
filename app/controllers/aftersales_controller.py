@@ -17,7 +17,7 @@ def submit_aftersales_form():
         try:
             aftersales_data = request.form
 
-            jobNo = int(aftersales_data['jobNo'])
+            jobNo = aftersales_data['jobNo']
             job = Job.query.filter_by(jobNo=jobNo).first()
 
             if not job:

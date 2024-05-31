@@ -15,7 +15,7 @@ def submit_job_form():
             job_data = request.form
 
             new_job = Job(
-                jobNo=int(job_data['jobNo']),
+                jobNo=job_data['jobNo'],  # No need to convert to int
                 title=job_data['title'],
                 custName=job_data['custName'],
                 vehicleType=job_data['vehicleType'],
@@ -33,13 +33,14 @@ def submit_job_form():
             db.session.add(new_job)
             db.session.commit()
             print("Add Job: ", new_job)
-            flash('Rekod Job berjaya ditambah', 'success')  # Mesej kejayaan dalam Bahasa Melayu
+            flash('Rekod Job berjaya ditambah', 'success')
             return render_template('job.html', status='success')
 
         except (KeyError, ValueError, IntegrityError) as e:
             db.session.rollback()
-            print("Failed to add Job")
-            flash('Gagal menambah rekod Job. Sila semak masukan anda.', 'error')  # Mesej ralat dalam Bahasa Melayu
+            error_message = str(e)
+            print(f"Failed to add Job: {error_message}")  # Detailed error message
+            flash(f'Gagal menambah rekod Job. Sila lengkapkan semua ruang.', 'error')
             return render_template('job.html', status='error')
 
     return redirect(url_for('show_job_form'))
@@ -56,6 +57,6 @@ def get_job_details(job_no):
         return jsonify({'error': 'Job tidak dijumpai'}), 404
 
 def get_all_job():
-    job_data = Job.query.all()  # Retrieve all job records
+    job_data = Job.query.all()
     print("Total Job records:", len(job_data))
     return job_data

@@ -16,56 +16,52 @@ def prevent_caching(response):
 @app.route('/job.html')
 def show_job_form():
     if 'staff_id' not in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
-    staffID = session.get('staff_id')    
+    staffID = session.get('staff_id')
 
     if staffID in ('GSK39', 'GSK51'):
-        # Allow access for specific staffID values ('GSK39' or 'GSK51')
         response = make_response(render_template('job.html'))
         return prevent_caching(response)
     else:
-        # For all other staffID values, render view-only job content
         job_data = Job.query.all()
         return render_template('viewonly_job.html')
 
 @app.route('/submit_job_form', methods=['POST'])
 def submit_job_form():
     if 'staff_id' not in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
     return job_controller.submit_job_form()
 
 @app.route('/show_job_management')
 def show_job_management():
     if 'staff_id' not in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
     staffID = session.get('staff_id')
     
     if staffID in ('GSK39', 'GSK51'):
-        # Allow access for specific staffID values ('GSK39' or 'GSK51')
         job_data = Job.query.all()
         return render_template('job_management.html', job_data=job_data)
     else:
-        # For all other staffID values, render view-only job management content
         job_data = Job.query.all()
         return render_template('viewonly_job_management.html', job_data=job_data)
 
 @app.route('/get_job_details', methods=['GET'])
 def get_job_details():
     if 'staff_id' not in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
     job_no = request.args.get('jobNo')
     return job_controller.get_job_details(job_no)
 
-@app.route('/update_job/<int:jobNo>', methods=['GET', 'POST'])
+@app.route('/update_job/<string:jobNo>', methods=['GET', 'POST'])  # Changed int to string
 def update_job_route(jobNo):
     if 'staff_id' not in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
     job = Job.query.get(jobNo)
@@ -77,8 +73,6 @@ def update_job_route(jobNo):
     if request.method == 'POST':
         try:
             new_quantity = float(request.form['quantity'])
-
-            # Get the current count of aftersales records associated with this job
             current_aftersales_count = job.aftersales_count
 
             if new_quantity < current_aftersales_count:
@@ -106,13 +100,12 @@ def update_job_route(jobNo):
 
         return redirect(url_for('show_job_management'))
 
-    # Render the update form with pre-filled data for GET request
     return render_template('update_job.html', job=job)
 
-@app.route('/delete_job/<int:jobNo>', methods=['POST'])
+@app.route('/delete_job/<string:jobNo>', methods=['POST'])  # Changed int to string
 def delete_job_route(jobNo):
     if 'staff_id' not in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
 
     job = Job.query.get(jobNo)
