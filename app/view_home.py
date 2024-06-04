@@ -45,13 +45,13 @@ def get_combined_job_data():
 
     # Query job data grouped by year and calculate total sales, total profit, and margin profit for the year
     job_data = db.session.query(
-        extract('year', Job.dateReceived).label('year'),
+        extract('year', Job.jobDateDelivered).label('year'),
         db.func.sum(Job.totalSales).label('total_sales'),
         db.func.sum(Job.totalProfit).label('total_profit')
     ).group_by(
-        extract('year', Job.dateReceived)
+        extract('year', Job.jobDateDelivered)
     ).order_by(
-        extract('year', Job.dateReceived)
+        extract('year', Job.jobDateDelivered)
     ).all()
 
     # Calculate the margin profit for each year with the updated formula
@@ -89,13 +89,13 @@ def get_job_profitability_trends():
 
     # Query job data grouped by year and sum the sales and profits
     job_data = db.session.query(
-        extract('year', Job.dateReceived).label('year'),
+        extract('year', Job.jobDateDelivered).label('year'),
         db.func.sum(Job.totalSales).label('total_sales'),
         db.func.sum(Job.totalProfit).label('total_profit')
     ).group_by(
-        extract('year', Job.dateReceived)
+        extract('year', Job.jobDateDelivered)
     ).order_by(
-        extract('year', Job.dateReceived)
+        extract('year', Job.jobDateDelivered)
     ).all()
 
     # Prepare data to be sent as JSON
