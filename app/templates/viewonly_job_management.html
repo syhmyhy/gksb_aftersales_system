@@ -87,34 +87,67 @@
     <!-- JavaScript function to confirm deletion -->
     <script>
         function confirmLogout() {
-                if (confirm("Adakah anda pasti ingin log keluar?")) {
-                    window.location.href = "{{ url_for('logout') }}";
-                }
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
             }
-            
+        }
+
+        function confirmDelete(jobNo) {
+            if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
+                const url = `/delete_job/${jobNo}`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jobNo })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        throw new Error('Failed to delete job record');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting job record:', error);
+                    alert('Gagal memadam rekod tugas. Sila cuba lagi.');
+                });
+            }
+        }
+
+        function exportToExcel() {
+            const table = document.getElementById('jobTable');
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'job_data.xlsx');
+        }
+
         $(document).ready(function() {
+            // Add a new sorting function for job numbers
+            jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
+                return parseInt(d.replace(/\D/g, ''), 10); // Remove any non-numeric characters and parse as integer
+            };
+
             const table = $('#jobTable').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "columnDefs": [
+                    { "type": "jobNo", "targets": 1 } // Apply custom sorting to the Job No column
+                ],
                 "rowCallback": function(row, data, index) {
                     // Re-order the row numbering
                     $('td:eq(0)', row).html(index + 1);
                 }
             });
-    
+
             $('#filterInput').on('keyup', function() {
                 table.search(this.value).draw();
             });
-    
-            function exportToExcel() {
-                const table = document.getElementById('jobTable');
-                const ws = XLSX.utils.table_to_sheet(table);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-                XLSX.writeFile(wb, 'job_data.xlsx');
-            }
         });
     </script>
 </body>

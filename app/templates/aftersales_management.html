@@ -38,7 +38,7 @@
                     {% endif %}
                 {% endwith %}
                 <br>
-                <button onclick="exportToExcel()">Muat Turun Rekod Aftersales</button>
+                <button id="exportButton">Muat Turun Rekod Aftersales</button>
                 <hr>       
                 <!-- Display existing Aftersales records -->
                 <table id="aftersalesTable" class="aftersalesTable">
@@ -115,59 +115,72 @@
     <br><br>
     <script>
         function confirmLogout() {
-                if (confirm("Adakah anda pasti ingin log keluar?")) {
-                    window.location.href = "{{ url_for('logout') }}";
-                }
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
             }
-        
-            function confirmDelete(registrationNo) {
-                if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
-                    const url = `/delete_aftersales/${registrationNo}`;
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.reload();
-                        } else {
-                            throw new Error('Failed to delete aftersales record');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error deleting aftersales record:', error);
-                        alert('Gagal memadam rekod Aftersales. Sila cuba lagi.');
-                    });
-                }
+        }
+
+        function confirmDelete(registrationNo) {
+            if (confirm("Adakah anda pasti ingin memadam rekod Aftersales ini?")) {
+                const url = `/delete_aftersales/${registrationNo}`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        throw new Error('Failed to delete aftersales record');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting aftersales record:', error);
+                    alert('Gagal memadam rekod Aftersales. Sila cuba lagi.');
+                });
             }
-        
+        }
+
+        // Custom sorting function for jobNo
+        jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
+            return parseInt(d.replace(/\D/g, ''), 10); // Remove any non-numeric characters and parse as integer
+        };
+
         $(document).ready(function() {
             const table = $('#aftersalesTable').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "columnDefs": [
+                    { "type": "jobNo", "targets": 1 } // Apply custom sorting to the Job No column
+                ],
                 "rowCallback": function(row, data, index) {
                     // Re-order the row numbering
                     $('td:eq(0)', row).html(index + 1);
                 }
             });
-    
+
             $('#filterInput').on('keyup', function() {
                 table.search(this.value).draw();
             });
-    
-            function exportToExcel() {
-                const table = document.getElementById('aftersalesTable');
-                const ws = XLSX.utils.table_to_sheet(table);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-                XLSX.writeFile(wb, 'aftersales_data.xlsx');
-            }
+
+            $('#exportButton').on('click', function() {
+                exportToExcel();
+            });
         });
-    </script>    
+
+        function exportToExcel() {
+            const table = document.getElementById('aftersalesTable');
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'aftersales_data.xlsx');
+        }
+    </script>
 </body>
 </html>
-
+ 
