@@ -69,7 +69,7 @@
                         <td class="title">{{ job.title }}</td>
                         <td class="custName">{{ job.custName }}</td>
                         <td class="vehicleType">{{ job.vehicleType }}</td>
-                        <td class="quantity">{{ job.quantity }}</td>
+                        <td class="quantity">{{ '%.1f'|format(job.quantity) }}</td>
                         <td class="dateReceived">{{ job.dateReceived }}</td>
                         <td class="salesUnit">{{ job.salesUnit }}</td>
                         <td class="totalSales">{{ job.totalSales }}</td>
@@ -138,6 +138,14 @@
             XLSX.writeFile(wb, 'job_data.xlsx');
         }
 
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'MYR',
+                minimumFractionDigits: 2
+            }).format(value).replace('MYR', ''); // Remove the currency symbol if needed
+        }
+
         $(document).ready(function() {
             // Add a new sorting function for job numbers
             jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
@@ -156,6 +164,12 @@
                 "rowCallback": function(row, data, index) {
                     // Re-order the row numbering
                     $('td:eq(0)', row).html(index + 1);
+                    
+                    // Format the currency columns
+                    $('td:eq(7)', row).html(formatCurrency(parseFloat(data[7])));
+                    $('td:eq(8)', row).html(formatCurrency(parseFloat(data[8])));
+                    $('td:eq(9)', row).html(formatCurrency(parseFloat(data[9])));
+                    $('td:eq(10)', row).html(formatCurrency(parseFloat(data[10])));
                 }
             });
 

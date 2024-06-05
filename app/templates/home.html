@@ -107,6 +107,14 @@
             }
         }
 
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'MYR',
+                minimumFractionDigits: 2
+            }).format(value).replace('MYR', '').trim();
+        }
+
         async function fetchTopJobs() {
             const response = await fetch('/api/top-jobs');
             const topJobs = await response.json();
@@ -119,7 +127,7 @@
                     <td>${job.jobNo}</td>
                     <td>${job.title}</td>
                     <td>${job.custName}</td>
-                    <td>${job.totalProfit}</td>
+                    <td>${formatCurrency(job.totalProfit)}</td>
                 `;
                 tableBody.appendChild(row);
             });
