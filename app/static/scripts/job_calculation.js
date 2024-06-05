@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const totalSales = parseFloat(totalSalesInput.value) || 0;
         const totalProfit = parseFloat(totalProfitInput.value) || 0;
         let marginProfit = 0;
-    
+
         // Check if the denominator is not zero
         if (totalSales !== totalProfit) {
             marginProfit = (totalProfit / (totalSales - totalProfit)) * 100;
@@ -34,12 +34,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // Handle division by zero scenario
             marginProfit = Infinity; // or any other value or message you prefer
         }
-    
+
         marginProfitInput.value = marginProfit.toFixed(2);
+    }
+
+    function calculateQuantity() {
+        const salesUnit = parseFloat(salesUnitInput.value) || 0;
+        const totalSales = parseFloat(totalSalesInput.value) || 0;
+        let quantity = 0;
+
+        // Check if salesUnit is not zero to avoid division by zero
+        if (salesUnit !== 0) {
+            quantity = totalSales / salesUnit;
+        }
+
+        quantityInput.value = quantity.toFixed(2);
+        calculateTotalProfit();
     }
 
     salesUnitInput.addEventListener('input', calculateTotalSales);
     quantityInput.addEventListener('input', calculateTotalSales);
     profitUnitInput.addEventListener('input', calculateTotalProfit);
     quantityInput.addEventListener('input', calculateTotalProfit);
+
+    salesUnitInput.addEventListener('input', calculateQuantity);
+    totalSalesInput.addEventListener('input', calculateQuantity);
 });
