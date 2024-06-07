@@ -21,7 +21,7 @@ def submit_aftersales_form():
             job = Job.query.filter_by(jobNo=jobNo).first()
 
             if not job:
-                flash('Rekod Job tidak dijumpai', 'error')
+                flash('Gagal menambah rekod Aftersales. Rekod Job tidak dijumpai. Sila pastikan Job No telah wujud.', 'error')
                 return redirect(url_for('show_aftersales_form'))
 
             # Check if adding this aftersales record will exceed the quantity limit
