@@ -4,8 +4,8 @@ import mysql.connector
 
 # Replace the placeholders with your actual database credentials
 USER = "root"
-PASSWORD = "westtech2022"
-HOST = "localhost"
+PASSWORD = "weststar@ad123#"
+HOST = "192.168.1.10"
 DB = "gksbdb"
 
 # Establish a connection to the MySQL database

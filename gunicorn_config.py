@@ -1,7 +1,7 @@
 # gunicorn_config.py
 
 # Host and port to bind to (listen on all interfaces)
-bind = '192.168.1.75:5000'
+bind = '192.168.1.10:5000'  #server
 
 # Number of worker processes (adjust based on server resources)
 workers = 13

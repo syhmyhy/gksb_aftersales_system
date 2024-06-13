@@ -34,8 +34,11 @@
                             <li class="{{ category }}">{{ message }}</li>
                         {% endfor %}
                     </ul>
+                {% else %}
+                    <ul class="flash-messages"></ul>
                 {% endif %}
-            {% endwith %}<br>
+            {% endwith %}
+            <br>
             <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button>
             <hr>
             <!-- Filter Input -->
@@ -116,18 +119,34 @@
                     },
                     body: JSON.stringify({ jobNo })
                 })
-                .then(response => {
-                    if (response.ok) {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show updated data and flash message
                         window.location.reload();
                     } else {
-                        throw new Error('Failed to delete job record');
+                        // Display flash message without reloading the page
+                        displayFlashMessage(data.message, 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error deleting job record:', error);
-                    alert('Gagal memadam rekod tugas. Sila cuba lagi.');
+                    displayFlashMessage('Gagal memadam rekod tugas. Sila cuba lagi.', 'error');
                 });
             }
+        }
+
+        function displayFlashMessage(message, category) {
+            const flashMessages = document.querySelector('.flash-messages');
+            const newMessage = document.createElement('li');
+            newMessage.className = category;
+            newMessage.textContent = message;
+            flashMessages.appendChild(newMessage);
+
+            // Automatically remove the flash message after a few seconds
+            setTimeout(() => {
+                newMessage.remove();
+            }, 2000);
         }
 
         function exportToExcel() {

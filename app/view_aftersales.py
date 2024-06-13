@@ -1,6 +1,6 @@
 # app\view_aftersales.py
 
-from flask import Flask, render_template, request, redirect, url_for, session, make_response, flash
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, flash, jsonify
 from app.controllers import aftersales_controller
 from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
@@ -88,7 +88,7 @@ def update_aftersales_route(registrationNo):
 def delete_aftersales_route(registrationNo):
     if 'staff_id' not in session:
         flash('Sila log masuk untuk mengakses laman ini', 'error')
-        return redirect(url_for('show_login_form'))
+        return jsonify({'success': False, 'message': 'Sila log masuk untuk mengakses laman ini'}), 401
 
     aftersales = Aftersales.query.filter_by(registrationNo=registrationNo).first()
 
@@ -102,14 +102,17 @@ def delete_aftersales_route(registrationNo):
                 db.session.delete(aftersales)
                 db.session.commit()
                 flash('Rekod Aftersales berjaya dipadam', 'success')
+                return jsonify({'success': True, 'message': 'Rekod Aftersales berjaya dipadam'}), 200
             else:
                 flash('Rekod Aftersales tidak dijumpai', 'error')
+                return jsonify({'success': False, 'message': 'Rekod Aftersales tidak dijumpai'}), 404
         except Exception as e:
             db.session.rollback()
             flash(f'Gagal memadam rekod Aftersales: {e}', 'error')
-            return redirect(url_for('show_aftersales_management'))
+            return jsonify({'success': False, 'message': f'Gagal memadam rekod Aftersales: {e}'}), 500
     else:
         flash('Rekod Aftersales tidak dijumpai', 'error')
+        return jsonify({'success': False, 'message': 'Rekod Aftersales tidak dijumpai'}), 404
 
     return redirect(url_for('show_aftersales_management'))
 
