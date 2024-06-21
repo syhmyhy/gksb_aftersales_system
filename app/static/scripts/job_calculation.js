@@ -1,3 +1,5 @@
+// job_calculation.js
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const salesUnitInput = document.getElementById('salesUnit');
     const quantityInput = document.getElementById('quantity');
