@@ -10,15 +10,6 @@
     <script src="../static/scripts/staff_profile.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <a href="{{ url_for('home') }}">Halaman Utama</a>
-        <a href="{{ url_for('show_aftersales_management') }}">Aftersales</a>
-        <a href="{{ url_for('show_aftersales_form') }}">Borang Aftersales</a>
-        <a href="{{ url_for('show_job_management') }}">Tugas</a>
-        <a href="{{ url_for('show_job_form') }}">Borang Tugas</a>
-        <a href="{{ url_for('show_staff_profile') }}" class="active">Profil</a>
-        <a href="#" onclick="confirmLogout()">Log Keluar</a>
-    </div>
         <div class="container mt-5">
             <h2>Kemaskini Profil</h2>
             <hr>
@@ -72,7 +63,7 @@
                 <input type="submit" id="submitBtn" value="Kemaskini Profil">
             </form>
             <hr>
-            <p><a href="{{ url_for('home') }}">Kembali ke Laman Utama</a>.</p>
+            <p><a href="{{ url_for('select_page') }}">Kembali ke Laman Utama</a>.</p>
         </div>
         <br><br>
         <!-- Footer -->

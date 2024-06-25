@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>Please select a page to visit:</p>
+    <ul>
+        <li><a href="{{ url_for('aftersales_home') }}">Aftersales Home</a></li>
+        <li><a href="{{ url_for('sales_marketing_home') }}">Sales & Marketing Home</a></li>
+        <li><a href="{{ url_for('show_staff_profile') }}">Profil</a></li>
+        <li><a href="#" onclick="confirmLogout()">Log Keluar</a></li>
+    </ul>
+</body>
+<script>
+    function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+</script>
+</html>

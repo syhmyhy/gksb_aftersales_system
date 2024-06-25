@@ -1,6 +1,6 @@
 # app\view_aftersales.py
 
-from flask import Flask, render_template, request, redirect, url_for, session, make_response, flash, jsonify
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from app.controllers import aftersales_controller
 from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
@@ -13,7 +13,6 @@ def prevent_caching(response):
     response.headers['Cache-Control'] = 'no-store'
     return response
 
-# Aftersales Routes
 @app.route('/aftersales.html')
 def show_aftersales_form():
     if 'staff_id' not in session:
@@ -65,11 +64,8 @@ def update_aftersales_route(registrationNo):
             aftersales.custPhone = request.form['custPhone']
             aftersales.custEmail = request.form['custEmail']
             aftersales.notes = request.form['notes']
-            # aftersales.custFile = request.form['custFile']
-            # Add other fields here...
 
             db.session.commit()
-            print("Update Aftersales: ", aftersales)
             flash('Rekod Aftersales berjaya dikemaskini', 'success')
         except KeyError as e:
             flash(f'Gagal mengemaskini rekod: Ruang diperlukan "{e.args[0]}" hilang', 'error')
@@ -81,7 +77,6 @@ def update_aftersales_route(registrationNo):
 
         return redirect(url_for('show_aftersales_management'))
 
-    # Render the update form with pre-filled data for GET request
     return render_template('update_aftersales.html', aftersales=aftersales, job=job)
 
 @app.route('/delete_aftersales/<string:registrationNo>', methods=['POST'])
@@ -95,9 +90,7 @@ def delete_aftersales_route(registrationNo):
     if aftersales:
         try:
             job = Job.query.filter_by(jobNo=aftersales.jobNo).first()
-
             if job:
-                # Decrement aftersales_count for the associated Job
                 job.aftersales_count -= 1
                 db.session.delete(aftersales)
                 db.session.commit()

@@ -1,6 +1,6 @@
 # app\view_auth.py
 
-from flask import render_template, request, redirect, url_for, session, make_response, flash
+from flask import render_template, request, redirect, url_for, session, flash
 from app.controllers import auth_controller
 from app import app
 
@@ -11,13 +11,10 @@ def prevent_caching(response):
     response.headers['Cache-Control'] = 'no-store'
     return response
 
-# Authentication Routes
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'staff_id' in session:
-        # If user is logged in, redirect to home page
-        flash('Sila log masuk untuk mengakses laman ini', 'error')  
-        return redirect(url_for('home'))
+        return redirect(url_for('select_page'))
 
     if request.method == 'POST':
         return auth_controller.login()
@@ -26,15 +23,19 @@ def index():
 
 @app.route('/logout')
 def logout():
-    session.clear()  # Clear the session data
+    session.clear()
     flash('Anda telah berjaya log keluar', 'success')
     return redirect(url_for('show_login_form'))
 
 @app.route('/show_login_form')
 def show_login_form():
     if 'staff_id' in session:
-        flash('Sila log masuk untuk mengakses laman ini', 'error')        
-        return redirect(url_for('home'))  # Redirect to home if already logged in
+        return redirect(url_for('select_page'))
     return auth_controller.show_login_form()
 
-# Other routes and functions as needed
+@app.route('/select_page')
+def select_page():
+    if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
+        return redirect(url_for('show_login_form'))
+    return render_template('select_page.html')

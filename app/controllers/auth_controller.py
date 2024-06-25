@@ -13,7 +13,7 @@ def show_login_form():
 def login():
     if 'staff_id' in session:
         # If user already has an active session, redirect to home page
-        return redirect(url_for('home'))
+        return redirect(url_for('select_page'))
 
     if request.method == 'POST':
         staff_id = request.form['staffID']
@@ -26,7 +26,7 @@ def login():
             session['staffName'] = staff.staffName
             session['department'] = staff.department
             session['role'] = staff.role  # Set the user's role in the session
-            return redirect(url_for('home'))
+            return redirect(url_for('select_page'))
         else:
             flash('Staff ID atau kata laluan tidak sah', 'error')
     

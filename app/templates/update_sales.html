@@ -1,0 +1,178 @@
+<!-- update_sales.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kemaskini Rekod Jualan & Pemasaran</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts/sales_calculation.js') }}" defer></script>  
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}"><a href="{{ url_for('sales_marketing_home') }}">Halaman Utama</a></li>
+            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}"><a href="{{ url_for('show_sales_form') }}">Borang Jualan & Pemasaran</a></li>
+            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}"><a href="{{ url_for('show_sales_list') }}">Senarai Jualan & Pemasaran</a></li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <!-- Navigation -->
+    <form action="{{ url_for('update_sales_record', salesID=sale.salesID) }}" method="post">
+        <!-- Form Fields -->
+        <h3>Kemaskini Rekod Jualan & Pemasaran</h3>
+
+        <label for="salesID">Sales ID</label>
+        <input type="number" id="salesID" name="salesID" value="{{ sale.salesID }}" readonly>
+        
+        <label for="salesPerson">Nama PIC</label>
+        <input type="text" id="salesPerson" name="salesPerson" value="{{ sale.salesPerson }}" list="salesPersonList" placeholder="Pilih atau Masukkan Nama PIC..." required>
+        <datalist id="salesPersonList">
+            <option value="SPECIAL PROJECT" data-calc="">SPECIAL PROJECT</option>
+            <option value="YUSRI ISMAIL" data-calc="">YUSRI ISMAIL</option>
+            <option value="SYED NAFIS" data-calc="">SYED NAFIS</option>
+            <option value="AHMAD FAIRUZ AZMAN" data-calc="">AHMAD FAIRUZ AZMAN</option>
+            <option value="WAN RASHID" data-calc="">WAN RASHID</option>
+            <option value="SAIFUL AZRIN" data-calc="">SAIFUL AZRIN</option>
+            {% for salesPerson in salesPersons %}
+                <option value="{{ salesPerson }}">{{ salesPerson }}</option>
+            {% endfor %}
+        </datalist>
+    
+        <label for="purchaseMethod">Kaedah Pembelian</label>
+        <input type="text" id="purchaseMethod" name="purchaseMethod" value="{{ sale.purchaseMethod }}" list="purchaseMethodList" placeholder="Kaedah Pembelian..." required>
+        <datalist id="purchaseMethodList">
+            <option value="TENDER" data-calc="">TENDER</option>
+            <option value="DIRECT NEGO" data-calc="">DIRECT NEGO</option>
+            {% for purchaseMethod in purchaseMethods %}
+                <option value="{{ purchaseMethod }}">{{ purchaseMethod }}</option>
+            {% endfor %}
+        </datalist>
+    
+        <label for="tenderTitle">Tajuk Tender</label>
+        <input type="text" id="tenderTitle" name="tenderTitle" value="{{ sale.tenderTitle }}" required>
+    
+        <label for="custName">Nama Pelanggan</label>
+        <input type="text" id="custName" name="custName" value="{{ sale.custName }}" list="customerList" placeholder="Pilih atau Masukkan Nama Pelanggan...">
+        <datalist id="customerList">
+            <option value="JABATAN PERDANA MENTERI (JPM)" data-calc="">JABATAN PERDANA MENTERI (JPM)</option>
+            <option value="KEMENTERIAN KEWANGAN (MOF)" data-calc="">KEMENTERIAN KEWANGAN (MOF)</option>
+            <option value="KEMENTERIAN KEMAJUAN DESA DAN WILAYAH (KKDW)" data-calc="">KEMENTERIAN KEMAJUAN DESA DAN WILAYAH (KKDW)</option>
+            <option value="KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI (MPIC)" data-calc="">KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI (MPIC)</option>
+            <option value="KEMENTERIAN PENGANGKUTAN (MOT)" data-calc="">KEMENTERIAN PENGANGKUTAN (MOT)</option>
+            <option value="KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN (MAFS)" data-calc="">KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN (MAFS)</option>
+            <option value="KEMENTERIAN EKONOMI" data-calc="">KEMENTERIAN EKONOMI</option>
+            <option value="KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN (KPKT)" data-calc="">KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN (KPKT)</option>
+            <option value="KEMENTERIAN PERTAHANAN (MINDEF)" data-calc="">KEMENTERIAN PERTAHANAN (MINDEF)</option>
+            <option value="KEMENTERIAN KERJA RAYA (KKR)" data-calc="">KEMENTERIAN KERJA RAYA (KKR)</option>
+            <option value="KEMENTERIAN DALAM NEGERI (KDN)" data-calc="">KEMENTERIAN DALAM NEGERI (KDN)</option>
+            <option value="KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI (MITI)" data-calc="">KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI (MITI)</option>
+            <option value="KEMENTERIAN PENDIDIKAN TINGGI (KPT)" data-calc="">KEMENTERIAN PENDIDIKAN TINGGI (KPT)</option>
+            <option value="KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI (MOSTI)" data-calc="">KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI (MOSTI)</option>
+            <option value="KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)" data-calc="">KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)</option>
+            <option value="KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN KOS SARA HIDUP (KPDN)" data-calc="">KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN KOS SARA HIDUP (KPDN)</option>
+            <option value="KEMENTERIAN SUMBER ASLI, ALAM SEKITAR DAN PERUBAHAN IKLIM (NRECC)" data-calc="">KEMENTERIAN SUMBER ASLI, ALAM SEKITAR DAN PERUBAHAN IKLIM (NRECC)</option>
+            <option value="KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (KUSKOP)" data-calc="">KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (KUSKOP)</option>
+            <option value="KEMENTERIAN LUAR NEGERI (KLN)" data-calc="">KEMENTERIAN LUAR NEGERI (KLN)</option>
+            <option value="KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA (MOTAC)" data-calc="">KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA (MOTAC)</option>
+            <option value="KEMENTERIAN PENDIDIKAN MALAYSIA (KPM)" data-calc="">KEMENTERIAN PENDIDIKAN MALAYSIA (KPM)</option>
+            <option value="KEMENTERIAN PERPADUAN NEGARA (KPN)" data-calc="">KEMENTERIAN PERPADUAN NEGARA (KPN)</option>
+            <option value="KEMENTERIAN BELIA DAN SUKAN (KBS)" data-calc="">KEMENTERIAN BELIA DAN SUKAN (KBS)</option>
+            <option value="KEMENTERIAN SUMBER MANUSIA (KSM)" data-calc="">KEMENTERIAN SUMBER MANUSIA (KSM)</option>
+            <option value="KEMENTERIAN KESIHATAN MALAYSIA (KKM)" data-calc="">KEMENTERIAN KESIHATAN MALAYSIA (KKM)</option>
+            {% for customer in customers %}
+                <option value="{{ customer }}">{{ customer }}</option>
+            {% endfor %}
+        </datalist>
+    
+        <label for="chassisType">Buatan Chassis</label>
+        <input type="text" id="chassisType" name="chassisType" value="{{ sale.chassisType }}" list="chassisList" placeholder="Masukkan atau Pilih Buatan Chassis..." required>
+        <datalist id="chassisList">
+            <option value="FOTON" data-calc="">FOTON</option>
+            <option value="FORD" data-calc="">FORD</option>
+            <option value="HINO" data-calc="">HINO</option>
+            <option value="ISUZU" data-calc="">ISUZU</option>
+            <option value="MAN" data-calc="">MAN</option>
+            <option value="MAXUS" data-calc="">MAXUS</option>
+            <option value="MITSUBISHI" data-calc="">MITSUBISHI</option>
+            <option value="MODENAS" data-calc="">MODENAS</option>
+            <option value="NISSAN" data-calc="">NISSAN</option>
+            <option value="PROTON" data-calc="">PROTON</option>
+            <option value="SCANIA" data-calc="">SCANIA</option>
+            <option value="TATRA" data-calc="">TATRA</option>
+            <option value="TOYOTA" data-calc="">TOYOTA</option>
+            <option value="VAMTAC" data-calc="">VAMTAC</option>
+            <option value="YAMAHA" data-calc="">YAMAHA</option>
+            {% for chassis_type in chassisTypes %}
+                <option value="{{ chassis_type }}">{{ chassis_type }}</option>
+            {% endfor %}
+        </datalist>
+    
+        <label for="chassisModel">Model Chassis</label>
+        <input type="text" id="chassisModel" name="chassisModel" value="{{ sale.chassisModel }}">
+    
+        <label for="quantity">Kuantiti</label>
+        <input type="number" id="quantity" name="quantity" value="{{ sale.quantity }}" required>
+    
+        <label for="tenderDate">Tarikh Tender/ Sebut Harga</label>
+        <input type="date" id="tenderDate" name="tenderDate" value="{{ sale.tenderDate.strftime('%Y-%m-%d') }}" required>
+    
+        <label for="unitPrice">Harga Per Unit</label>
+        <input type="number" step="0.01" id="unitPrice" name="unitPrice" value="{{ sale.unitPrice }}" required>
+    
+        <label for="tenderTotalPrice">Harga Total Tender</label>
+        <input type="number" step="0.01" id="tenderTotalPrice" name="tenderTotalPrice" value="{{ sale.tenderTotalPrice }}" readonly required>
+    
+        <label for="unitProfit">Untung Per Unit</label>
+        <input type="number" step="0.01" id="unitProfit" name="unitProfit" value="{{ sale.unitProfit }}" required>
+    
+        <label for="tenderTotalProfit">Keuntungan Total Tender</label>
+        <input type="number" step="0.01" id="tenderTotalProfit" name="tenderTotalProfit" value="{{ sale.tenderTotalProfit }}" readonly required>
+    
+        <label for="marginProfit">Margin Keuntungan (%)</label>
+        <input type="number" step="0.01" id="marginProfit" name="marginProfit" value="{{ sale.marginProfit }}" readonly required>
+    
+        <label for="notes">Catatan</label>
+        <textarea id="notes" name="notes">{{ sale.notes }}</textarea>
+
+        <label for="staffID">Staff ID: </label>
+        <input type="text" id="staffID" name="staffID" value="{{ sale.staffID }}" readonly>  
+
+        <button type="submit" onclick="return confirm('Adakah anda pasti ingin mengemaskini rekod ini?')">Kemaskini</button>
+    </form>    
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            function calculateTotals() {
+                let quantity = document.getElementById("quantity").value;
+                let unitPrice = document.getElementById("unitPrice").value;
+                let unitProfit = document.getElementById("unitProfit").value;
+                
+                let tenderTotalPrice = (quantity * unitPrice).toFixed(2);
+                document.getElementById("tenderTotalPrice").value = tenderTotalPrice;
+                
+                let tenderTotalProfit = (quantity * unitProfit).toFixed(2);
+                document.getElementById("tenderTotalProfit").value = tenderTotalProfit;
+                
+                let marginProfit = ((unitProfit / unitPrice) * 100).toFixed(2);
+                document.getElementById("marginProfit").value = marginProfit;
+            }
+            
+            document.getElementById("quantity").addEventListener("input", calculateTotals);
+            document.getElementById("unitPrice").addEventListener("input", calculateTotals);
+            document.getElementById("unitProfit").addEventListener("input", calculateTotals);
+        });
+    </script>
+</body>
+</html>
