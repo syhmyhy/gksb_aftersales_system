@@ -22,3 +22,5 @@ daemon = os.getenv('GUNICORN_DAEMON', 'false').lower() in ['true', '1', 'yes']
 
 # Set Gunicorn to log errors to stderr
 errorlog = '-'
+
+# waitress-serve --port=5000 run:app
