@@ -9,19 +9,45 @@
     <link rel="stylesheet" href="../static/styles/styles.css">
     <script src="../static/scripts/search_job.js"></script>
     <script src="../static/scripts/calculate_warranty.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Navigation --> 
     <nav>
         <ul>
-            <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}"><a href="{{ url_for('aftersales_home') }}">Halaman Utama</a></li>
-            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}"><a href="{{ url_for('show_aftersales_management') }}">Aftersales</a></li>
-            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}"><a href="{{ url_for('show_aftersales_form') }}">Borang Aftersales</a></li>
-            <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}"><a href="{{ url_for('show_job_management') }}">Tugas</a></li>
-            <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}"><a href="{{ url_for('show_job_form') }}">Borang Tugas</a></li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
+                <a href="{{ url_for('aftersales_home') }}">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_management') }}">
+                    <i class="fas fa-tools"></i> Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
+                <a href="{{ url_for('show_job_management') }}">
+                    <i class="fas fa-tasks"></i> Tugas
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}">
+                <a href="{{ url_for('show_job_form') }}">
+                    <i class="fas fa-clipboard-list"></i> Borang Tugas
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </li>
         </ul>
     </nav>
+    
     <form action="/submit_aftersales_form" method="post" onsubmit="return confirmSubmit()">
         <h3>Borang Aftersales</h3>
         <!-- Aftersales form fields here -->
