@@ -40,10 +40,10 @@ def submit_sales_form():
     try:
         db.session.add(new_sale)
         db.session.commit()
-        flash('New sales record added successfully', 'success')
+        flash('Rekod Jualan Berjaya Ditambah', 'success')
     except (KeyError, ValueError, IntegrityError) as e:
         db.session.rollback()
-        flash(f'Failed to add new sales record: {str(e)}', 'error')
+        flash(f'Gagal Menambah Rekod Jualan: {str(e)}', 'error')
 
     return redirect(url_for('show_sales_list'))
 def show_sales_list():
@@ -53,7 +53,7 @@ def show_sales_list():
 def edit_sales_form(salesID):
     sale = Sales.query.get(salesID)
     if not sale:
-        flash('Sales record not found', 'error')
+        flash('Rekod Jualan Tidak Dijumpai', 'error')
         return redirect(url_for('show_sales_list'))
 
     return render_template('update_sales.html', sale=sale)
@@ -61,7 +61,7 @@ def edit_sales_form(salesID):
 def update_sales_record(salesID):
     sale = Sales.query.get(salesID)
     if not sale:
-        flash('Sales record not found', 'error')
+        flash('Rekod Jualan Tidak Dijumpai', 'error')
         return redirect(url_for('show_sales_list'))
 
     sales_data = request.form
@@ -83,24 +83,24 @@ def update_sales_record(salesID):
 
     try:
         db.session.commit()
-        flash('Sales record successfully updated', 'success')
+        flash('Rekod Jualan Berjaya Dikemaskini', 'success')
     except (KeyError, ValueError, IntegrityError) as e:
         db.session.rollback()
-        flash(f'Failed to update sales record: {str(e)}', 'error')
+        flash(f'Gagal Mengemaskini Rekod Jualan: {str(e)}', 'error')
 
     return redirect(url_for('show_sales_list'))
 
 def delete_sales_record(salesID):
     sale = Sales.query.get(salesID)
     if not sale:
-        flash('Sales record not found', 'error')
+        flash('Rekod Jualan Tidak Dijumpai', 'error')
     else:
         try:
             db.session.delete(sale)
             db.session.commit()
-            flash('Sales record successfully deleted', 'success')
+            flash('Rekod Jualan Berjaya Dipadam', 'success')
         except IntegrityError as e:
             db.session.rollback()
-            flash(f'Failed to delete sales record: {str(e)}', 'error')
+            flash(f'Gagal Memadam Rekod Jualan: {str(e)}', 'error')
 
     return redirect(url_for('show_sales_list'))

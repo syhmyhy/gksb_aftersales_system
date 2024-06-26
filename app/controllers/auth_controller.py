@@ -26,10 +26,13 @@ def login():
             session['staffName'] = staff.staffName
             session['department'] = staff.department
             session['role'] = staff.role  # Set the user's role in the session
+
+            flash('Log masuk berjaya. Selamat datang, {}.'.format(staff.staffName), 'success')
+
             return redirect(url_for('select_page'))
         else:
             flash('Staff ID atau kata laluan tidak sah', 'error')
-    
+
     # If login fails or it's a GET request, show the login form
     return redirect(url_for('show_login_form'))
 

@@ -29,24 +29,20 @@
     </header>
 
     <main>
-        <section id="flash-messages">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="flash-{{ category.split('-')[1] }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </section>
-
-        
-
         <nav id="icon-nav">
             <section id="introduction">
                 <h3></h3>
                 <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             <p>Choose an option from the navigation menu below to get started.</p>
             </section>
             

@@ -33,7 +33,7 @@ def show_staff_profile():
 
     if not staff:
         flash('Rekod Staff tidak dijumpai', 'error')
-        return redirect(url_for('home'))  # Redirect to home page if staff record not found
+        return redirect(url_for('select_page'))  # Redirect to home page if staff record not found
 
     return render_template('staff_profile.html', staff=staff)
 
@@ -48,7 +48,7 @@ def update_staff_profile():
 
     if not staff:
         flash('Rekod Staff tidak dijumpai', 'error')
-        return redirect(url_for('home'))
+        return redirect(url_for('select_page'))
 
     try:
         # Update staff profile with form data
@@ -81,4 +81,4 @@ def update_staff_profile():
         db.session.rollback()
         flash(f'Gagal mengemaskini profil Staff: {str(e)}', 'error')
 
-    return redirect(url_for('show_staff_profile'))
+    return redirect(url_for('select_page'))
