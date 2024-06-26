@@ -18,20 +18,20 @@
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
         </ul>
     </nav>
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
     <!-- Navigation -->
     <form action="{{ url_for('update_sales_record', salesID=sale.salesID) }}" method="post">
         <!-- Form Fields -->
         <h3>Kemaskini Rekod Jualan & Pemasaran</h3>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
         <label for="salesID">Sales ID</label>
         <input type="number" id="salesID" name="salesID" value="{{ sale.salesID }}" readonly>

@@ -18,19 +18,18 @@
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
         </ul>
     </nav>
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
     <form action="{{ url_for('submit_sales_form') }}" method="post">
         <h3>Jualan & Pemasaran</h3>
-        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <!-- Form Fields -->
                
         <label for="salesPerson">Nama PIC:</label>

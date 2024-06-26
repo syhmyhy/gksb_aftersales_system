@@ -25,14 +25,13 @@
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul class="flashes">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
+            {% for category, message in messages %}
+                <div class="flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endif %}
     {% endwith %}
-
     <!-- Dashboard Section -->
     <main class="dashboard">
         <section id="overall-metrics" class="dashboard-section">

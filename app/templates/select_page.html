@@ -2,62 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Select Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        p {
-            color: #666;
-            text-align: center;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 20px auto;
-            max-width: 400px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        a {
-            display: block;
-            padding: 10px;
-            background-color: #333333f1;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        a:hover {
-            background-color: #ddd;
-            color: #333;
-        }
-    </style>
+    <title>Global Komited Sdn Bhd</title>
+    <link rel="stylesheet" href="../static/styles/styles.css">
 </head>
 <body>
+    <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
+
     <h1>Welcome</h1>
     <p>Please select a page to visit:</p>
-    <ul>
-        <li><a href="{{ url_for('aftersales_home') }}">Aftersales Home</a></li>
-        <li><a href="{{ url_for('sales_marketing_home') }}">Sales & Marketing Home</a></li>
-        <li><a href="{{ url_for('show_staff_profile') }}">Profil</a></li>
-        <li><a href="#" onclick="confirmLogout()">Log Keluar</a></li>
-    </ul>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('aftersales_home') }}">Aftersales Home</a></li>
+            <li><a href="{{ url_for('sales_marketing_home') }}">Sales & Marketing Home</a></li>
+            <li><a href="{{ url_for('show_staff_profile') }}">Profil</a></li>
+            <li><a href="#" onclick="confirmLogout()">Log Keluar</a></li>
+        </ul>
+    </nav>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </body>
 <script>
     function confirmLogout() {

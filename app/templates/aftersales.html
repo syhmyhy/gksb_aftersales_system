@@ -22,19 +22,19 @@
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
         </ul>
     </nav>
-    <!-- Header -->      
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
     <form action="/submit_aftersales_form" method="post" onsubmit="return confirmSubmit()">
         <h3>Borang Aftersales</h3>
         <!-- Aftersales form fields here -->
+         <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <label for="jobNo">Job No:</label>
         <input type="text" id="jobNo" name="jobNo" placeholder="Masukkan dan Cari Job No..." required>
         <button type="button" onclick="searchJob()">Cari Job No.</button><br>

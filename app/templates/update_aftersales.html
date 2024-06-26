@@ -21,18 +21,18 @@
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
         </ul>
     </nav>
-    <!-- Header -->      
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
     <form id="updateForm" method="POST" action="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}" onsubmit="return confirmUpdate()">
         <h3>Kemaskini Rekod Kenderaan</h3>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <h4>No. Pendaftaran Kenderaan: {{ aftersales.registrationNo }} </h4>
 
         <!-- Aftersales form fields here -->

@@ -5,80 +5,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles/registrationstaff.css">
+    <link rel="stylesheet" href="../static/styles/styles.css">
     <script src="../static/scripts/registration.js"></script>
     <title>Daftar Pengguna</title>
 </head>
 <body>
-    <div class="registration-container">
+    <form id="staffRegistrationForm" action="/register_staff" method="post" onsubmit="return validateForm()">
+        <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
+
         <h2>Daftar Pengguna</h2>
-        {% with messages = get_flashed_messages() %}
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                {% for message in messages %}
-                    <div class="{{ 'error-msg' if message.startswith('Failed') else 'success-msg' }}">{{ message }}</div>
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <form id="staffRegistrationForm" action="/register_staff" method="post" onsubmit="return validateForm()">
-            <label for="staffID">Employee No:</label>
-            <input type="text" id="staffID" name="staffID" placeholder="GSK001..." required><br>
-            
-            <label for="staffEmail">Email:</label>
-            <input type="email" id="staffEmail" name="staffEmail" placeholder="abc@weststardefence.com.my..." required><br>
+        <label for="staffID">Employee No:</label>
+        <input type="text" id="staffID" name="staffID" placeholder="GSK001..." required><br>
+        
+        <label for="staffEmail">Email:</label>
+        <input type="email" id="staffEmail" name="staffEmail" placeholder="abc@weststardefence.com.my..." required><br>
 
-            <label for="staffName">Nama:</label>
-            <input type="text" id="staffName" name="staffName" placeholder="Masukkan Nama..." required><br>
-            
-            <label for="department">Jabatan:</label><br>
-            <input type="text" list="departments" id="department" name="department" placeholder="Pilih Jabatan..." required>
-            <datalist id="departments">
-                <option value="">Pilih Jabatan</option>
-                <option value="Management">Management</option>
-                <option value="Design Department">Design Department</option>
-                <option value="Production">Production</option>
-                <option value="Quality Assurance">Quality Assurance</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Special Project & Business Development">Special Project & Business Development</option>
-                <option value="Aftersales/Logistic">Aftersales/Logistic</option>
-                <option value="Administration/Account/Purchasing">Administration/Account/Purchasing</option>
-            </datalist><br>
-            
-            <label for="password">Kata Laluan:</label>
-            <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan..." required>
-            
-            <label for="confirmPassword">Sahkan Kata Laluan:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch()" placeholder="Sahkan Kata Laluan..." required>
-            <span id="passwordMatchMsg" class="password-match-msg"></span><br>
+        <label for="staffName">Nama:</label>
+        <input type="text" id="staffName" name="staffName" placeholder="Masukkan Nama..." required><br>
+        
+        <label for="department">Jabatan:</label>
+        <input type="text" list="departments" id="department" name="department" placeholder="Pilih Jabatan..." required>
+        <datalist id="departments">
+            <option value="">Pilih Jabatan</option>
+            <option value="Management">Management</option>
+            <option value="Design Department">Design Department</option>
+            <option value="Production">Production</option>
+            <option value="Quality Assurance">Quality Assurance</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Special Project & Business Development">Special Project & Business Development</option>
+            <option value="Aftersales/Logistic">Aftersales/Logistic</option>
+            <option value="Administration/Account/Purchasing">Administration/Account/Purchasing</option>
+        </datalist><br>
+        
+        <label for="password">Kata Laluan:</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan..." required>
+        
+        <label for="confirmPassword">Sahkan Kata Laluan:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" oninput="checkPasswordMatch()" placeholder="Sahkan Kata Laluan..." required>
+        <span id="passwordMatchMsg" class="password-match-msg"></span><br>
 
-            <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
-            <label for="togglePassword">Papar Kata Laluan</label><br><br>
-                       
-            <label for="role">Jawatan:</label>
-            <select id="role" name="role" required>
-                <option value="">Pilih Jawatan</option>
-                <option value="Chief Executive Officer">CEO</option>
-                <option value="Senior Manager">Senior Manager</option>
-                <option value="Manager">Manager</option>
-                <option value="Assistant Manager">Assistant Manager</option>
-                <option value="Senior Executive">Sr. Executive</option>
-                <option value="Executive">Executive</option>
-                <option value="Electrician">Electrician</option>
-                <option value="Engineer">Engineer</option>
-                <option value="Technician">Technician</option>
-                <option value="Programmer">Programmer</option>
-            </select><br>
-            
-            <input type="submit" id="submitBtn" value="Submit">
-        </form>
+        <input type="checkbox" id="togglePassword" onchange="togglePasswordVisibility()">
+        <label for="togglePassword">Papar Kata Laluan</label>
+                   
+        <label for="role">Jawatan:</label>
+        <select id="role" name="role" required>
+            <option value="">Pilih Jawatan</option>
+            <option value="Chief Executive Officer">CEO</option>
+            <option value="Senior Manager">Senior Manager</option>
+            <option value="Manager">Manager</option>
+            <option value="Assistant Manager">Assistant Manager</option>
+            <option value="Senior Executive">Sr. Executive</option>
+            <option value="Executive">Executive</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Engineer">Engineer</option>
+            <option value="Technician">Technician</option>
+            <option value="Programmer">Programmer</option>
+        </select><br>
+        
+        <button type="submit">Daftar</button>
         <p>Sudah mempunyai akaun? <a href="{{ url_for('show_login_form') }}">Log Masuk</a>.</p>
-    </div>
-
-    <br><br>
+    </form>
     <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <p>&copy; 2024 Global Komited Sdn Bhd. All rights reserved.</p>
-        </div>
-    </footer>
+    
 </body>
 </html>

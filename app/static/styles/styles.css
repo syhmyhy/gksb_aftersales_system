@@ -13,6 +13,7 @@ body {
     line-height: 1.6;
     font-size: 16px;
     overflow-x: hidden;
+    min-height: 100vh; /* Ensure minimum viewport height */
 }
 
 /* Header */
@@ -188,27 +189,21 @@ table td {
     background-color: #f9f9f9;
 }
 
-/* Flashes */
-.flashes {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+/* Flash Messages */
+.flash-success {
+    color: #4CAF50; /* Green color for success messages */
+    background-color: #e8f5e9; /* Light green background */
+    border: 1px solid #81c784; /* Green border */
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-.flashes li {
-    margin-bottom: 0.5rem;
-    padding: 0.75rem;
-    border-radius: 5px;
-}
-
-.success {
-    background-color: #4CAF50;
-    color: #fff;
-}
-
-.error {
-    background-color: #f44336;
-    color: #fff;
+.flash-error {
+    color: #D32F2F; /* Red color for error messages */
+    background-color: #fbe9e7; /* Light red background */
+    border: 1px solid #ef9a9a; /* Red border */
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 /* Responsive Design */
