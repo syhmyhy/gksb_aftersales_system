@@ -21,7 +21,6 @@
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}"><a href="{{ url_for('show_job_management') }}">Tugas</a></li>
             <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}"><a href="{{ url_for('show_job_form') }}">Borang Tugas</a></li>
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
-            <li><a href="#" onclick="confirmLogout()">Log Keluar</a></li>
         </ul>
     </nav>
     <header role="banner">
@@ -30,7 +29,7 @@
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul class="flash-messages">
+            <ul class="flash">
                 {% for category, message in messages %}
                     <li class="{{ category }}">{{ message }}</li>
                 {% endfor %}

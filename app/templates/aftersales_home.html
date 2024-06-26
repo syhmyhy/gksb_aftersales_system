@@ -1,4 +1,4 @@
-<!--aftersales_home.html-->
+<!-- aftersales_home.html -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,74 +23,82 @@
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}"><a href="{{ url_for('show_job_management') }}">Tugas</a></li>
             <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}"><a href="{{ url_for('show_job_form') }}">Borang Tugas</a></li>
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
-            <li><a href="#" onclick="confirmLogout()">Log Keluar</a></li>
         </ul>
     </nav>
+
     <!-- Header -->
     <header role="banner">
         <h2>Aktiviti Aftersales</h2>
     </header>
-    <!-- Main Content -->
-    <!-- Main Content -->
-<main class="container">
-    <div class="content-container">
-    <div class="content">
-    <hr>
-    <!-- Top 5 Most Profitable Jobs -->
-    <div class="top-jobs-container">
-    <h3>5 Teratas Paling Menguntungkan</h3>
-    <table class="top-jobs-table">
-    <thead>
-    <tr>
-    <th>Job No</th>
-    <th>Tajuk</th>
-    <th>Nama Pelanggan</th>
-    <th>Keuntungan (RM)</th>
-    </tr>
-    </thead>
-    <tbody id="topJobsTableBody">
-    <!-- Data will be inserted here by JavaScript -->
-    </tbody>
-    </table>
-    </div>
-    <br>
-    <a href="{{ url_for('combined_view') }}">Klik Untuk Lihat Data</a><br><br>
-    <hr><br>
-    <div class="chart-container">
-    <!-- Chart 1: -->
-    <div class="chart-item">
-    <h3>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
-    <canvas id="jobCombinedChart"></canvas>
-    <div class="overall-total">
-    <!-- Overall totals and margin percentage will be displayed here -->
-    </div>
-    </div>
-    <!-- Chart 2: Job Profitability Trends -->
-    <div class="chart-item">
-    <h3>Trend Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
-    <canvas id="jobProfitabilityTrendChart"></canvas>
-    <div class="slider-container">
-    <label for="dateRangeSlider">Pilih Julat Tahun:</label>
-    <input type="range" id="dateRangeSlider" min="1" step="1">
-    <label id="dateRangeLabel"></label>
-    </div>
-    </div>
-    <!-- Chart 3: Job Quantity -->
-    <div class="chart-item">
-    <h3>Jumlah Kuantiti Mengikut Jenis Kenderaan</h3>
-    <canvas id="jobQuantityChart"></canvas>
-    </div>
-    <!-- Chart 4: Aftersales Bar Chart -->
-    <div class="chart-item">
-    <h3>Bilangan Jenis Chassis</h3>
-    <canvas id="aftersalesBarChart"></canvas>
-    </div>
-    </div>
-    <hr>
-    </div>
-    </div>
-    </main>
 
+    <!-- Main Content -->
+    <main class="container">
+        <div class="content-container">
+            <div class="content">
+
+                <!-- Top 5 Most Profitable Jobs -->
+                <div class="top-jobs-container">
+                    <h3>5 Teratas Paling Menguntungkan</h3>
+                    <table class="top-jobs-table">
+                        <thead>
+                            <tr>
+                                <th>Job No</th>
+                                <th>Tajuk</th>
+                                <th>Nama Pelanggan</th>
+                                <th>Keuntungan (RM)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="topJobsTableBody">
+                            <!-- Data will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <br>
+                <a href="{{ url_for('combined_view') }}">Klik Untuk Lihat Data</a><br><br>
+
+                <br>
+
+                <div class="chart-container">
+                    <!-- Chart 1: Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran -->
+                    <div class="chart-item">
+                        <h3>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
+                        <canvas id="jobCombinedChart"></canvas>
+                        <div class="overall-total">
+                            <!-- Overall totals and margin percentage will be displayed here -->
+                        </div>
+                    </div>
+                    <br>
+
+                    <!-- Chart 2: Job Profitability Trends -->
+                    <div class="chart-item">
+                        <h3>Trend Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
+                        <canvas id="jobProfitabilityTrendChart"></canvas>
+                        <div class="slider-container">
+                            <label for="dateRangeSlider">Pilih Julat Tahun:</label>
+                            <input type="range" id="dateRangeSlider" min="1" step="1">
+                            <label id="dateRangeLabel"></label>
+                        </div>
+                    </div>
+                    <br>
+
+                    <!-- Chart 3: Job Quantity -->
+                    <div class="chart-item">
+                        <h3>Jumlah Kuantiti Mengikut Jenis Kenderaan</h3>
+                        <canvas id="jobQuantityChart"></canvas>
+                    </div>
+                    <br>
+
+                    <!-- Chart 4: Aftersales Bar Chart -->
+                    <div class="chart-item">
+                        <h3>Bilangan Jenis Chassis</h3>
+                        <canvas id="aftersalesBarChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
     <!-- Footer -->
     <footer>
         <div class="footer-container">

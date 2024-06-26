@@ -6,125 +6,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kemaskini Maklumat Tugas</title>
-    <link rel="stylesheet" href="../static/styles/job.css">
+    <link rel="stylesheet" href="../static/styles/styles.css">
     <script src="../static/scripts/update_job.js"></script>
     <script src="../static/scripts/job_calculation.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <a href="{{ url_for('aftersales_home') }}">Halaman Utama</a>
-        <a href="{{ url_for('show_aftersales_management') }}">Aftersales</a>
-        <a href="{{ url_for('show_aftersales_form') }}">Borang Aftersales</a>
-        <a href="{{ url_for('show_job_management') }}">Tugas</a>
-        <a href="{{ url_for('show_job_form') }}" class="active">Borang Tugas</a>
-        <a href="{{ url_for('select_page') }}">Kembali</a>
-        <a href="#" onclick="confirmLogout()">Log Keluar</a>
-    </div>
-        <div class="container mt-5">
-            <h2>Kemaskini Rekod Tugas</h2>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class="flash-messages">
-                        {% for category, message in messages %}
-                            <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-            <hr>
-            <h5>Job No: {{ job.jobNo }}</h5>
-            <form id="updateForm" method="POST" action="{{ url_for('update_job_route', jobNo=job.jobNo) }}" onsubmit="return confirmUpdate()">
-                <!-- Job form fields here -->
-                <label for="title">Tajuk:</label>
-                <input type="text" id="title" name="title" value="{{ job.title }}" required>
+    <!-- Navigation --> 
+    <nav>
+        <ul>
+            <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}"><a href="{{ url_for('aftersales_home') }}">Halaman Utama</a></li>
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}"><a href="{{ url_for('show_aftersales_management') }}">Aftersales</a></li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}"><a href="{{ url_for('show_aftersales_form') }}">Borang Aftersales</a></li>
+            <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}"><a href="{{ url_for('show_job_management') }}">Tugas</a></li>
+            <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}"><a href="{{ url_for('show_job_form') }}">Borang Tugas</a></li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+        </ul>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}            
+    <form id="updateForm" method="POST" action="{{ url_for('update_job_route', jobNo=job.jobNo) }}" onsubmit="return confirmUpdate()">
+        <h3>Kemaskini Rekod Tugas</h3>
+        <h4>Job No: {{ job.jobNo }}</h4>
 
-                <label for="custName">Nama Pelanggan:</label><br>
-                <input type="text" id="custName" name="custName" value="{{ job.custName }}" list="customerList" placeholder="Pilih atau Masukkan Nama Pelanggan..." required>
-                <datalist id="customerList">
-                    <!-- Dynamic options for customer names -->
-                    <option value="JABATAN PERDANA MENTERI (JPM)" data-calc="">JABATAN PERDANA MENTERI (JPM)</option>
-                    <option value="KEMENTERIAN KEWANGAN (MOF)" data-calc="">KEMENTERIAN KEWANGAN (MOF)</option>
-                    <option value="KEMENTERIAN KEMAJUAN DESA DAN WILAYAH (KKDW)" data-calc="">KEMENTERIAN KEMAJUAN DESA DAN WILAYAH (KKDW)</option>
-                    <option value="KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI (MPIC)" data-calc="">KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI (MPIC)</option>
-                    <option value="KEMENTERIAN PENGANGKUTAN (MOT)" data-calc="">KEMENTERIAN PENGANGKUTAN (MOT)</option>
-                    <option value="KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN (MAFS)" data-calc="">KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN (MAFS)</option>
-                    <option value="KEMENTERIAN EKONOMI" data-calc="">KEMENTERIAN EKONOMI</option>
-                    <option value="KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN (KPKT)" data-calc="">KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN (KPKT)</option>
-                    <option value="KEMENTERIAN PERTAHANAN (MINDEF)" data-calc="">KEMENTERIAN PERTAHANAN (MINDEF)</option>
-                    <option value="KEMENTERIAN KERJA RAYA (KKR)" data-calc="">KEMENTERIAN KERJA RAYA (KKR)</option>
-                    <option value="KEMENTERIAN DALAM NEGERI (KDN)" data-calc="">KEMENTERIAN DALAM NEGERI (KDN)</option>
-                    <option value="KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI (MITI)" data-calc="">KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI (MITI)</option>
-                    <option value="KEMENTERIAN PENDIDIKAN TINGGI (KPT)" data-calc="">KEMENTERIAN PENDIDIKAN TINGGI (KPT)</option>
-                    <option value="KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI (MOSTI)" data-calc="">KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI (MOSTI)</option>
-                    <option value="KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)" data-calc="">KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)</option>
-                    <option value="KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN KOS SARA HIDUP (KPDN)" data-calc="">KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN KOS SARA HIDUP (KPDN)</option>
-                    <option value="KEMENTERIAN SUMBER ASLI, ALAM SEKITAR DAN PERUBAHAN IKLIM (NRECC)" data-calc="">KEMENTERIAN SUMBER ASLI, ALAM SEKITAR DAN PERUBAHAN IKLIM (NRECC)</option>
-                    <option value="KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (KUSKOP)" data-calc="">KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (KUSKOP)</option>
-                    <option value="KEMENTERIAN LUAR NEGERI (KLN)" data-calc="">KEMENTERIAN LUAR NEGERI (KLN)</option>
-                    <option value="KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA (MOTAC)" data-calc="">KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA (MOTAC)</option>
-                    <option value="KEMENTERIAN PENDIDIKAN MALAYSIA (KPM)" data-calc="">KEMENTERIAN PENDIDIKAN MALAYSIA (KPM)</option>
-                    <option value="KEMENTERIAN PERPADUAN NEGARA (KPN)" data-calc="">KEMENTERIAN PERPADUAN NEGARA (KPN)</option>
-                    <option value="KEMENTERIAN BELIA DAN SUKAN (KBS)" data-calc="">KEMENTERIAN BELIA DAN SUKAN (KBS)</option>
-                    <option value="KEMENTERIAN SUMBER MANUSIA (KSM)" data-calc="">KEMENTERIAN SUMBER MANUSIA (KSM)</option>
-                    <option value="KEMENTERIAN KESIHATAN MALAYSIA (KKM)" data-calc="">KEMENTERIAN KESIHATAN MALAYSIA (KKM)</option>
-                    <!-- Add dynamic options here -->
-                    {% for customer in customers %}
-                        <option value="{{ customer }}">{{ customer }}</option>
-                    {% endfor %}
-                </datalist><br>
+        <!-- Job form fields here -->
+        <label for="title">Tajuk:</label>
+        <input type="text" id="title" name="title" value="{{ job.title }}" required>
 
-                <label for="vehicleType">Jenis Kenderaan:</label><br>
-                <input type="text" id="vehicleType" name="vehicleType" value="{{ job.vehicleType }}" list="vehicleList" placeholder="Pilih atau Masukkan Jenis Kenderaan..." required>
-                <datalist id="vehicleList">
-                    <!-- Dynamic options for vehicle types -->
-                    <option value="BAS">BAS</option>
-                    <option value="KERETA">KERETA</option>
-                    <option value="GKMK1">GKMK1</option>
-                    <option value="GKMK2">GKMK2</option>
-                    <option value="KENDERAAN KHAS">KENDERAAN KHAS</option>
-                    <option value="LORI">LORI</option>
-                    <option value="MOTOSIKAL">MOTOSIKAL</option>
-                    <option value="PICKUP 4x4">PICKUP 4x4</option>
-                    <option value="VAN">VAN</option>
-                    {% for vehicle_type in vehicle_types %}
-                        <option value="{{ vehicle_type }}">{{ vehicle_type }}</option>
-                    {% endfor %}
-                </datalist><br>
+        <label for="custName">Nama Pelanggan:</label>
+        <input type="text" id="custName" name="custName" value="{{ job.custName }}" list="customerList" placeholder="Pilih atau Masukkan Nama Pelanggan..." required>
+        <datalist id="customerList">
+            <!-- Dynamic options for customer names -->
+            <option value="JABATAN PERDANA MENTERI (JPM)" data-calc="">JABATAN PERDANA MENTERI (JPM)</option>
+            <option value="KEMENTERIAN KEWANGAN (MOF)" data-calc="">KEMENTERIAN KEWANGAN (MOF)</option>
+            <option value="KEMENTERIAN KEMAJUAN DESA DAN WILAYAH (KKDW)" data-calc="">KEMENTERIAN KEMAJUAN DESA DAN WILAYAH (KKDW)</option>
+            <option value="KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI (MPIC)" data-calc="">KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI (MPIC)</option>
+            <option value="KEMENTERIAN PENGANGKUTAN (MOT)" data-calc="">KEMENTERIAN PENGANGKUTAN (MOT)</option>
+            <option value="KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN (MAFS)" data-calc="">KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN (MAFS)</option>
+            <option value="KEMENTERIAN EKONOMI" data-calc="">KEMENTERIAN EKONOMI</option>
+            <option value="KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN (KPKT)" data-calc="">KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN (KPKT)</option>
+            <option value="KEMENTERIAN PERTAHANAN (MINDEF)" data-calc="">KEMENTERIAN PERTAHANAN (MINDEF)</option>
+            <option value="KEMENTERIAN KERJA RAYA (KKR)" data-calc="">KEMENTERIAN KERJA RAYA (KKR)</option>
+            <option value="KEMENTERIAN DALAM NEGERI (KDN)" data-calc="">KEMENTERIAN DALAM NEGERI (KDN)</option>
+            <option value="KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI (MITI)" data-calc="">KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI (MITI)</option>
+            <option value="KEMENTERIAN PENDIDIKAN TINGGI (KPT)" data-calc="">KEMENTERIAN PENDIDIKAN TINGGI (KPT)</option>
+            <option value="KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI (MOSTI)" data-calc="">KEMENTERIAN SAINS, TEKNOLOGI DAN INOVASI (MOSTI)</option>
+            <option value="KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)" data-calc="">KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)</option>
+            <option value="KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN KOS SARA HIDUP (KPDN)" data-calc="">KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN KOS SARA HIDUP (KPDN)</option>
+            <option value="KEMENTERIAN SUMBER ASLI, ALAM SEKITAR DAN PERUBAHAN IKLIM (NRECC)" data-calc="">KEMENTERIAN SUMBER ASLI, ALAM SEKITAR DAN PERUBAHAN IKLIM (NRECC)</option>
+            <option value="KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (KUSKOP)" data-calc="">KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (KUSKOP)</option>
+            <option value="KEMENTERIAN LUAR NEGERI (KLN)" data-calc="">KEMENTERIAN LUAR NEGERI (KLN)</option>
+            <option value="KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA (MOTAC)" data-calc="">KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA (MOTAC)</option>
+            <option value="KEMENTERIAN PENDIDIKAN MALAYSIA (KPM)" data-calc="">KEMENTERIAN PENDIDIKAN MALAYSIA (KPM)</option>
+            <option value="KEMENTERIAN PERPADUAN NEGARA (KPN)" data-calc="">KEMENTERIAN PERPADUAN NEGARA (KPN)</option>
+            <option value="KEMENTERIAN BELIA DAN SUKAN (KBS)" data-calc="">KEMENTERIAN BELIA DAN SUKAN (KBS)</option>
+            <option value="KEMENTERIAN SUMBER MANUSIA (KSM)" data-calc="">KEMENTERIAN SUMBER MANUSIA (KSM)</option>
+            <option value="KEMENTERIAN KESIHATAN MALAYSIA (KKM)" data-calc="">KEMENTERIAN KESIHATAN MALAYSIA (KKM)</option>
+            <!-- Add dynamic options here -->
+            {% for customer in customers %}
+                <option value="{{ customer }}">{{ customer }}</option>
+            {% endfor %}
+        </datalist><br>
 
-                <label for="quantity">Kuantiti:</label>
-                <input type="number" id="quantity" name="quantity" value="{{ job.quantity }}" step="0.01" min="0" max="10000" placeholder="0" required>
-                
-                <label for="dateReceived">Tarikh SST:</label>
-                <input type="date" id="dateReceived" name="dateReceived" value="{{ job.dateReceived }}" required>
-                
-                <label for="salesUnit">Unit Jualan (RM):</label><br>
-                <input type="number" id="salesUnit" name="salesUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.salesUnit }}" required><br>
-                
-                <label for="totalSales">Jumlah Jualan (RM):</label><br>
-                <input type="number" id="totalSales" name="totalSales" step="0.01" min="0" placeholder="0.00" value="{{ job.totalSales }}" required><br>
-                
-                <label for="profitUnit">Unit Keuntungan (RM):</label><br>
-                <input type="number" id="profitUnit" name="profitUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.profitUnit }}" required><br>
-                
-                <label for="totalProfit">Jumlah Keuntungan (RM):</label><br>
-                <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.totalProfit }}" required readonly><br>
+        <label for="vehicleType">Jenis Kenderaan:</label>
+        <input type="text" id="vehicleType" name="vehicleType" value="{{ job.vehicleType }}" list="vehicleList" placeholder="Pilih atau Masukkan Jenis Kenderaan..." required>
+        <datalist id="vehicleList">
+            <!-- Dynamic options for vehicle types -->
+            <option value="BAS">BAS</option>
+            <option value="KERETA">KERETA</option>
+            <option value="GKMK1">GKMK1</option>
+            <option value="GKMK2">GKMK2</option>
+            <option value="KENDERAAN KHAS">KENDERAAN KHAS</option>
+            <option value="LORI">LORI</option>
+            <option value="MOTOSIKAL">MOTOSIKAL</option>
+            <option value="PICKUP 4x4">PICKUP 4x4</option>
+            <option value="VAN">VAN</option>
+            {% for vehicle_type in vehicle_types %}
+                <option value="{{ vehicle_type }}">{{ vehicle_type }}</option>
+            {% endfor %}
+        </datalist><br>
 
-                <label for="marginProfit">Margin Keuntungan (%):</label><br>
-                <input type="number" id="marginProfit" name="marginProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.marginProfit }}" required readonly><br>
+        <label for="quantity">Kuantiti:</label>
+        <input type="number" id="quantity" name="quantity" value="{{ job.quantity }}" step="0.01" min="0" max="10000" placeholder="0" required>
+        
+        <label for="dateReceived">Tarikh SST:</label>
+        <input type="date" id="dateReceived" name="dateReceived" value="{{ job.dateReceived }}" required>
+        
+        <label for="salesUnit">Unit Jualan (RM):</label>
+        <input type="number" id="salesUnit" name="salesUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.salesUnit }}" required><br>
+        
+        <label for="totalSales">Jumlah Jualan (RM):</label>
+        <input type="number" id="totalSales" name="totalSales" step="0.01" min="0" placeholder="0.00" value="{{ job.totalSales }}" required><br>
+        
+        <label for="profitUnit">Unit Keuntungan (RM):</label>
+        <input type="number" id="profitUnit" name="profitUnit" step="0.01" min="0" placeholder="0.00" value="{{ job.profitUnit }}" required><br>
+        
+        <label for="totalProfit">Jumlah Keuntungan (RM):</label>
+        <input type="number" id="totalProfit" name="totalProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.totalProfit }}" required readonly><br>
 
-                <label for="jobDateDelivered">Tarikh Penghantaran:</label>
-                <input type="date" id="jobDateDelivered" name="jobDateDelivered" value="{{ job.jobDateDelivered }}" required>
-                
-                <!-- Include staffID as a hidden input field -->
-                <input type="text" id="staffID" name="staffID" value="{{ session['staff_id'] }}" disabled>
-               
-                <input type="submit" value="Kemaskini"><br>
-            </form>
-            <hr>
-            <p><a href="{{ url_for('show_job_management') }}">Batal</a></p>
-        </div>
-        <br><br>
+        <label for="marginProfit">Margin Keuntungan (%):</label>
+        <input type="number" id="marginProfit" name="marginProfit" step="0.01" min="0" placeholder="0.00" value="{{ job.marginProfit }}" required readonly><br>
+
+        <label for="jobDateDelivered">Tarikh Penghantaran:</label>
+        <input type="date" id="jobDateDelivered" name="jobDateDelivered" value="{{ job.jobDateDelivered }}" required>
+        
+        <!-- Include staffID as a hidden input field -->
+        <input type="text" id="staffID" name="staffID" value="{{ session['staff_id'] }}" disabled>
+       
+        <button type="submit">Kemaskini</button>
+        <p><a href="{{ url_for('show_job_management') }}">Batal</a></p>
+    </form>
     <!-- Footer -->
+</body>
     <script>
         function confirmUpdate() {
             return confirm("Adakah anda pasti ingin kemaskini rekod kenderaan?");
@@ -136,5 +135,4 @@
             }
         }  
     </script>
-</body>
 </html>

@@ -16,7 +16,6 @@
             <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}"><a href="{{ url_for('show_sales_form') }}">Borang Jualan & Pemasaran</a></li>
             <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}"><a href="{{ url_for('show_sales_list') }}">Senarai Jualan & Pemasaran</a></li>
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
         </ul>
     </nav>
     <!-- Flash Messages -->
@@ -151,6 +150,7 @@
         <input type="text" id="staffID" name="staffID" value="{{ sale.staffID }}" readonly>  
 
         <button type="submit" onclick="return confirm('Adakah anda pasti ingin mengemaskini rekod ini?')">Kemaskini</button>
+        <p><a href="{{ url_for('show_sales_list') }}">Batal</a></p>
     </form>    
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
