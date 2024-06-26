@@ -38,52 +38,54 @@
     {% endwith %}
     <br>
     <button onclick="exportTableToExcel('aftersalesTable.xlsx')">Muat Turun Rekod Aftersales</button><br><br>
-    <!-- Display existing Aftersales records -->
-    <table id="aftersalesTable" class="display">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>No. Pendaftaran Kenderaan</th>
-                <th>Nama Pengguna</th>
-                <th>Buatan Chassis</th>
-                <th>Model Chassis</th>
-                <th>No. Chassis</th>
-                <th>No. Engine</th>
-                <th>Penempatan Kenderaan</th>
-                <th>Waranti Chassis(KM)</th>
-                <th>Tempoh Waranti Chasis(Tahun)</th>
-                <th>Tarikh Tamat Waranti(Chassis)</th>
-                <th>No. Tel Pelanggan</th>
-                <th>Emel Pelanggan</th>
-                <th>Nota</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for aftersales in aftersales_data %}
+    <div class="table-container">
+        <!-- Display existing Aftersales records -->
+        <table id="aftersalesTable" class="display">
+            <thead>
                 <tr>
-                    <td></td>
-                    <td>{{ aftersales.registrationNo }}</td>
-                    <td>{{ aftersales.endUser }}</td>
-                    <td>{{ aftersales.chassisType }}</td>
-                    <td>{{ aftersales.chassisModel }}</td>
-                    <td>{{ aftersales.chassisNo }}</td>
-                    <td>{{ aftersales.engineNo }}</td>
-                    <td>{{ aftersales.stateLocality }}</td>
-                    <td>{{ aftersales.chassisMileageWarranty }}</td>
-                    <td>{{ aftersales.chassisPeriodWarranty }}</td>
-                    <td>{{ aftersales.chassisExpired }}</td>
-                    <td>{{ aftersales.custPhone }}</td>
-                    <td>{{ aftersales.custEmail }}</td>
-                    <td>{{ aftersales.notes }}</td>
-                    <td>
-                        <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
-                        <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
-                    </td>
+                    <th>#</th>
+                    <th>No. Pendaftaran Kenderaan</th>
+                    <th>Nama Pengguna</th>
+                    <th>Buatan Chassis</th>
+                    <th>Model Chassis</th>
+                    <th>No. Chassis</th>
+                    <th>No. Engine</th>
+                    <th>Penempatan Kenderaan</th>
+                    <th>Waranti Chassis(KM)</th>
+                    <th>Tempoh Waranti Chasis(Tahun)</th>
+                    <th>Tarikh Tamat Waranti(Chassis)</th>
+                    <th>No. Tel Pelanggan</th>
+                    <th>Emel Pelanggan</th>
+                    <th>Nota</th>
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>         
+            </thead>
+            <tbody>
+                {% for aftersales in aftersales_data %}
+                    <tr>
+                        <td></td>
+                        <td>{{ aftersales.registrationNo }}</td>
+                        <td>{{ aftersales.endUser }}</td>
+                        <td>{{ aftersales.chassisType }}</td>
+                        <td>{{ aftersales.chassisModel }}</td>
+                        <td>{{ aftersales.chassisNo }}</td>
+                        <td>{{ aftersales.engineNo }}</td>
+                        <td>{{ aftersales.stateLocality }}</td>
+                        <td>{{ aftersales.chassisMileageWarranty }}</td>
+                        <td>{{ aftersales.chassisPeriodWarranty }}</td>
+                        <td>{{ aftersales.chassisExpired }}</td>
+                        <td>{{ aftersales.custPhone }}</td>
+                        <td>{{ aftersales.custEmail }}</td>
+                        <td>{{ aftersales.notes }}</td>
+                        <td>
+                            <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
+                            <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+    </div>     
 </body>
 <script>
     $(document).ready(function() {

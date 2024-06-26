@@ -38,104 +38,104 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <button onclick="exportToExcel()">Muat Turun Rekod Tugas dan Aftersales</button>
-    <hr>
-    <!-- Display existing Job and Aftersales records -->
-    <table id="jobTable">
-        <thead>
-            <tr>
-                <th>#</th> <!-- Count column -->
-                <th class="jobNo">Job No</th>
-                <th class="title">Tajuk</th>
-                <th class="custName">Nama Pelanggan</th>
-                <th class="endUser">Nama Pengguna</th>
-                <th class="vehicleType">Jenis Kenderaan</th>
-                <th class="registrationNo">No Pendaftaran</th>
-                <th class="bodyType">Jenis Badan</th>
-                <th class="chassisType">Jenis Chassis</th>
-                <th class="chassisModel">Model Chassis</th>
-                <th class="chassisNo">No Chassis</th>
-                <th class="engineNo">No Enjin</th>
-                <th class="dateDelivered">Tarikh Penghantaran</th>
-                <th class="stateLocality">Penempatan Kenderaan</th>
-                <th class="detailLocality">Butiran Penempatan Kenderaan</th>
-                <th class="chassisMileageWarranty">Warranty Chassis(KM)</th>
-                <th class="chassisPeriodWarranty">Warranty Chassis(Tahun)</th>
-                <th class="chassisExpired">Tarikh Tamat Waranti(Chassis)</th>
-                <th class="bodyPeriodWarranty">Tempoh Waranti Badan(Tahun)</th>
-                <th class="bodyExpired">Tarikh Tamat Waranti(Badan)</th>
-                <th class="noService">Servis Percuma(Bil)</th>
-                <th class="mileageService">Servis Percuma(KM)</th>
-                <th class="custPhone">No. Tel Pelanggan</th>
-                <th class="custEmail">Emel Pelanggan</th>
-                <th class="notes">Nota</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for job in jobs %}
-                {% if job.aftersales %}
-                    {% for aftersales in job.aftersales %}
-                    <tr>
-                        <td class="rowCount">{{ loop.index }}</td>
-                        <td class="jobNo">{{ job.jobNo }}</td>
-                        <td class="title">{{ job.title }}</td>
-                        <td class="custName">{{ job.custName }}</td>
-                        <td class="endUser">{{ aftersales.endUser }}</td>
-                        <td class="vehicleType">{{ job.vehicleType }}</td>
-                        <td class="registrationNo">{{ aftersales.registrationNo }}</td>
-                        <td class="bodyType">{{ aftersales.bodyType }}</td>
-                        <td class="chassisType">{{ aftersales.chassisType }}</td>
-                        <td class="chassisModel">{{ aftersales.chassisModel }}</td>
-                        <td class="chassisNo">{{ aftersales.chassisNo }}</td>
-                        <td class="engineNo">{{ aftersales.engineNo }}</td>
-                        <td class="dateDelivered">{{ aftersales.dateDelivered }}</td>
-                        <td class="stateLocality">{{ aftersales.stateLocality }}</td>
-                        <td class="detailLocality">{{ aftersales.detailLocality }}</td>
-                        <td class="chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
-                        <td class="chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
-                        <td class="chassisExpired">{{ aftersales.chassisExpired }}</td>
-                        <td class="bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
-                        <td class="bodyExpired">{{ aftersales.bodyExpired }}</td>
-                        <td class="noService">{{ aftersales.noService }}</td>
-                        <td class="mileageService">{{ aftersales.mileageService }}</td>
-                        <td class="custPhone">{{ aftersales.custPhone }}</td>
-                        <td class="custEmail">{{ aftersales.custEmail }}</td>
-                        <td class="notes">{{ aftersales.notes }}</td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td class="rowCount">{{ loop.index }}</td>
-                        <td class="jobNo">{{ job.jobNo }}</td>
-                        <td class="title">{{ job.title }}</td>
-                        <td class="custName">{{ job.custName }}</td>
-                        <td class="endUser">-</td>
-                        <td class="vehicleType">{{ job.vehicleType }}</td>
-                        <td class="registrationNo">-</td>
-                        <td class="bodyType">-</td>
-                        <td class="chassisType">-</td>
-                        <td class="chassisModel">-</td>
-                        <td class="chassisNo">-</td>
-                        <td class="engineNo">-</td>
-                        <td class="dateDelivered">-</td>
-                        <td class="stateLocality">-</td>
-                        <td class="detailLocality">-</td>
-                        <td class="chassisMileageWarranty">-</td>
-                        <td class="chassisPeriodWarranty">-</td>
-                        <td class="chassisExpired">-</td>
-                        <td class="bodyPeriodWarranty">-</td>
-                        <td class="bodyExpired">-</td>
-                        <td class="noService">-</td>
-                        <td class="mileageService">-</td>
-                        <td class="custPhone">{{ job.custPhone }}</td>
-                        <td class="custEmail">{{ job.custEmail }}</td>
-                        <td class="notes">{{ job.notes }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>     
-    <hr>
+    <button onclick="exportToExcel()">Muat Turun Rekod Tugas dan Aftersales</button><br><br>
+    <div class="table-container">
+        <!-- Display existing Job and Aftersales records -->
+        <table id="jobTable">
+            <thead>
+                <tr>
+                    <th>#</th> <!-- Count column -->
+                    <th class="jobNo">Job No</th>
+                    <th class="title">Tajuk</th>
+                    <th class="custName">Nama Pelanggan</th>
+                    <th class="endUser">Nama Pengguna</th>
+                    <th class="vehicleType">Jenis Kenderaan</th>
+                    <th class="registrationNo">No Pendaftaran</th>
+                    <th class="bodyType">Jenis Badan</th>
+                    <th class="chassisType">Jenis Chassis</th>
+                    <th class="chassisModel">Model Chassis</th>
+                    <th class="chassisNo">No Chassis</th>
+                    <th class="engineNo">No Enjin</th>
+                    <th class="dateDelivered">Tarikh Penghantaran</th>
+                    <th class="stateLocality">Penempatan Kenderaan</th>
+                    <th class="detailLocality">Butiran Penempatan Kenderaan</th>
+                    <th class="chassisMileageWarranty">Warranty Chassis(KM)</th>
+                    <th class="chassisPeriodWarranty">Warranty Chassis(Tahun)</th>
+                    <th class="chassisExpired">Tarikh Tamat Waranti(Chassis)</th>
+                    <th class="bodyPeriodWarranty">Tempoh Waranti Badan(Tahun)</th>
+                    <th class="bodyExpired">Tarikh Tamat Waranti(Badan)</th>
+                    <th class="noService">Servis Percuma(Bil)</th>
+                    <th class="mileageService">Servis Percuma(KM)</th>
+                    <th class="custPhone">No. Tel Pelanggan</th>
+                    <th class="custEmail">Emel Pelanggan</th>
+                    <th class="notes">Nota</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                    {% if job.aftersales %}
+                        {% for aftersales in job.aftersales %}
+                        <tr>
+                            <td class="rowCount">{{ loop.index }}</td>
+                            <td class="jobNo">{{ job.jobNo }}</td>
+                            <td class="title">{{ job.title }}</td>
+                            <td class="custName">{{ job.custName }}</td>
+                            <td class="endUser">{{ aftersales.endUser }}</td>
+                            <td class="vehicleType">{{ job.vehicleType }}</td>
+                            <td class="registrationNo">{{ aftersales.registrationNo }}</td>
+                            <td class="bodyType">{{ aftersales.bodyType }}</td>
+                            <td class="chassisType">{{ aftersales.chassisType }}</td>
+                            <td class="chassisModel">{{ aftersales.chassisModel }}</td>
+                            <td class="chassisNo">{{ aftersales.chassisNo }}</td>
+                            <td class="engineNo">{{ aftersales.engineNo }}</td>
+                            <td class="dateDelivered">{{ aftersales.dateDelivered }}</td>
+                            <td class="stateLocality">{{ aftersales.stateLocality }}</td>
+                            <td class="detailLocality">{{ aftersales.detailLocality }}</td>
+                            <td class="chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
+                            <td class="chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
+                            <td class="chassisExpired">{{ aftersales.chassisExpired }}</td>
+                            <td class="bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
+                            <td class="bodyExpired">{{ aftersales.bodyExpired }}</td>
+                            <td class="noService">{{ aftersales.noService }}</td>
+                            <td class="mileageService">{{ aftersales.mileageService }}</td>
+                            <td class="custPhone">{{ aftersales.custPhone }}</td>
+                            <td class="custEmail">{{ aftersales.custEmail }}</td>
+                            <td class="notes">{{ aftersales.notes }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class="rowCount">{{ loop.index }}</td>
+                            <td class="jobNo">{{ job.jobNo }}</td>
+                            <td class="title">{{ job.title }}</td>
+                            <td class="custName">{{ job.custName }}</td>
+                            <td class="endUser">-</td>
+                            <td class="vehicleType">{{ job.vehicleType }}</td>
+                            <td class="registrationNo">-</td>
+                            <td class="bodyType">-</td>
+                            <td class="chassisType">-</td>
+                            <td class="chassisModel">-</td>
+                            <td class="chassisNo">-</td>
+                            <td class="engineNo">-</td>
+                            <td class="dateDelivered">-</td>
+                            <td class="stateLocality">-</td>
+                            <td class="detailLocality">-</td>
+                            <td class="chassisMileageWarranty">-</td>
+                            <td class="chassisPeriodWarranty">-</td>
+                            <td class="chassisExpired">-</td>
+                            <td class="bodyPeriodWarranty">-</td>
+                            <td class="bodyExpired">-</td>
+                            <td class="noService">-</td>
+                            <td class="mileageService">-</td>
+                            <td class="custPhone">{{ job.custPhone }}</td>
+                            <td class="custEmail">{{ job.custEmail }}</td>
+                            <td class="notes">{{ job.notes }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 <script>
     // Custom sorting function for jobNo

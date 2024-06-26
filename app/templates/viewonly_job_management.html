@@ -39,48 +39,50 @@
         {% endif %}
     {% endwith %}
     <br>
-    <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button>
-    <!-- Display existing Job records -->
-    <table id="jobTable">
-        <thead>
-            <tr>
-                <th>#</th> <!-- Count column -->
-                <th class="jobNo">Job No</th>
-                <th class="title">Tajuk</th>
-                <th class="custName">Nama Pelanggan</th>
-                <th class="vehicleType">Jenis Kenderaan</th>
-                <th class="quantity">Kuantiti</th>
-                <th class="dateReceived">Tarikh SST</th>
-                <th class="salesUnit">Jualan(RM) /Unit</th>
-                <th class="totalSales">Jumlah Jualan(RM)</th>
-                <th class="profitUnit">Untung(RM) /Unit</th>
-                <th class="totalProfit">Jumlah Untung(RM)</th>
-                <th class="marginProfit">Margin Keuntungan(%)</th>
-                <th class="jobDateDelivered">Tarikh Penghantaran</th>
-                <th class="staffID">Staff ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for job in job_data %}
-            <tr>
-                <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
-                <td class="jobNo">{{ job.jobNo }}</td>
-                <td class="title">{{ job.title }}</td>
-                <td class="custName">{{ job.custName }}</td>
-                <td class="vehicleType">{{ job.vehicleType }}</td>
-                <td class="quantity">{{ '%.1f'|format(job.quantity) }}</td> <!-- Format quantity to one decimal place -->
-                <td class="dateReceived">{{ job.dateReceived }}</td>
-                <td class="salesUnit">{{ job.salesUnit }}</td>
-                <td class="totalSales">{{ job.totalSales }}</td>
-                <td class="profitUnit">{{ job.profitUnit }}</td>
-                <td class="totalProfit">{{ job.totalProfit }}</td>
-                <td class="marginProfit">{{ job.marginProfit }}</td>
-                <td class="jobDateDelivered">{{ job.jobDateDelivered }}</td>
-                <td class="staffID">{{ job.staffID }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <button onclick="exportToExcel()">Muat Turun Rekod Tugas</button><br><br>
+    <div class="table-container">
+        <!-- Display existing Job records -->
+        <table id="jobTable">
+            <thead>
+                <tr>
+                    <th>#</th> <!-- Count column -->
+                    <th class="jobNo">Job No</th>
+                    <th class="title">Tajuk</th>
+                    <th class="custName">Nama Pelanggan</th>
+                    <th class="vehicleType">Jenis Kenderaan</th>
+                    <th class="quantity">Kuantiti</th>
+                    <th class="dateReceived">Tarikh SST</th>
+                    <th class="salesUnit">Jualan(RM) /Unit</th>
+                    <th class="totalSales">Jumlah Jualan(RM)</th>
+                    <th class="profitUnit">Untung(RM) /Unit</th>
+                    <th class="totalProfit">Jumlah Untung(RM)</th>
+                    <th class="marginProfit">Margin Keuntungan(%)</th>
+                    <th class="jobDateDelivered">Tarikh Penghantaran</th>
+                    <th class="staffID">Staff ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in job_data %}
+                <tr>
+                    <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
+                    <td class="jobNo">{{ job.jobNo }}</td>
+                    <td class="title">{{ job.title }}</td>
+                    <td class="custName">{{ job.custName }}</td>
+                    <td class="vehicleType">{{ job.vehicleType }}</td>
+                    <td class="quantity">{{ '%.1f'|format(job.quantity) }}</td> <!-- Format quantity to one decimal place -->
+                    <td class="dateReceived">{{ job.dateReceived }}</td>
+                    <td class="salesUnit">{{ job.salesUnit }}</td>
+                    <td class="totalSales">{{ job.totalSales }}</td>
+                    <td class="profitUnit">{{ job.profitUnit }}</td>
+                    <td class="totalProfit">{{ job.totalProfit }}</td>
+                    <td class="marginProfit">{{ job.marginProfit }}</td>
+                    <td class="jobDateDelivered">{{ job.jobDateDelivered }}</td>
+                    <td class="staffID">{{ job.staffID }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 <!-- JavaScript function to confirm deletion -->
 <script>
