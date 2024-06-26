@@ -6,30 +6,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borang Aftersales</title>
-    <link rel="stylesheet" href="../static/styles/aftersales.css">
+    <link rel="stylesheet" href="../static/styles/styles.css">
     <script src="../static/scripts/search_job.js"></script>
     <script src="../static/scripts/calculate_warranty.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-    </header>
-
-    <div class="sidebar">
-        <a href="{{ url_for('aftersales_home') }}">Halaman Utama</a>
-        <a href="{{ url_for('show_aftersales_management') }}">Aftersales</a>
-        <a href="{{ url_for('show_aftersales_form') }}" class="active">Borang Aftersales</a>
-        <a href="{{ url_for('show_job_management') }}">Tugas</a>
-        <a href="{{ url_for('show_job_form') }}">Borang Tugas</a>
-        <a href="{{ url_for('select_page') }}">Kembali</a>
-        <a href="#" onclick="confirmLogout()">Log Keluar</a>
-    </div>
+    <nav>
+        <ul>
+            <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}"><a href="{{ url_for('aftersales_home') }}">Halaman Utama</a></li>
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}"><a href="{{ url_for('show_aftersales_management') }}">Aftersales</a></li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}"><a href="{{ url_for('show_aftersales_form') }}">Borang Aftersales</a></li>
+            <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}"><a href="{{ url_for('show_job_management') }}">Tugas</a></li>
+            <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}"><a href="{{ url_for('show_job_form') }}">Borang Tugas</a></li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li><a href="#" onclick="confirmLogout()">Log Keluar</a></li>
+        </ul>
+    </nav>
     <div class="container mt-5">
-        <h2>Borang Aftersales</h2>
-        <hr>
+        
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <ul class="flash-messages">
+                <ul class="flash">
                     {% for category, message in messages %}
                         <li class="{{ category }}">{{ message }}</li>
                     {% endfor %}
@@ -37,24 +34,25 @@
             {% endif %}
         {% endwith %}
         <form action="/submit_aftersales_form" method="post" onsubmit="return confirmSubmit()">
+            <h3>Borang Aftersales</h3>
             <!-- Aftersales form fields here -->
             <label for="jobNo">Job No:</label>
             <input type="text" id="jobNo" name="jobNo" placeholder="Masukkan dan Cari Job No..." required>
             <button type="button" onclick="searchJob()">Cari Job No.</button><br>
 
-            <label for="title">Tajuk:</label><br>
+            <label for="title">Tajuk:</label>
             <input type="text" id="title" name="title" placeholder="Tajuk..." disabled><br>
 
-            <label for="custName">Nama Pelanggan:</label><br>
+            <label for="custName">Nama Pelanggan:</label>
             <input type="text" id="custName" name="custName" placeholder="Nama Pelanggan..." disabled><br>
 
-            <label for="endUser">Nama Pengguna:</label><br>
+            <label for="endUser">Nama Pengguna:</label>
             <input type="text" id="endUser" name="endUser" placeholder="Masukkan Nama Pengguna..." required><br>
             
-            <label for="vehicleType">Jenis Kenderaan:</label><br>
+            <label for="vehicleType">Jenis Kenderaan:</label>
             <input type="text" id="vehicleType" name="vehicleType" placeholder="Jenis Kenderaan..." disabled><br>
             
-            <label for="bodyType">Kod Badan Dan Kenderaan:</label><br>
+            <label for="bodyType">Kod Badan Dan Kenderaan:</label>
             <input type="text" id="bodyType" name="bodyType" list="bodyTypeList" placeholder="Masukkan Jenis Badan..." required> 
             <datalist id="bodyTypeList">
                 <!-- Populate datalist with body types -->
@@ -130,7 +128,7 @@
                 {% endfor %}
             </datalist><br>
             
-            <label for="chassisType">Buatan Chassis:</label><br>
+            <label for="chassisType">Buatan Chassis:</label>
             <input type="text" id="chassisType" name="chassisType" list="chassisList" placeholder="Masukkan atau Pilih Buatan Chassis..." required>
             <datalist id="chassisList">
                 <!-- Add dynamic options here -->
@@ -154,22 +152,22 @@
                 {% endfor %}
             </datalist><br>
             
-            <label for="chassisModel">Model Chassis:</label><br>
+            <label for="chassisModel">Model Chassis:</label>
             <input type="text" id="chassisModel" name="chassisModel" placeholder="Masukkan Model Chassis..." required><br>
             
-            <label for="chassisNo">No. Chassis:</label><br>
+            <label for="chassisNo">No. Chassis:</label>
             <input type="text" id="chassisNo" name="chassisNo" placeholder="Masukkan Nombor Chassis..." required><br>
             
-            <label for="engineNo">No. Enjin:</label><br>
+            <label for="engineNo">No. Enjin:</label>
             <input type="text" id="engineNo" name="engineNo" placeholder="Masukkan Nombor Enjin..." required><br>
             
-            <label for="registrationNo">No. Pendaftaran Kenderaan:</label><br>
+            <label for="registrationNo">No. Pendaftaran Kenderaan:</label>
             <input type="text" id="registrationNo" name="registrationNo" placeholder="Masukkan Nombor Pendaftaran Kenderaan..." required><br>
 
-            <label for="dateDelivered">Tarikh Penghantaran:</label><br>
+            <label for="dateDelivered">Tarikh Penghantaran:</label>
             <input type="date" id="dateDelivered" name="dateDelivered" placeholder="DD/MM/YYYY" required><br>
             
-            <label for="stateLocality">Penempatan Kenderaan:</label><br>
+            <label for="stateLocality">Penempatan Kenderaan:</label>
             <input type="text" list="stateLocality" id="stateLocalityInput" name="stateLocality" placeholder="Masukkan Penempatan Kenderaan..." required>
             <datalist id="stateLocality">
                 <!-- Populate datalist with states in Malaysia -->
@@ -194,45 +192,44 @@
                 {% endfor %}
             </datalist><br>      
             
-            <label for="detailLocality">Butiran Penempatan Kenderaan:</label><br>
+            <label for="detailLocality">Butiran Penempatan Kenderaan:</label>
             <input type="text" id="detailLocality" name="detailLocality" placeholder="Masukkan Maklumat Penempatan Kenderaan..." required><br>
             
-            <label for="chassisMileageWarranty">Waranti Chassis(KM):</label><br>
+            <label for="chassisMileageWarranty">Waranti Chassis(KM):</label>
             <input type="number" id="chassisMileageWarranty" name="chassisMileageWarranty" min="0" step="10000" max="300000" placeholder="0" required><br>
             
-            <label for="chassisPeriodWarranty">Tempoh Waranti Chassis (Tahun):</label><br>
+            <label for="chassisPeriodWarranty">Tempoh Waranti Chassis (Tahun):</label>
             <input type="number" id="chassisPeriodWarranty" name="chassisPeriodWarranty" min="0" max="5" placeholder="0" required><br>
             
-            <label for="chassisExpired">Tarikh Tamat Warranti (Chassis):</label><br>
+            <label for="chassisExpired">Tarikh Tamat Warranti (Chassis):</label>
             <input type="date" id="chassisExpired" name="chassisExpired" placeholder="DD/MM/YYYY" required><br>
             
-            <label for="bodyPeriodWarranty">Tempoh Waranti Badan (Tahun):</label><br>
+            <label for="bodyPeriodWarranty">Tempoh Waranti Badan (Tahun):</label>
             <input type="number" id="bodyPeriodWarranty" name="bodyPeriodWarranty" min="0" max="5" placeholder="0" required><br>
             
-            <label for="bodyExpired">Tarikh Tamat Waranti (Badan):</label><br>
+            <label for="bodyExpired">Tarikh Tamat Waranti (Badan):</label>
             <input type="date" id="bodyExpired" name="bodyExpired" placeholder="DD/MM/YYYY" required><br>
-            
-            <label for="noService">Servis Percuma (Bilangan):</label><br>
+        
+            <label for="noService">Servis Percuma (Bilangan):</label>
             <input type="number" id="noService" name="noService" min="0" max="100" placeholder="0" required><br>
             
-            <label for="mileageService">Servis Percuma (KM):</label><br>
+            <label for="mileageService">Servis Percuma (KM):</label>
             <input type="number" id="mileageService" name="mileageService" min="0" step="10000" max="300000" placeholder="0" required><br>
             
-            <label for="custPhone">No. Telefon Pelanggan:</label><br>
+            <label for="custPhone">No. Telefon Pelanggan:</label>
             <input type="tel" id="custPhone" name="custPhone" placeholder="cth: 012-3456789..."><br>
             
-            <label for="custEmail">Emel Pelanggan:</label><br>
+            <label for="custEmail">Emel Pelanggan:</label>
             <input type="email" id="custEmail" name="custEmail" placeholder="Masukkan Email Pelanggan..."><br>
             
-            <label for="notes">Nota Tambahan:</label><br>
+            <label for="notes">Nota Tambahan:</label>
             <textarea id="notes" name="notes" rows="4" cols="50" placeholder="Tambah Nota (jika ada)..."></textarea><br>
 
-            <input type="submit" id="submitBtn" value="Submit" onclick="confirmSubmission()">
-            <hr>
-            <input type="reset" value="Reset">
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
         </form>
     </div>
-    <br><br>
+</body>
     <!-- Footer -->
     <script>
         // JavaScript functions here
@@ -280,5 +277,4 @@
             // Add event listeners for other inputs if needed
 
     </script>
-</body>
 </html>

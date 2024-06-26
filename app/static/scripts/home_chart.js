@@ -272,3 +272,39 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching aftersales data:', error));
 });
+
+
+function confirmLogout() {
+    if (confirm("Adakah anda pasti ingin log keluar?")) {
+        window.location.href = "{{ url_for('logout') }}";
+    }
+}
+
+function formatCurrency(value) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'MYR',
+        minimumFractionDigits: 2
+    }).format(value).replace('MYR', '').trim();
+}
+
+async function fetchTopJobs() {
+    const response = await fetch('/api/top-jobs');
+    const topJobs = await response.json();
+    const tableBody = document.getElementById('topJobsTableBody');
+    tableBody.innerHTML = ''; // Clear any existing rows
+
+    topJobs.forEach(job => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${job.jobNo}</td>
+            <td>${job.title}</td>
+            <td>${job.custName}</td>
+            <td>${formatCurrency(job.totalProfit)}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Call the function to fetch and display the top jobs when the page loads
+window.onload = fetchTopJobs;
