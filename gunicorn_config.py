@@ -1,26 +1,25 @@
 # gunicorn_config.py
 
-import os
-
 # Host and port to bind to (listen on all interfaces)
-bind = f"{os.getenv('GUNICORN_BIND_HOST')}:{os.getenv('GUNICORN_BIND_PORT')}"
+bind = '192.168.1.10:5000'  #server
 
 # Number of worker processes (adjust based on server resources)
-workers = int(os.getenv('GUNICORN_WORKERS', 1))
+workers = 13
 
 # Timeout for worker processes (in seconds)
-timeout = int(os.getenv('GUNICORN_TIMEOUT', 30))
+timeout = 60
 
 # Set the maximum requests a worker will process before restarting
-max_requests = int(os.getenv('GUNICORN_MAX_REQUESTS', 1000))
+max_requests = 1000
 
 # Set the maximum number of requests a worker will handle before graceful restart
-max_requests_jitter = int(os.getenv('GUNICORN_MAX_REQUESTS_JITTER', 50))
+max_requests_jitter = 50
 
 # Enable or disable daemon mode
-daemon = os.getenv('GUNICORN_DAEMON', 'false').lower() in ['true', '1', 'yes']
+daemon = False
 
 # Set Gunicorn to log errors to stderr
 errorlog = '-'
 
-# waitress-serve --port=5000 run:app
+# run using command
+# waitress-serve --listen=0.0.0.0:5000 app:app

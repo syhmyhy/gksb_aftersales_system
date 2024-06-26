@@ -1,11 +1,7 @@
 #config.py
 
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
-
-SECRET_KEY = os.getenv('SECRET_KEY')
-SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+SECRET_KEY = 'gksbdb'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:weststar%40ad123%23@192.168.1.10:3306/gksbdb'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
