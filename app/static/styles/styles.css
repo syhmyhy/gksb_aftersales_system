@@ -12,6 +12,10 @@
     --secondary-color: #0a9396;
     --background-color: #f7f9fc;
     --text-color: #333;
+    --button-hover-color: #028090;
+    --table-row-hover-color: #e0f7fa;
+    --border-radius: 10px;
+    --transition-duration: 0.3s;
 }
 
 body {
@@ -21,8 +25,9 @@ body {
     line-height: 1.7;
     font-size: 16px;
     letter-spacing: 0.5px;
-    overflow-x: auto;
-    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    overflow-y: scroll; /* Always show vertical scrollbar */
+    min-height: 100vh; /* Ensure minimum height of viewport */
 }
 
 /* Header */
@@ -30,12 +35,13 @@ header {
     background-color: var(--primary-color);
     color: #fff;
     text-align: center;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 header h2 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Main Content */
@@ -45,6 +51,8 @@ main {
     padding: 0 2rem;
     display: grid;
     gap: 2rem;
+    min-height: calc(100vh - 150px); /* Ensure it covers the viewport height */
+    overflow: auto; /* Enable scrolling within main */
 }
 
 h3 {
@@ -63,8 +71,8 @@ h3 {
     padding: 1.5rem;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: var(--border-radius);
+    transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
 }
 
 #metrics p:hover {
@@ -80,6 +88,7 @@ nav {
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav ul {
@@ -89,16 +98,57 @@ nav ul {
     gap: 1.5rem;
 }
 
+nav ul li {
+    position: relative;
+}
+
 nav ul li a {
     color: #fff;
     text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 nav ul li a:hover {
+    background-color: var(--button-hover-color);
+    transform: translateY(-2px);
+}
+
+nav ul li.active a {
     background-color: var(--secondary-color);
+    font-weight: bold;
+}
+
+nav ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+nav ul li:hover ul {
+    display: block;
+}
+
+nav ul li ul li {
+    width: 200px;
+}
+
+nav ul li ul li a {
+    padding: 0.75rem 1rem;
+    display: block;
+    white-space: nowrap;
+}
+
+nav ul li ul li a:hover {
+    background-color: var(--button-hover-color);
 }
 
 /* Forms */
@@ -107,13 +157,14 @@ form {
     padding: 2rem;
     margin: 2rem auto;
     max-width: 600px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 form label {
     display: block;
     margin-bottom: 0.5rem;
+    font-weight: bold;
 }
 
 form input[type="text"],
@@ -128,8 +179,8 @@ form select {
     padding: 0.75rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: var(--border-radius);
+    transition: border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
 }
 
 form input[type="text"]:focus,
@@ -145,18 +196,26 @@ form select:focus {
     box-shadow: 0 0 8px rgba(10, 147, 150, 0.2);
 }
 
+form input:invalid {
+    border-color: #D32F2F;
+}
+
+form input:valid {
+    border-color: #4CAF50;
+}
+
 form button {
     background-color: var(--primary-color);
     color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 form button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--button-hover-color);
     transform: translateY(-2px);
 }
 
@@ -165,13 +224,13 @@ button {
     color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--button-hover-color);
     transform: translateY(-2px);
 }
 
@@ -181,7 +240,7 @@ table {
     border-collapse: collapse;
     margin-top: 2rem;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     overflow: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -206,6 +265,14 @@ table td {
     background-color: #f9f9f9;
 }
 
+table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+    background-color: var(--table-row-hover-color);
+}
+
 .table-container {
     overflow-x: auto;
     overflow-y: auto;
@@ -218,6 +285,7 @@ table td {
     border: 1px solid #81c784;
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: var(--border-radius);
 }
 
 .flash-error {
@@ -226,6 +294,7 @@ table td {
     border: 1px solid #ef9a9a;
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: var(--border-radius);
 }
 
 /* Responsive Design */
@@ -268,7 +337,7 @@ table td {
 .overall-total {
     background-color: #e0f7fa;
     padding: 1rem;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -290,9 +359,9 @@ li.export-btn {
     padding: 0.75rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     width: 100%;
-    transition: border-color 0.3s ease;
+    transition: border-color var(--transition-duration) ease;
 }
 
 #searchInput:focus {
@@ -310,6 +379,7 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .footer-container p {
@@ -340,7 +410,7 @@ footer {
 
 #icon-nav ul li a i {
     margin-bottom: 0.5rem;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-duration) ease;
 }
 
 #icon-nav ul li a:hover i {
@@ -357,7 +427,7 @@ footer {
     background-color: var(--background-color);
     margin-bottom: 2rem;
     padding: 2rem;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     overflow: auto;
 }
 
