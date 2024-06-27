@@ -25,9 +25,8 @@ body {
     line-height: 1.7;
     font-size: 16px;
     letter-spacing: 0.5px;
-    overflow-x: hidden; /* Prevent horizontal overflow */
-    overflow-y: scroll; /* Always show vertical scrollbar */
-    min-height: 100vh; /* Ensure minimum height of viewport */
+    overflow-x: auto;
+    min-height: 100vh;
 }
 
 /* Header */
@@ -51,8 +50,6 @@ main {
     padding: 0 2rem;
     display: grid;
     gap: 2rem;
-    min-height: calc(100vh - 150px); /* Ensure it covers the viewport height */
-    overflow: auto; /* Enable scrolling within main */
 }
 
 h3 {
