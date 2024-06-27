@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Utama</title>
+    <title>Projek Keseluruhan</title>
     <link rel="stylesheet" href="../static/styles/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="../static/scripts/home_chart.js" defer></script>
@@ -18,19 +18,14 @@
     <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
                 <a href="{{ url_for('aftersales_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_management') }}">
-                    <i class="fas fa-tools"></i> Aftersales
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_form') }}">
-                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                    <i class="fas fa-home"></i> Projek Keseluruhan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
@@ -43,9 +38,14 @@
                     <i class="fas fa-clipboard-list"></i> Borang Tugas
                 </a>
             </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_management') }}">
+                    <i class="fas fa-tools"></i> Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Aftersales
                 </a>
             </li>
         </ul>
@@ -55,8 +55,7 @@
     <header role="banner">
         <h2>Aktiviti Aftersales</h2>
     </header>
-    <!-- Main Content -->
-    <main class="container">
+
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -67,72 +66,66 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-        <div class="content-container">
-            <div class="content">
 
-                <!-- Top 5 Most Profitable Jobs -->
-                <div class="top-jobs-container">
-                    <h3>5 Teratas Paling Menguntungkan</h3>
-                    <table class="top-jobs-table">
-                        <thead>
-                            <tr>
-                                <th>Job No</th>
-                                <th>Tajuk</th>
-                                <th>Nama Pelanggan</th>
-                                <th>Keuntungan (RM)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="topJobsTableBody">
-                            <!-- Data will be inserted here by JavaScript -->
-                        </tbody>
-                    </table>
+    <!-- Main Content -->
+    <main class="dashboard">
+        <section id="overall-metrics" class="dashboard-section">
+            <h3>Projek Keseluruhan</h3>
+            <div class="grid-container">
+                <div class="metric-box">
+                    <p>Jumlah Keseluruhan Projek:</p>
+                    <p class="metric-value">RM {{ overall_sales | format_rm_currency }}</p>
                 </div>
-
-                <br>
-                <a href="{{ url_for('combined_view') }}">Klik Untuk Lihat Data</a><br><br>
-
-                <br>
-
-                <div class="chart-container">
-                    <!-- Chart 1: Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran -->
-                    <div class="chart-item">
-                        <h3>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
-                        <canvas id="jobCombinedChart"></canvas>
-                        <div class="overall-total">
-                            <!-- Overall totals and margin percentage will be displayed here -->
-                        </div>
-                    </div>
-                    <br>
-
-                    <!-- Chart 2: Job Profitability Trends -->
-                    <div class="chart-item">
-                        <h3>Trend Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
-                        <canvas id="jobProfitabilityTrendChart"></canvas>
-                        <div class="slider-container">
-                            <label for="dateRangeSlider">Pilih Julat Tahun:</label>
-                            <input type="range" id="dateRangeSlider" min="1" step="1">
-                            <label id="dateRangeLabel"></label>
-                        </div>
-                    </div>
-                    <br>
-
-                    <!-- Chart 3: Job Quantity -->
-                    <div class="chart-item">
-                        <h3>Jumlah Kuantiti Mengikut Jenis Kenderaan</h3>
-                        <canvas id="jobQuantityChart"></canvas>
-                    </div>
-                    <br>
-
-                    <!-- Chart 4: Aftersales Bar Chart -->
-                    <div class="chart-item">
-                        <h3>Bilangan Jenis Chassis</h3>
-                        <canvas id="aftersalesBarChart"></canvas>
-                    </div>
+                <div class="metric-box">
+                    <p>Jumlah Keuntungan:</p>
+                    <p class="metric-value">RM {{ overall_profit | format_rm_currency }}</p>
                 </div>
-
+                <div class="metric-box">
+                    <p>Jumlah Keseluruhan Kuantiti:</p>
+                    <p class="metric-value">{{ overall_quantity }}</p>
+                </div>
+                <div class="metric-box">
+                    <p>Margin Keuntungan:</p>
+                    <p class="metric-value">{{ overall_margin_profit | round(2) }}%</p>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section class="dashboard-section">
+            <a href="{{ url_for('combined_view') }}">Klik untuk lihat Data Projek Keseluruhan</a>
+        </section>
+
+        <section class="chart-container dashboard-section">
+            <div class="chart-item">
+                <h3>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
+                <canvas id="jobCombinedChart"></canvas>
+                <div class="overall-total">
+                    <!-- Overall totals and margin percentage will be displayed here -->
+                </div>
+            </div>
+
+            <div class="chart-item">
+                <h3>Trend Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
+                <canvas id="jobProfitabilityTrendChart"></canvas>
+                <div class="slider-container">
+                    <label for="dateRangeSlider">Pilih Julat Tahun:</label>
+                    <input type="range" id="dateRangeSlider" min="1" step="1">
+                    <label id="dateRangeLabel"></label>
+                </div>
+            </div>
+
+            <div class="chart-item">
+                <h3>Jumlah Kuantiti Mengikut Jenis Kenderaan</h3>
+                <canvas id="jobQuantityChart"></canvas>
+            </div>
+
+            <div class="chart-item">
+                <h3>Bilangan Jenis Chassis</h3>
+                <canvas id="aftersalesBarChart"></canvas>
+            </div>
+        </section>
     </main>
+
     <!-- Footer -->
     <footer>
         <div class="footer-container">

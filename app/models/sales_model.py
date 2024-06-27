@@ -18,7 +18,7 @@ class Sales(db.Model):
     unitProfit = db.Column(db.Numeric(65, 2), nullable=False)
     tenderTotalProfit = db.Column(db.Numeric(65, 2), nullable=False)
     marginProfit = db.Column(db.Float, nullable=False)
-    notes = db.Column(db.Text, nullable=True)
+    notes = db.Column(db.Text, nullable=True) #status
     staffID = db.Column(db.String(10), db.ForeignKey('staff.staffID'), nullable=False)
 
     staff = db.relationship('Staff', backref=db.backref('sales', lazy=True))

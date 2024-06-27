@@ -30,8 +30,18 @@ def aftersales_home():
         flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
     
-    staffID = session.get('staff_id')
-    return render_template('aftersales_home.html')
+    # Calculate overall metrics from the Job model
+    overall_sales = db.session.query(func.sum(Job.totalSales)).scalar() or 0
+    overall_profit = db.session.query(func.sum(Job.totalProfit)).scalar() or 0
+    overall_quantity = db.session.query(func.sum(Job.quantity)).scalar() or 0
+    overall_margin_profit = (overall_profit / (overall_sales - overall_profit)) * 100 if overall_sales > 0 else 0
+    
+    return render_template('aftersales_home.html', 
+                           overall_sales=overall_sales, 
+                           overall_profit=overall_profit, 
+                           overall_quantity=overall_quantity, 
+                           overall_margin_profit=overall_margin_profit)
+
 
 @app.route('/sales_marketing_home', methods=['GET'])
 def sales_marketing_home():
@@ -148,12 +158,3 @@ def get_aftersales_data():
         return jsonify(data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-@app.route('/api/top-jobs')
-def top_jobs():
-    top_jobs_data = Job.query.order_by(Job.totalProfit.desc()).limit(5).all()
-    top_jobs_list = [
-        {"jobNo": job.jobNo, "title": job.title, "custName": job.custName, "totalProfit": job.totalProfit}
-        for job in top_jobs_data
-    ]
-    return jsonify(top_jobs_list)

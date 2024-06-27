@@ -13,9 +13,14 @@
     <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
                 <a href="{{ url_for('sales_marketing_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
+                    <i class="fas fa-home"></i> Jualan & Pemasaran
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
@@ -26,11 +31,6 @@
             <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
                 <a href="{{ url_for('show_sales_list') }}">
                     <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </li>
         </ul>
@@ -52,26 +52,26 @@
     <!-- Dashboard Section -->
     <main class="dashboard">
         <section id="overall-metrics" class="dashboard-section">
-            <h3>Overall Metrics</h3>
+            <h3>Keseluruhan Jualan & Pemasaran</h3>
             <div class="grid-container">
-                <div class="grid-item">
-                    <p>Jumlah Keseluruhan Jualan:</p>
-                    <p>{{ overall_sales|format_rm_currency }}</p>
+                <div class="metric-box">
+                    <p>Jumlah Keseluruhan Tender/Sebut Harga:</p>
+                    <p class="metric-value">RM {{ overall_sales | format_rm_currency }}</p>
                 </div>
-                <div class="grid-item">
+                <div class="metric-box">
                     <p>Jumlah Keseluruhan Keuntungan:</p>
-                    <p>{{ overall_profit|format_rm_currency }}</p>
+                    <p class="metric-value">RM {{ overall_profit | format_rm_currency }}</p>
                 </div>
-                <div class="grid-item">
+                <div class="metric-box">
                     <p>Jumlah Keseluruhan Kuantiti:</p>
-                    <p>{{ overall_quantity }}</p>
+                    <p class="metric-value">{{ overall_quantity }}</p>
                 </div>
-                <div class="grid-item">
+                <div class="metric-box">
                     <p>Margin Keuntungan:</p>
-                    <p>{{ overall_margin_profit|round(2) }}%</p>
+                    <p class="metric-value">{{ overall_margin_profit | round(2) }}%</p>
                 </div>
             </div>
-        </section>
+        </section>        
 
         <section class="chart-container dashboard-section">
             <!-- Chart Canvas -->
@@ -84,117 +84,118 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>PIC</th>
-                            <th>Jumlah Jualan</th>
-                            <th>Jumlah Keuntungan</th>
-                            <th>Jumlah Kuantiti</th>
-                            <th>Margin Keuntungan (%)</th>
+                            <th class="table-left-align">PIC/Jabatan</th>
+                            <th class="table-right-align">Jumlah Jualan (RM)</th>
+                            <th class="table-right-align">Jumlah Keuntungan (RM)</th>
+                            <th class="table-center-align">Jumlah Kuantiti</th>
+                            <th class="table-right-align">Margin Keuntungan (%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in sales_data %}
                             <tr>
-                                <td>{{ item.salesPerson }}</td>
-                                <td>{{ item.total_sales| format_rm_currency }}</td>
-                                <td>{{ item.total_profit| format_rm_currency }}</td>
-                                <td>{{ item.total_quantity }}</td>
-                                <td>{{ item.margin_profit|round(2) }}</td>
+                                <td class="table-left-align">{{ item.salesPerson }}</td>
+                                <td class="table-right-align">{{ item.total_sales| format_rm_currency }}</td>
+                                <td class="table-right-align">{{ item.total_profit| format_rm_currency }}</td>
+                                <td class="table-center-align">{{ item.total_quantity }}</td>
+                                <td class="table-right-align">{{ item.margin_profit|round(2) }}</td>
                             </tr>
                         {% endfor %}
                         <!-- New row for overall totals -->
                         <tr class="overall-total">
-                            <td><strong>Jumlah Keseluruhan</strong></td>
-                            <td><strong>{{ overall_sales| format_rm_currency }}</strong></td>
-                            <td><strong>{{ overall_profit| format_rm_currency }}</strong></td>
-                            <td><strong>{{ overall_quantity }}</strong></td>
-                            <td><strong>{{ overall_margin_profit|round(2) }}%</strong></td>
+                            <td class="table-left-align"><strong>Jumlah Keseluruhan</strong></td>
+                            <td class="table-right-align"><strong>{{ overall_sales| format_rm_currency }}</strong></td>
+                            <td class="table-right-align"><strong>{{ overall_profit| format_rm_currency }}</strong></td>
+                            <td class="table-center-align"><strong>{{ overall_quantity }}</strong></td>
+                            <td class="table-right-align"><strong>{{ overall_margin_profit|round(2) }}%</strong></td>
                         </tr>
                     </tbody>
                 </table>
+                
             </div>
         </section>
     </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var salesData = [];
-            var profitData = [];
-            var marginProfitData = [];
-            var salesPersons = [];
-    
-            {% for item in sales_data %}
-                salesData.push({{ item.total_sales }});
-                profitData.push({{ item.total_profit }});
-                marginProfitData.push({{ item.margin_profit|round(2) }});
-                salesPersons.push('{{ item.salesPerson }}');
-            {% endfor %}
-    
-            var ctx = document.getElementById('sales-chart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: salesPersons,
-                    datasets: [{
-                        type: 'line',
-                        label: 'Margin Keuntungan (%)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 0.6)',
-                        borderWidth: 2,
-                        yAxisID: 'y1',
-                        data: marginProfitData
-                    }, {
-                        type: 'bar',
-                        label: 'Jumlah Jualan (RM)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1,
-                        yAxisID: 'y2',
-                        data: salesData
-                    }, {
-                        type: 'bar',
-                        label: 'Jumlah Keuntungan (RM)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        yAxisID: 'y2',
-                        data: profitData
-                    }]
-                },
-                options: {
-                    scales: {
-                        y1: {
-                            type: 'linear',
-                            position: 'right',
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Margin Keuntungan (%)'
-                            }
-                        },
-                        y2: {
-                            type: 'linear',
-                            position: 'left',
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Jumlah (RM)'
-                            },
-                            grid: {
-                                drawOnChartArea: false
-                            }
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var salesData = [];
+        var profitData = [];
+        var marginProfitData = [];
+        var salesPersons = [];
+
+        {% for item in sales_data %}
+            salesData.push({{ item.total_sales }});
+            profitData.push({{ item.total_profit }});
+            marginProfitData.push({{ item.margin_profit|round(2) }});
+            salesPersons.push('{{ item.salesPerson }}');
+        {% endfor %}
+
+        var ctx = document.getElementById('sales-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: salesPersons,
+                datasets: [{
+                    type: 'line',
+                    label: 'Margin Keuntungan (%)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 0.6)',
+                    borderWidth: 2,
+                    yAxisID: 'y1',
+                    data: marginProfitData
+                }, {
+                    type: 'bar',
+                    label: 'Jumlah Jualan (RM)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y2',
+                    data: salesData
+                }, {
+                    type: 'bar',
+                    label: 'Jumlah Keuntungan (RM)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y2',
+                    data: profitData
+                }]
+            },
+            options: {
+                scales: {
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Margin Keuntungan (%)'
                         }
                     },
-                    plugins: {
-                        legend: {
+                    y2: {
+                        type: 'linear',
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
                             display: true,
-                            labels: {
-                                color: 'black'
-                            }
+                            text: 'Jumlah (RM)'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'black'
                         }
                     }
                 }
-            });
+            }
         });
-    </script>
-</body>
+    });
+</script>
 </html>
 

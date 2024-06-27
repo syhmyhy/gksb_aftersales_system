@@ -13,9 +13,14 @@
     <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
                 <a href="{{ url_for('sales_marketing_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
+                    <i class="fas fa-home"></i> Jualan & Pemasaran
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
@@ -26,11 +31,6 @@
             <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
                 <a href="{{ url_for('show_sales_list') }}">
                     <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </li>
         </ul>
@@ -56,7 +56,7 @@
         <label for="salesID">Sales ID</label>
         <input type="number" id="salesID" name="salesID" value="{{ sale.salesID }}" readonly>
         
-        <label for="salesPerson">Nama PIC</label>
+        <label for="salesPerson">PIC/Jabatan</label>
         <input type="text" id="salesPerson" name="salesPerson" value="{{ sale.salesPerson }}" list="salesPersonList" placeholder="Pilih atau Masukkan Nama PIC..." required>
         <datalist id="salesPersonList">
             <option value="SPECIAL PROJECT" data-calc="">SPECIAL PROJECT</option>
@@ -163,8 +163,14 @@
         <label for="marginProfit">Margin Keuntungan (%)</label>
         <input type="number" step="0.01" id="marginProfit" name="marginProfit" value="{{ sale.marginProfit }}" readonly required>
     
-        <label for="notes">Catatan</label>
-        <textarea id="notes" name="notes">{{ sale.notes }}</textarea>
+        <label for="notes">Status</label>
+        <select id="notes" name="notes" required>
+            <option value="" {% if not sale.notes %}selected{% endif %} disabled>Pilih Status...</option>
+            <option value="Berjaya" {% if sale.notes == 'Berjaya' %}selected{% endif %}>Berjaya</option>
+            <option value="Tidak Berjaya" {% if sale.notes == 'Tidak Berjaya' %}selected{% endif %}>Tidak Berjaya</option>
+            <option value="Dalam Rundingan" {% if sale.notes == 'Dalam Rundingan' %}selected{% endif %}>Dalam Rundingan</option>
+        </select>
+
 
         <label for="staffID">Staff ID: </label>
         <input type="text" id="staffID" name="staffID" value="{{ sale.staffID }}" readonly>  

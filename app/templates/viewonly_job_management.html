@@ -15,21 +15,17 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
 <body>
+    <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
                 <a href="{{ url_for('aftersales_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_management') }}">
-                    <i class="fas fa-tools"></i> Aftersales
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_form') }}">
-                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                    <i class="fas fa-home"></i> Projek Keseluruhan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
@@ -42,9 +38,14 @@
                     <i class="fas fa-clipboard-list"></i> Borang Tugas
                 </a>
             </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_management') }}">
+                    <i class="fas fa-tools"></i> Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Aftersales
                 </a>
             </li>
         </ul>
@@ -96,10 +97,10 @@
                     <td class="vehicleType">{{ job.vehicleType }}</td>
                     <td class="quantity">{{ '%.1f'|format(job.quantity) }}</td> <!-- Format quantity to one decimal place -->
                     <td class="dateReceived">{{ job.dateReceived }}</td>
-                    <td class="salesUnit">{{ job.salesUnit }}</td>
-                    <td class="totalSales">{{ job.totalSales }}</td>
-                    <td class="profitUnit">{{ job.profitUnit }}</td>
-                    <td class="totalProfit">{{ job.totalProfit }}</td>
+                    <td class="salesUnit">{{ job.salesUnit| format_rm_currency }}</td>
+                    <td class="totalSales">{{ job.totalSales| format_rm_currency }}</td>
+                    <td class="profitUnit">{{ job.profitUnit| format_rm_currency }}</td>
+                    <td class="totalProfit">{{ job.totalProfit| format_rm_currency }}</td>
                     <td class="marginProfit">{{ job.marginProfit }}</td>
                     <td class="jobDateDelivered">{{ job.jobDateDelivered }}</td>
                     <td class="staffID">{{ job.staffID }}</td>
@@ -147,14 +148,6 @@
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         XLSX.writeFile(wb, 'job_data.xlsx');
-    }
-
-    function formatCurrency(value) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'MYR',
-            minimumFractionDigits: 2
-        }).format(value).replace('MYR', ''); // Remove the currency symbol if needed
     }
 
     $(document).ready(function() {

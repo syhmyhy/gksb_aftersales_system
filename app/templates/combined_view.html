@@ -17,19 +17,14 @@
     <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
                 <a href="{{ url_for('aftersales_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_management') }}">
-                    <i class="fas fa-tools"></i> Aftersales
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_form') }}">
-                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                    <i class="fas fa-home"></i> Projek Keseluruhan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
@@ -42,9 +37,14 @@
                     <i class="fas fa-clipboard-list"></i> Borang Tugas
                 </a>
             </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_management') }}">
+                    <i class="fas fa-tools"></i> Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Aftersales
                 </a>
             </li>
         </ul>
@@ -102,60 +102,60 @@
                     {% if job.aftersales %}
                         {% for aftersales in job.aftersales %}
                         <tr>
-                            <td class="rowCount">{{ loop.index }}</td>
-                            <td class="jobNo">{{ job.jobNo }}</td>
-                            <td class="title">{{ job.title }}</td>
-                            <td class="custName">{{ job.custName }}</td>
-                            <td class="endUser">{{ aftersales.endUser }}</td>
-                            <td class="vehicleType">{{ job.vehicleType }}</td>
-                            <td class="registrationNo">{{ aftersales.registrationNo }}</td>
-                            <td class="bodyType">{{ aftersales.bodyType }}</td>
-                            <td class="chassisType">{{ aftersales.chassisType }}</td>
-                            <td class="chassisModel">{{ aftersales.chassisModel }}</td>
-                            <td class="chassisNo">{{ aftersales.chassisNo }}</td>
-                            <td class="engineNo">{{ aftersales.engineNo }}</td>
-                            <td class="dateDelivered">{{ aftersales.dateDelivered }}</td>
-                            <td class="stateLocality">{{ aftersales.stateLocality }}</td>
-                            <td class="detailLocality">{{ aftersales.detailLocality }}</td>
-                            <td class="chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
-                            <td class="chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
-                            <td class="chassisExpired">{{ aftersales.chassisExpired }}</td>
-                            <td class="bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
-                            <td class="bodyExpired">{{ aftersales.bodyExpired }}</td>
-                            <td class="noService">{{ aftersales.noService }}</td>
-                            <td class="mileageService">{{ aftersales.mileageService }}</td>
-                            <td class="custPhone">{{ aftersales.custPhone }}</td>
-                            <td class="custEmail">{{ aftersales.custEmail }}</td>
-                            <td class="notes">{{ aftersales.notes }}</td>
+                            <td class="table-center-align rowCount">{{ loop.index }}</td>
+                            <td class="table-right-align jobNo">{{ job.jobNo }}</td>
+                            <td class="table-left-align title">{{ job.title }}</td>
+                            <td class="table-left-align custName">{{ job.custName }}</td>
+                            <td class="table-left-align endUser">{{ aftersales.endUser }}</td>
+                            <td class="table-left-align vehicleType">{{ job.vehicleType }}</td>
+                            <td class="table-center-align registrationNo">{{ aftersales.registrationNo }}</td>
+                            <td class="table-left-align bodyType">{{ aftersales.bodyType }}</td>
+                            <td class="table-left-align chassisType">{{ aftersales.chassisType }}</td>
+                            <td class="table-left-align chassisModel">{{ aftersales.chassisModel }}</td>
+                            <td class="table-left-align chassisNo">{{ aftersales.chassisNo }}</td>
+                            <td class="table-left-align engineNo">{{ aftersales.engineNo }}</td>
+                            <td class="table-right-align dateDelivered">{{ aftersales.dateDelivered }}</td>
+                            <td class="table-left-align stateLocality">{{ aftersales.stateLocality }}</td>
+                            <td class="table-left-align detailLocality">{{ aftersales.detailLocality }}</td>
+                            <td class="table-right-align chassisMileageWarranty">{{ aftersales.chassisMileageWarranty }}</td>
+                            <td class="table-center-align chassisPeriodWarranty">{{ aftersales.chassisPeriodWarranty }}</td>
+                            <td class="table-right-align chassisExpired">{{ aftersales.chassisExpired }}</td>
+                            <td class="table-center-align bodyPeriodWarranty">{{ aftersales.bodyPeriodWarranty }}</td>
+                            <td class="table-right-align bodyExpired">{{ aftersales.bodyExpired }}</td>
+                            <td class="table-center-align noService">{{ aftersales.noService }}</td>
+                            <td class="table-right-align mileageService">{{ aftersales.mileageService }}</td>
+                            <td class="table-left-align custPhone">{{ aftersales.custPhone }}</td>
+                            <td class="table-left-align custEmail">{{ aftersales.custEmail }}</td>
+                            <td class="table-left-align notes">{{ aftersales.notes }}</td>
                         </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td class="rowCount">{{ loop.index }}</td>
-                            <td class="jobNo">{{ job.jobNo }}</td>
-                            <td class="title">{{ job.title }}</td>
-                            <td class="custName">{{ job.custName }}</td>
-                            <td class="endUser">-</td>
-                            <td class="vehicleType">{{ job.vehicleType }}</td>
-                            <td class="registrationNo">-</td>
-                            <td class="bodyType">-</td>
-                            <td class="chassisType">-</td>
-                            <td class="chassisModel">-</td>
-                            <td class="chassisNo">-</td>
-                            <td class="engineNo">-</td>
-                            <td class="dateDelivered">-</td>
-                            <td class="stateLocality">-</td>
-                            <td class="detailLocality">-</td>
-                            <td class="chassisMileageWarranty">-</td>
-                            <td class="chassisPeriodWarranty">-</td>
-                            <td class="chassisExpired">-</td>
-                            <td class="bodyPeriodWarranty">-</td>
-                            <td class="bodyExpired">-</td>
-                            <td class="noService">-</td>
-                            <td class="mileageService">-</td>
-                            <td class="custPhone">{{ job.custPhone }}</td>
-                            <td class="custEmail">{{ job.custEmail }}</td>
-                            <td class="notes">{{ job.notes }}</td>
+                            <td class="table-center-align rowCount">{{ loop.index }}</td>
+                            <td class="table-right-align jobNo">{{ job.jobNo }}</td>
+                            <td class="table-left-align title">{{ job.title }}</td>
+                            <td class="table-left-align custName">{{ job.custName }}</td>
+                            <td class="table-center-align endUser">-</td>
+                            <td class="table-left-align vehicleType">{{ job.vehicleType }}</td>
+                            <td class="table-center-align registrationNo">-</td>
+                            <td class="table-center-align bodyType">-</td>
+                            <td class="table-center-align chassisType">-</td>
+                            <td class="table-center-align chassisModel">-</td>
+                            <td class="table-center-align chassisNo">-</td>
+                            <td class="table-center-align engineNo">-</td>
+                            <td class="table-center-align dateDelivered">-</td>
+                            <td class="table-center-align stateLocality">-</td>
+                            <td class="table-center-align detailLocality">-</td>
+                            <td class="table-center-align chassisMileageWarranty">-</td>
+                            <td class="table-center-align chassisPeriodWarranty">-</td>
+                            <td class="table-center-align chassisExpired">-</td>
+                            <td class="table-center-align bodyPeriodWarranty">-</td>
+                            <td class="table-center-align bodyExpired">-</td>
+                            <td class="table-center-align noService">-</td>
+                            <td class="table-center-align mileageService">-</td>
+                            <td class="table-left-align custPhone">{{ job.custPhone }}</td>
+                            <td class="table-left-align custEmail">{{ job.custEmail }}</td>
+                            <td class="table-left-align notes">{{ job.notes }}</td>
                         </tr>
                     {% endif %}
                 {% endfor %}

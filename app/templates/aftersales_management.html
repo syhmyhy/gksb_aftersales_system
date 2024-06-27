@@ -14,21 +14,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
                 <a href="{{ url_for('aftersales_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_management') }}">
-                    <i class="fas fa-tools"></i> Aftersales
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
-                <a href="{{ url_for('show_aftersales_form') }}">
-                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                    <i class="fas fa-home"></i> Projek Keseluruhan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
@@ -41,9 +37,14 @@
                     <i class="fas fa-clipboard-list"></i> Borang Tugas
                 </a>
             </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_management') }}">
+                    <i class="fas fa-tools"></i> Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Aftersales
                 </a>
             </li>
         </ul>
@@ -72,17 +73,23 @@
                     <th>#</th>
                     <th>No. Pendaftaran Kenderaan</th>
                     <th>Nama Pengguna</th>
+                    <th>Kod Badan & Kenderaan</th>
                     <th>Buatan Chassis</th>
                     <th>Model Chassis</th>
                     <th>No. Chassis</th>
-                    <th>No. Engine</th>
+                    <th>No. Enjin</th>
+                    <th>Tarikh Penghantaran</th>
                     <th>Penempatan Kenderaan</th>
+                    <th>Butiran Penempatan</th>
                     <th>Waranti Chassis(KM)</th>
                     <th>Tempoh Waranti Chasis(Tahun)</th>
                     <th>Tarikh Tamat Waranti(Chassis)</th>
+                    <th>Tempoh Waranti Badan(Tahun)</th>
+                    <th>Tarikh Tamat Waranti(Badan)</th>
                     <th>No. Tel Pelanggan</th>
                     <th>Emel Pelanggan</th>
                     <th>Nota</th>
+                    <th>Job No</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -90,27 +97,33 @@
                 {% for aftersales in aftersales_data %}
                     <tr>
                         <td></td>
-                        <td>{{ aftersales.registrationNo }}</td>
-                        <td>{{ aftersales.endUser }}</td>
-                        <td>{{ aftersales.chassisType }}</td>
-                        <td>{{ aftersales.chassisModel }}</td>
-                        <td>{{ aftersales.chassisNo }}</td>
-                        <td>{{ aftersales.engineNo }}</td>
-                        <td>{{ aftersales.stateLocality }}</td>
-                        <td>{{ aftersales.chassisMileageWarranty }}</td>
-                        <td>{{ aftersales.chassisPeriodWarranty }}</td>
-                        <td>{{ aftersales.chassisExpired }}</td>
-                        <td>{{ aftersales.custPhone }}</td>
-                        <td>{{ aftersales.custEmail }}</td>
-                        <td>{{ aftersales.notes }}</td>
-                        <td>
+                        <td class="table-center-align">{{ aftersales.registrationNo }}</td>
+                        <td class="table-left-align">{{ aftersales.endUser }}</td>
+                        <td class="table-left-align">{{ aftersales.bodyType }}</td>
+                        <td class="table-left-align">{{ aftersales.chassisType }}</td>
+                        <td class="table-left-align">{{ aftersales.chassisModel }}</td>
+                        <td class="table-left-align">{{ aftersales.chassisNo }}</td>
+                        <td class="table-left-align">{{ aftersales.engineNo }}</td>
+                        <td class="table-rigth-align">{{ aftersales.dateDelivered }}</td>
+                        <td class="table-left-align">{{ aftersales.stateLocality }}</td>
+                        <td class="table-left-align">{{ aftersales.detailLocality }}</td>
+                        <td class="table-right-align">{{ aftersales.chassisMileageWarranty }}</td>
+                        <td class="table-center-align">{{ aftersales.chassisPeriodWarranty }}</td>
+                        <td class="table-right-align">{{ aftersales.chassisExpired }}</td>
+                        <td class="table-center-align">{{ aftersales.bodyPeriodWarranty }}</td>
+                        <td class="table-right-align">{{ aftersales.bodyExpired }}</td>
+                        <td class="table-left-align">{{ aftersales.custPhone }}</td>
+                        <td class="table-left-align">{{ aftersales.custEmail }}</td>
+                        <td class="table-left-align">{{ aftersales.notes }}</td>
+                        <td class="table-right-align">{{ aftersales.jobNo }}</td>
+                        <td class="table-left-align">
                             <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
                             <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>    
+        </table>
     </div>     
 </body>
 <script>

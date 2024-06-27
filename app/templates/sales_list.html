@@ -16,9 +16,14 @@
     <!-- Navigation -->
     <nav>
         <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
             <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
                 <a href="{{ url_for('sales_marketing_home') }}">
-                    <i class="fas fa-home"></i> Halaman Utama
+                    <i class="fas fa-home"></i> Jualan & Pemasaran
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
@@ -29,11 +34,6 @@
             <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
                 <a href="{{ url_for('show_sales_list') }}">
                     <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
-                </a>
-            </li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-                <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </li>
         </ul>
@@ -57,42 +57,42 @@
             <thead>
                 <tr>
                     <th>#</th> <!-- Row counter column -->
-                    <th>PIC</th>
-                    <th>Kaedah Pembelian</th>
-                    <th>Tajuk Tender</th>
-                    <th>Nama Pelanggan</th>
-                    <th>Jenis Chassis</th>
-                    <th>Model Chassis</th>
-                    <th>Kuantiti</th>
-                    <th>Tarikh Tender/Sebut Harga</th>
-                    <th>Harga(RM)/Unit</th>
-                    <th>Harga Total Tender(RM)</th>
-                    <th>Untung(RM)/Unit</th>
-                    <th>Keuntungan Total Tender(RM)</th>
-                    <th>Margin Keuntungan(%)</th>
-                    <th>Catatan</th>
-                    <th>Actions</th>
+                    <th class="table-left-align">PIC/Jabatan</th>
+                    <th class="table-left-align">Kaedah Pembelian</th>
+                    <th class="table-left-align">Tajuk Tender</th>
+                    <th class="table-left-align">Nama Pelanggan</th>
+                    <th class="table-left-align">Jenis Chassis</th>
+                    <th class="table-left-align">Model Chassis</th>
+                    <th class="table-center-align">Kuantiti</th>
+                    <th class="table-left-align">Tarikh Tender/Sebut Harga</th>
+                    <th class="table-right-align">Harga(RM)/Unit</th>
+                    <th class="table-right-align">Harga Total Tender(RM)</th>
+                    <th class="table-right-align">Untung(RM)/Unit</th>
+                    <th class="table-right-align">Keuntungan Total Tender(RM)</th>
+                    <th class="table-right-align">Margin Keuntungan(%)</th>
+                    <th class="table-left-align">Status</th>
+                    <th class="table-left-align">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for sale in sales_records %}
                     <tr>
                         <td></td> <!-- Will be populated dynamically -->
-                        <td>{{ sale.salesPerson }}</td>
-                        <td>{{ sale.purchaseMethod }}</td>
-                        <td>{{ sale.tenderTitle }}</td>
-                        <td>{{ sale.custName }}</td>
-                        <td>{{ sale.chassisType }}</td>
-                        <td>{{ sale.chassisModel }}</td>
-                        <td>{{ sale.quantity }}</td>
-                        <td>{{ sale.tenderDate }}</td>
-                        <td>{{ sale.unitPrice }}</td>
-                        <td>{{ sale.tenderTotalPrice }}</td>
-                        <td>{{ sale.unitProfit }}</td>
-                        <td>{{ sale.tenderTotalProfit }}</td>
-                        <td>{{ sale.marginProfit }}</td>
-                        <td>{{ sale.notes }}</td>
-                        <td>
+                        <td class="table-left-align">{{ sale.salesPerson }}</td>
+                        <td class="table-left-align">{{ sale.purchaseMethod }}</td>
+                        <td class="table-left-align">{{ sale.tenderTitle }}</td>
+                        <td class="table-left-align">{{ sale.custName }}</td>
+                        <td class="table-left-align">{{ sale.chassisType }}</td>
+                        <td class="table-left-align">{{ sale.chassisModel }}</td>
+                        <td class="table-center-align">{{ sale.quantity }}</td>
+                        <td class="table-left-align">{{ sale.tenderDate }}</td>
+                        <td class="table-right-align">{{ sale.unitPrice| format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.tenderTotalPrice| format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.unitProfit| format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.tenderTotalProfit| format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.marginProfit }}</td>
+                        <td class="table-left-align">{{ sale.notes }}</td>
+                        <td class="table-left-align">
                             <a href="{{ url_for('edit_sales_form', salesID=sale.salesID) }}">Kemaskini</a>
                             <a href="{{ url_for('delete_sales_record', salesID=sale.salesID) }}" onclick="return confirm('Adakah anda pasti ingin memadam rekod ini?');">Padam</a>
                         </td>
@@ -100,6 +100,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        
     </div>
 </body>
 </html>
