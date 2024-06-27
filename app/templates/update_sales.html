@@ -6,22 +6,42 @@
     <meta charset="UTF-8">
     <title>Kemaskini Rekod Jualan & Pemasaran</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="{{ url_for('static', filename='scripts/sales_calculation.js') }}" defer></script>  
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul>
-            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}"><a href="{{ url_for('sales_marketing_home') }}">Halaman Utama</a></li>
-            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}"><a href="{{ url_for('show_sales_form') }}">Borang Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}"><a href="{{ url_for('show_sales_list') }}">Senarai Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
+                <a href="{{ url_for('sales_marketing_home') }}">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_list') }}">
+                    <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </li>
         </ul>
     </nav>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Kemaskini Rekod Jualan & Pemasaran</h2>
+    </header>
     <!-- Navigation -->
     <form action="{{ url_for('update_sales_record', salesID=sale.salesID) }}" method="post">
         <!-- Form Fields -->
-        <h3>Kemaskini Rekod Jualan & Pemasaran</h3>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

@@ -10,6 +10,10 @@
     <script src="../static/scripts/staff_profile.js"></script>
 </head>
 <body>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Kemaskini Profil</h2>
+    </header>
     <form id="staffProfileForm" action="/update_staff_profile" method="post" onsubmit="return confirmSubmit()">
         <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
 
@@ -23,7 +27,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <h3>Kemaskini Profil</h3>
+        <br>
         <h4>Employee No: {{ staff.staffID }} </h4><br>
 
         <label for="staffEmail">Email:</label>

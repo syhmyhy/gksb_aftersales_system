@@ -6,16 +6,33 @@
     <meta charset="UTF-8">
     <title>Halaman Utama</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js from CDN -->
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul>
-            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}"><a href="{{ url_for('sales_marketing_home') }}">Halaman Utama</a></li>
-            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}"><a href="{{ url_for('show_sales_form') }}">Borang Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}"><a href="{{ url_for('show_sales_list') }}">Senarai Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
+                <a href="{{ url_for('sales_marketing_home') }}">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_list') }}">
+                    <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </li>
         </ul>
     </nav>
     <header role="banner">

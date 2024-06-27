@@ -13,43 +13,45 @@
 <body>
    <!-- Navigation --> 
    <nav>
-    <ul>
-        <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
-            <a href="{{ url_for('aftersales_home') }}">
-                <i class="fas fa-home"></i> Halaman Utama
-            </a>
-        </li>
-        <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
-            <a href="{{ url_for('show_aftersales_management') }}">
-                <i class="fas fa-tools"></i> Aftersales
-            </a>
-        </li>
-        <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
-            <a href="{{ url_for('show_aftersales_form') }}">
-                <i class="fas fa-file-alt"></i> Borang Aftersales
-            </a>
-        </li>
-        <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
-            <a href="{{ url_for('show_job_management') }}">
-                <i class="fas fa-tasks"></i> Tugas
-            </a>
-        </li>
-        <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}">
-            <a href="{{ url_for('show_job_form') }}">
-                <i class="fas fa-clipboard-list"></i> Borang Tugas
-            </a>
-        </li>
-        <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
-            <a href="{{ url_for('select_page') }}">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
-        </li>
-    </ul>
-</nav>
-
+        <ul>
+            <li class="{% if request.endpoint == 'aftersales_home' %}active{% endif %}">
+                <a href="{{ url_for('aftersales_home') }}">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_management') }}">
+                    <i class="fas fa-tools"></i> Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_aftersales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
+                <a href="{{ url_for('show_job_management') }}">
+                    <i class="fas fa-tasks"></i> Tugas
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}">
+                <a href="{{ url_for('show_job_form') }}">
+                    <i class="fas fa-clipboard-list"></i> Borang Tugas
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Borang Tugas</h2>
+    </header>
     <p>Halaman ini adalah untuk paparan sahaja. Sila dapatkan kebenaran untuk membuat sebarang pengubahsuaian.</p>
     <form action="/submit_job_form" method="post" onsubmit="return validateJobNo() && confirmSubmit()">
-        <h3>Borang Tugas</h3>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

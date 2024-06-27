@@ -46,9 +46,11 @@
             </li>
         </ul>
     </nav>
-    
+    <!-- Header -->
+    <header role="banner">
+        <h2>Kemaskini Rekod Kenderaan</h2>
+    </header>
     <form id="updateForm" method="POST" action="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}" onsubmit="return confirmUpdate()">
-        <h3>Kemaskini Rekod Kenderaan</h3>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

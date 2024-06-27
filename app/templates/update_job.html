@@ -47,9 +47,11 @@
             </li>
         </ul>
     </nav>
-           
+    <!-- Header -->
+    <header role="banner">
+        <h2>Kemaskini Rekod Tugas</h2>
+    </header>     
     <form id="updateForm" method="POST" action="{{ url_for('update_job_route', jobNo=job.jobNo) }}" onsubmit="return confirmUpdate()">
-        <h3>Kemaskini Rekod Tugas</h3>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

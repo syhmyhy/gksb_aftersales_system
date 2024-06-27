@@ -6,20 +6,40 @@
     <meta charset="UTF-8">
     <title>Borang Jualan & Pemasaran</title>
     <link rel="stylesheet" href="../static/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="../static/scripts/sales_calculation.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul>
-            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}"><a href="{{ url_for('sales_marketing_home') }}">Halaman Utama</a></li>
-            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}"><a href="{{ url_for('show_sales_form') }}">Borang Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}"><a href="{{ url_for('show_sales_list') }}">Senarai Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
+                <a href="{{ url_for('sales_marketing_home') }}">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_list') }}">
+                    <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </li>
         </ul>
     </nav>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Jualan & Pemasaran</h2>
+    </header>
     <form action="{{ url_for('submit_sales_form') }}" method="post">
-        <h3>Jualan & Pemasaran</h3>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

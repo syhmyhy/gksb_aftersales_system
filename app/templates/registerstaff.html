@@ -10,10 +10,13 @@
     <title>Daftar Pengguna</title>
 </head>
 <body>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Pendaftaran Pengguna</h2>
+    </header>
     <form id="staffRegistrationForm" action="/register_staff" method="post" onsubmit="return validateForm()">
         <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
 
-        <h2>Daftar Pengguna</h2>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

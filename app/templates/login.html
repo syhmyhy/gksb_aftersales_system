@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="../static/styles/styles.css">
 </head>
 <body>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Log Masuk</h2>
+    </header>
     <form id="loginForm" action="/" method="post">
             <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
             <!-- Flash Messages -->
@@ -20,7 +24,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            {% endwith %}
+            {% endwith %}<br>
             <label for="staffID">Employee No:</label>
             <input type="text" id="staffID" name="staffID" placeholder="GSK001..." required><br>
             

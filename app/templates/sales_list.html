@@ -6,16 +6,36 @@
     <meta charset="UTF-8">
     <title>Rekod Jualan & Pemasaran</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../static/styles/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+    <script src="../static/scripts/sales_list.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul>
-            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}"><a href="{{ url_for('sales_marketing_home') }}">Halaman Utama</a></li>
-            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}"><a href="{{ url_for('show_sales_form') }}">Borang Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}"><a href="{{ url_for('show_sales_list') }}">Senarai Jualan & Pemasaran</a></li>
-            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}"><a href="{{ url_for('select_page') }}">Kembali</a></li>
+            <li class="{% if request.endpoint == 'sales_marketing_home' %}active{% endif %}">
+                <a href="{{ url_for('sales_marketing_home') }}">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_form' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_form') }}">
+                    <i class="fas fa-file-alt"></i> Borang Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'show_sales_list' %}active{% endif %}">
+                <a href="{{ url_for('show_sales_list') }}">
+                    <i class="fas fa-list"></i> Senarai Jualan & Pemasaran
+                </a>
+            </li>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </li>
         </ul>
     </nav>
     <header role="banner">
@@ -82,95 +102,4 @@
         </table>
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#salesTable').DataTable({
-            searching: true, // Enable search box
-            paging: true, // Enable pagination
-            columnDefs: [
-                { orderable: false, targets: [0, -1] } // Disable sorting for # and Actions columns
-            ],
-            drawCallback: function() {
-                var api = this.api();
-                var rows = api.rows({ page: 'current' }).nodes();
-                var last = null;
-
-                api.column(0, { page: 'current' }).data().each(function(group, i) {
-                    if (last !== group) {
-                        $(rows).eq(i).before(
-                            '<tr class="group"><td colspan="16">' + group + '</td></tr>'
-                        );
-
-                        last = group;
-                    }
-                });
-            }
-        });
-    });
-
-    // Populate row numbers dynamically after DataTables initialization
-    $('#salesTable').on('order.dt search.dt', function() {
-        $('#salesTable').DataTable().column(0, {search:'applied', order:'applied'}).nodes().each(function(cell, i) {
-            cell.innerHTML = i + 1;
-        });
-    }).draw();
-    
-    function downloadCSV(csv, filename) {
-        var csvFile;
-        var downloadLink;
-
-        csvFile = new Blob([csv], {type: "text/csv"});
-        downloadLink = document.createElement("a");
-
-        downloadLink.download = filename;
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-        downloadLink.style.display = "none";
-
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-    }
-
-    function exportTableToCSV(filename) {
-        var csv = [];
-        var rows = document.querySelectorAll("table tr");
-
-        for (var i = 0; i < rows.length; i++) {
-            var row = [], cols = rows[i].querySelectorAll("td, th");
-
-            for (var j = 0; j < cols.length; j++) 
-                row.push(cols[j].innerText);
-
-            csv.push(row.join(","));
-        }
-
-        downloadCSV(csv.join("\n"), filename);
-    }
-
-    function searchTable() {
-        var input = document.getElementById("searchInput");
-        var filter = input.value.toLowerCase();
-        var table = document.getElementById("salesTable");
-        var tr = table.getElementsByTagName("tr");
-
-        for (var i = 0; i < tr.length; i++) {
-            var td = tr[i].getElementsByTagName("td");
-            var match = false;
-            for (var j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    if (td[j].innerHTML.toLowerCase().indexOf(filter) > -1) {
-                        match = true;
-                        break;
-                    }
-                }
-            }
-            if (match) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-</script>
 </html>

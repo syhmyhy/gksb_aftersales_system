@@ -47,9 +47,11 @@
             </li>
         </ul>
     </nav>
-    
+    <!-- Header -->
+    <header role="banner">
+        <h2>Borang Aftersales</h2>
+    </header>
     <form action="/submit_aftersales_form" method="post" onsubmit="return confirmSubmit()">
-        <h3>Borang Aftersales</h3>
         <!-- Aftersales form fields here -->
          <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}

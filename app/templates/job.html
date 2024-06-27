@@ -45,9 +45,11 @@
             </li>
         </ul>
     </nav>
-    
+    <!-- Header -->
+    <header role="banner">
+        <h2>Borang Tugas</h2>
+    </header>
     <form action="/submit_job_form" method="post" onsubmit="return confirmSubmit()">
-        <h3>Borang Tugas</h3>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
