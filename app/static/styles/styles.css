@@ -1,4 +1,5 @@
 /* styles.css */
+
 /* Reset and Global Styles */
 * {
     margin: 0;
@@ -6,19 +7,27 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #005f73;
+    --secondary-color: #0a9396;
+    --background-color: #f7f9fc;
+    --text-color: #333;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f9fc;
-    color: #333;
-    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.7;
     font-size: 16px;
-    overflow-x: hidden;
-    min-height: 100vh; /* Ensure minimum viewport height */
+    letter-spacing: 0.5px;
+    overflow-x: auto;
+    min-height: 100vh;
 }
 
 /* Header */
 header {
-    background-color: #005f73;
+    background-color: var(--primary-color);
     color: #fff;
     text-align: center;
     padding: 1rem 0;
@@ -35,7 +44,7 @@ main {
     max-width: 1200px;
     padding: 0 2rem;
     display: grid;
-    gap: 2rem; /* Add gap between grid items */
+    gap: 2rem;
 }
 
 h3 {
@@ -55,16 +64,17 @@ h3 {
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #metrics p:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Navigation */
 nav {
-    background-color: #005f73;
+    background-color: var(--primary-color);
     padding: 1rem;
     text-align: center;
     position: sticky;
@@ -88,7 +98,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #0a9396;
+    background-color: var(--secondary-color);
 }
 
 /* Forms */
@@ -119,7 +129,7 @@ form select {
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 form input[type="text"]:focus,
@@ -130,36 +140,39 @@ form input[type="tel"]:focus,
 form input[type="email"]:focus,
 form textarea:focus,
 form select:focus {
-    border-color: #0a9396;
+    border-color: var(--secondary-color);
     outline: none;
+    box-shadow: 0 0 8px rgba(10, 147, 150, 0.2);
 }
 
 form button {
-    background-color: #005f73;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 form button:hover {
-    background-color: #0a9396;
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
 }
 
 button {
-    background-color: #005f73;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
-    background-color: #0a9396;
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
 }
 
 /* Table */
@@ -169,7 +182,7 @@ table {
     margin-top: 2rem;
     background-color: #fff;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -178,11 +191,15 @@ table td {
     border: 1px solid #ddd;
     padding: 1rem;
     text-align: left;
+    vertical-align: middle;
 }
 
 table th {
-    background-color: #005f73;
+    background-color: var(--primary-color);
     color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 table td {
@@ -190,24 +207,23 @@ table td {
 }
 
 .table-container {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: auto; /* Enable horizontal scrolling */
+    overflow-x: auto;
+    overflow-y: auto;
 }
-
 
 /* Flash Messages */
 .flash-success {
-    color: #4CAF50; /* Green color for success messages */
-    background-color: #e8f5e9; /* Light green background */
-    border: 1px solid #81c784; /* Green border */
+    color: #4CAF50;
+    background-color: #e8f5e9;
+    border: 1px solid #81c784;
     padding: 10px;
     margin-bottom: 10px;
 }
 
 .flash-error {
-    color: #D32F2F; /* Red color for error messages */
-    background-color: #fbe9e7; /* Light red background */
-    border: 1px solid #ef9a9a; /* Red border */
+    color: #D32F2F;
+    background-color: #fbe9e7;
+    border: 1px solid #ef9a9a;
     padding: 10px;
     margin-bottom: 10px;
 }
@@ -226,22 +242,31 @@ table td {
         flex-direction: column;
         gap: 0.5rem;
     }
+
+    #searchInput {
+        width: 100%;
+    }
+
+    #icon-nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
 
 /* Additional Styles for home.html */
 #dashboard {
     display: grid;
     gap: 2rem;
-    overflow: auto; /* Enable scrolling if content overflows */
+    overflow: auto;
 }
 
 #sales-data table {
     margin-top: 1rem;
-    overflow-x: auto; /* Horizontal scrolling for tables */
+    overflow-x: auto;
 }
 
 .overall-total {
-    background-color: #e0f7fa; /* Lighter background for overall totals row */
+    background-color: #e0f7fa;
     padding: 1rem;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -249,10 +274,10 @@ table td {
 
 /* Logo styles */
 .logo {
-    width: 500px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Make the image a block element for centering */
-    margin: 0 auto 20px auto; /* Center the logo vertically and add spacing */
+    width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
 }
 
 /* Additional Styles */
@@ -271,23 +296,20 @@ li.export-btn {
 }
 
 #searchInput:focus {
-    border-color: #0a9396;
+    border-color: var(--secondary-color);
     outline: none;
-}
-
-@media (max-width: 768px) {
-    #searchInput {
-        width: 100%;
-    }
 }
 
 /* Footer */
 footer {
-    background-color: #005f73;
+    background-color: var(--primary-color);
     color: #fff;
     text-align: center;
     padding: 1rem 0;
-    margin-top: 2rem;
+    margin-top: auto;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 .footer-container p {
@@ -301,7 +323,7 @@ footer {
     align-items: center;
     padding: 3rem;
     list-style: none;
-    background-color: #005f73;
+    background-color: var(--primary-color);
 }
 
 #icon-nav ul li {
@@ -330,20 +352,19 @@ footer {
     margin-top: 0.5rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    #icon-nav ul {
-        flex-direction: column;
-        gap: 1rem;
-    }
-}
-
 /* Adjustments for specific sections if needed */
 #introduction, #featured-content, #quick-links, #notifications, #contact {
-    background-color: #f7f9fc;
+    background-color: var(--background-color);
     margin-bottom: 2rem;
     padding: 2rem;
     border-radius: 5px;
-    /*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
-    overflow: auto; /* Enable scrolling */
+    overflow: auto;
+}
+
+section {
+    margin-bottom: 2rem;
+}
+
+h3, h2, p {
+    margin-bottom: 1rem;
 }

@@ -10,16 +10,15 @@ from datetime import datetime
 def submit_sales_form():
     sales_data = request.form
 
-    staffID = session.get('staffID')
+    staff_id = session.get('staff_id')  # Use 'staff_id' to match the session key
 
-    # Check if staffID exists in the staff table
-    staff = Staff.query.filter_by(staffID=staffID).first()
+    # Check if staff_id exists in the staff table
+    staff = Staff.query.filter_by(staffID=staff_id).first()
     if not staff:
-        flash(f'Staff ID {staffID} not found in database', 'error')
+        flash(f'Staff ID {staff_id} not found in database', 'error')
         return redirect(url_for('show_sales_list'))
 
     new_sale = Sales(
-        # Remove salesID since it will be auto-incremented
         salesPerson=sales_data['salesPerson'],
         purchaseMethod=sales_data['purchaseMethod'],
         tenderTitle=sales_data['tenderTitle'],
@@ -34,7 +33,7 @@ def submit_sales_form():
         tenderTotalProfit=float(sales_data.get('tenderTotalProfit', 0.0)),
         marginProfit=float(sales_data.get('marginProfit', 0.0)),
         notes=sales_data.get('notes', ''),
-        staffID=staffID
+        staffID=staff_id  # Use 'staff_id' to match the session key
     )
 
     try:
@@ -46,6 +45,7 @@ def submit_sales_form():
         flash(f'Gagal Menambah Rekod Jualan: {str(e)}', 'error')
 
     return redirect(url_for('show_sales_list'))
+
 def show_sales_list():
     sales_records = Sales.query.all()
     return render_template('sales_list.html', sales_records=sales_records)

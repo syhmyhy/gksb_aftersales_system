@@ -27,7 +27,7 @@ def login():
             session['department'] = staff.department
             session['role'] = staff.role  # Set the user's role in the session
 
-            flash('Log masuk berjaya. Selamat datang, {}.'.format(staff.staffName), 'success')
+            flash('Log masuk berjaya. Selamat datang!', 'success')
 
             return redirect(url_for('select_page'))
         else:
