@@ -67,7 +67,7 @@
     <button onclick="exportTableToExcel('aftersalesTable.xlsx')">Muat Turun Rekod Aftersales</button><br><br>
     <div class="table-container">
         <!-- Display existing Aftersales records -->
-        <table id="aftersalesTable" class="display">
+        <table id="aftersalesTable">
             <thead>
                 <tr>
                     <th>#</th>
@@ -104,7 +104,7 @@
                         <td class="table-left-align">{{ aftersales.chassisModel }}</td>
                         <td class="table-left-align">{{ aftersales.chassisNo }}</td>
                         <td class="table-left-align">{{ aftersales.engineNo }}</td>
-                        <td class="table-rigth-align">{{ aftersales.dateDelivered }}</td>
+                        <td class="table-right-align">{{ aftersales.dateDelivered }}</td>
                         <td class="table-left-align">{{ aftersales.stateLocality }}</td>
                         <td class="table-left-align">{{ aftersales.detailLocality }}</td>
                         <td class="table-right-align">{{ aftersales.chassisMileageWarranty }}</td>
@@ -128,18 +128,22 @@
 </body>
 <script>
     $(document).ready(function() {
-        $('#aftersalesTable').DataTable({
-            paging: true,
-            searching: true,
-            ordering: true,
-            columnDefs: [
-                { orderable: false, targets: [0, -1] } // Disable sorting for # and Actions columns
-            ],
-            rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
-            }
+            $('#aftersalesTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "columnDefs": [
+                    { "targets": [0, 1], "orderable": false }, // Disable ordering on first and second columns
+                    { "type": "currency", "targets": [7, 8, 9, 10] } // Apply currency sorting to specific columns
+                ],
+                "rowCallback": function(row, data, index) {
+                    $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
+                }
+            });
         });
-    });
+
 
     function confirmLogout() {
         if (confirm("Adakah anda pasti ingin log keluar?")) {

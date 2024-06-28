@@ -242,6 +242,7 @@ button:hover {
 /* Table */
 table {
     width: 100%;
+    min-width: max-content;
     border-collapse: collapse;
     margin-top: 2rem;
     background-color: #fff;

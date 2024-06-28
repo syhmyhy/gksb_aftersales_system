@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../static/styles/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script src="../static/scripts/sales_list.js" defer></script>
 </head>
 <body>
@@ -51,7 +52,10 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <br><button onclick="exportTableToCSV('sales_records.csv')">Muat Turun Rekod Jualan & Pemasaran</button><br><br>
+    
+    <!-- Export to Excel button -->
+    <br><button onclick="exportToExcel()">Muat Turun Rekod Jualan & Pemasaran</button><br><br>
+    
     <div class="table-container">
         <table id="salesTable">
             <thead>
@@ -85,7 +89,7 @@
                         <td class="table-left-align">{{ sale.chassisType }}</td>
                         <td class="table-left-align">{{ sale.chassisModel }}</td>
                         <td class="table-center-align">{{ sale.quantity }}</td>
-                        <td class="table-left-align">{{ sale.tenderDate }}</td>
+                        <td class="table-right-align">{{ sale.tenderDate }}</td>
                         <td class="table-right-align">{{ sale.unitPrice| format_rm_currency }}</td>
                         <td class="table-right-align">{{ sale.tenderTotalPrice| format_rm_currency }}</td>
                         <td class="table-right-align">{{ sale.unitProfit| format_rm_currency }}</td>

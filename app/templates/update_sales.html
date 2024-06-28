@@ -168,8 +168,8 @@
         <select id="notes" name="notes" required>
             <option value="" {% if not sale.notes %}selected{% endif %} disabled>Pilih Status...</option>
             <option value="Berjaya" {% if sale.notes == 'Berjaya' %}selected{% endif %}>Berjaya</option>
-            <option value="Tidak Berjaya" {% if sale.notes == 'Tidak Berjaya' %}selected{% endif %}>Gagal</option>
-            <option value="Dalam Rundingan" {% if sale.notes == 'Dalam Rundingan' %}selected{% endif %}>Dalam Pertimbangan</option>
+            <option value="Gagal" {% if sale.notes == 'Gagal' %}selected{% endif %}>Gagal</option>
+            <option value="Dalam Pertimbangan" {% if sale.notes == 'Dalam Pertimbangan' %}selected{% endif %}>Dalam Pertimbangan</option>
         </select>
 
 

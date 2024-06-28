@@ -90,20 +90,20 @@
             <tbody>
                 {% for job in job_data %}
                 <tr>
-                    <td class="rowCount">{{ loop.index }}</td> <!-- Display row count -->
-                    <td class="jobNo">{{ job.jobNo }}</td>
-                    <td class="title">{{ job.title }}</td>
-                    <td class="custName">{{ job.custName }}</td>
-                    <td class="vehicleType">{{ job.vehicleType }}</td>
-                    <td class="quantity">{{ '%.1f'|format(job.quantity) }}</td> <!-- Format quantity to one decimal place -->
-                    <td class="dateReceived">{{ job.dateReceived }}</td>
-                    <td class="salesUnit">{{ job.salesUnit| format_rm_currency }}</td>
-                    <td class="totalSales">{{ job.totalSales| format_rm_currency }}</td>
-                    <td class="profitUnit">{{ job.profitUnit| format_rm_currency }}</td>
-                    <td class="totalProfit">{{ job.totalProfit| format_rm_currency }}</td>
-                    <td class="marginProfit">{{ job.marginProfit }}</td>
-                    <td class="jobDateDelivered">{{ job.jobDateDelivered }}</td>
-                    <td class="staffID">{{ job.staffID }}</td>
+                    <td class="table-right-align">{{ loop.index }}</td>
+                    <td class="table-right-align">{{ job.jobNo }}</td>
+                    <td class="table-left-align">{{ job.title }}</td>
+                    <td class="table-left-align">{{ job.custName }}</td>
+                    <td class="table-left-align">{{ job.vehicleType }}</td>
+                    <td class="table-center-align">{{ '%.1f'|format(job.quantity) }}</td>
+                    <td class="table-right-align">{{ job.dateReceived }}</td>
+                    <td class="table-right-align">{{ job.salesUnit| format_rm_currency }}</td>
+                    <td class="table-right-align">{{ job.totalSales| format_rm_currency }}</td>
+                    <td class="table-right-align">{{ job.profitUnit| format_rm_currency }}</td>
+                    <td class="table-right-align">{{ job.totalProfit| format_rm_currency }}</td>
+                    <td class="table-center-align">{{ job.marginProfit }}</td>
+                    <td class="table-right-align">{{ job.jobDateDelivered }}</td>
+                    <td class="table-center-align">{{ job.staffID }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

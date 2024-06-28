@@ -2,18 +2,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pengurusan Tugas</title>
-        <link rel="stylesheet" href="../static/styles/styles.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script src="../static/scripts/filter_job.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </head>    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengurusan Tugas</title>
+    <link rel="stylesheet" href="../static/styles/styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="../static/scripts/filter_job.js"></script>
+</head>
 <body>
     <!-- Navigation -->
     <nav>
@@ -28,7 +28,7 @@
                     <i class="fas fa-home"></i> Projek Keseluruhan
                 </a>
             </li>
-            <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
+            <li class="active">
                 <a href="{{ url_for('show_job_management') }}">
                     <i class="fas fa-tasks"></i> Senarai Rekod Jualan
                 </a>
@@ -54,6 +54,7 @@
     <header role="banner">
         <h2>Rekod Jualan</h2>
     </header>
+
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -64,142 +65,121 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    
     <br>
     <button onclick="exportToExcel()">Muat Turun Rekod Jualan</button><br><br>
+    
     <div class="table-container">
         <!-- Display existing Job records -->
         <table id="jobTable">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th class="jobNo">Job No</th>
-                    <th class="title">Tajuk</th>
-                    <th class="custName">Nama Pelanggan</th>
-                    <th class="vehicleType">Jenis Kenderaan</th>
-                    <th class="quantity">Kuantiti</th>
-                    <th class="dateReceived">Tarikh SST</th>
-                    <th class="salesUnit">Jualan(RM) /Unit</th>
-                    <th class="totalSales">Jumlah Jualan(RM)</th>
-                    <th class="profitUnit">Untung(RM) /Unit</th>
-                    <th class="totalProfit">Jumlah Untung(RM)</th>
-                    <th class="marginProfit">Margin Keuntungan(%)</th>
-                    <th class="jobDateDelivered">Tarikh Penghantaran</th>
-                    <th class="staffID">Staff ID</th>
-                    <th class="action">Actions</th>
+                    <th>Job No</th>
+                    <th>Tajuk</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Jenis Kenderaan</th>
+                    <th>Kuantiti</th>
+                    <th>Tarikh SST</th>
+                    <th>Jualan(RM) /Unit</th>
+                    <th>Jumlah Jualan(RM)</th>
+                    <th>Untung(RM) /Unit</th>
+                    <th>Jumlah Untung(RM)</th>
+                    <th>Margin Keuntungan(%)</th>
+                    <th>Tarikh Penghantaran</th>
+                    <th>Staff ID</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for job in job_data %}
                 <tr>
-                    <td class="rowCount">{{ loop.index }}</td>
-                    <td class="jobNo">{{ job.jobNo }}</td>
-                    <td class="title">{{ job.title }}</td>
-                    <td class="custName">{{ job.custName }}</td>
-                    <td class="vehicleType">{{ job.vehicleType }}</td>
-                    <td class="quantity">{{ '%.1f'|format(job.quantity) }}</td>
-                    <td class="dateReceived">{{ job.dateReceived }}</td>
-                    <td class="salesUnit">{{ job.salesUnit| format_rm_currency }}</td>
-                    <td class="totalSales">{{ job.totalSales| format_rm_currency }}</td>
-                    <td class="profitUnit">{{ job.profitUnit| format_rm_currency }}</td>
-                    <td class="totalProfit">{{ job.totalProfit| format_rm_currency }}</td>
-                    <td class="marginProfit">{{ job.marginProfit }}</td>
-                    <td class="jobDateDelivered">{{ job.jobDateDelivered }}</td>
-                    <td class="staffID">{{ job.staffID }}</td>
+                    <td class="table-right-align">{{ loop.index }}</td>
+                    <td class="table-right-align">{{ job.jobNo }}</td>
+                    <td class="table-left-align">{{ job.title }}</td>
+                    <td class="table-left-align">{{ job.custName }}</td>
+                    <td class="table-left-align">{{ job.vehicleType }}</td>
+                    <td class="table-center-align">{{ '%.1f'|format(job.quantity) }}</td>
+                    <td class="table-right-align">{{ job.dateReceived }}</td>
+                    <td class="table-right-align">{{ job.salesUnit| format_rm_currency }}</td>
+                    <td class="table-right-align">{{ job.totalSales| format_rm_currency }}</td>
+                    <td class="table-right-align">{{ job.profitUnit| format_rm_currency }}</td>
+                    <td class="table-right-align">{{ job.totalProfit| format_rm_currency }}</td>
+                    <td class="table-center-align">{{ job.marginProfit }}</td>
+                    <td class="table-right-align">{{ job.jobDateDelivered }}</td>
+                    <td class="table-center-align">{{ job.staffID }}</td>
                     <td class="action">
                         <a href="{{ url_for('update_job_route', jobNo=job.jobNo) }}">Kemaskini</a>
-                        <a href="#" onclick="confirmDelete('{{ job.jobNo }}')">Padam</a>     
+                        <a href="#" onclick="confirmDelete('{{ job.jobNo }}')">Padam</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</body>
-<script>
-    function confirmLogout() {
-        if (confirm("Adakah anda pasti ingin log keluar?")) {
-            window.location.href = "{{ url_for('logout') }}";
+    <script>
+        function exportToExcel() {
+            const table = document.getElementById('jobTable');
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'job_data.xlsx');
         }
-    }
 
-    function confirmDelete(jobNo) {
-        if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
-            const url = `/delete_job/${jobNo}`;
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ jobNo })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Reload the page to show updated data and flash message
-                    window.location.reload();
-                } else {
-                    // Display flash message without reloading the page
-                    displayFlashMessage(data.message, 'error');
+        $(document).ready(function() {
+            $('#jobTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "columnDefs": [
+                    { "targets": [0, 1], "orderable": false }, // Disable ordering on first and second columns
+                    { "type": "currency", "targets": [7, 8, 9, 10] } // Apply currency sorting to specific columns
+                ],
+                "rowCallback": function(row, data, index) {
+                    $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
                 }
-            })
-            .catch(error => {
-                console.error('Error deleting job record:', error);
-                displayFlashMessage('Gagal memadam rekod tugas. Sila cuba lagi.', 'error');
             });
-        }
-    }
+        });
 
-    function displayFlashMessage(message, category) {
-        const flashMessages = document.querySelector('.flash-messages');
-        const newMessage = document.createElement('li');
-        newMessage.className = category;
-        newMessage.textContent = message;
-        flashMessages.appendChild(newMessage);
-
-        // Automatically remove the flash message after a few seconds
-        setTimeout(() => {
-            newMessage.remove();
-        }, 2000);
-    }
-
-    function exportToExcel() {
-        const table = document.getElementById('jobTable');
-        const ws = XLSX.utils.table_to_sheet(table);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, 'job_data.xlsx');
-    }
-
-    $(document).ready(function() {
-        // Add a new sorting function for job numbers
-        jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
-            return parseInt(d.replace(/\D/g, ''), 10); // Remove any non-numeric characters and parse as integer
-        };
-
-        const table = $('#jobTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-            "columnDefs": [
-                { "type": "jobNo", "targets": 1 } // Apply custom sorting to the Job No column
-            ],
-            "rowCallback": function(row, data, index) {
-                // Re-order the row numbering
-                $('td:eq(0)', row).html(index + 1);
-                
-                // Format the currency columns
-                $('td:eq(7)', row).html(formatCurrency(parseFloat(data[7])));
-                $('td:eq(8)', row).html(formatCurrency(parseFloat(data[8])));
-                $('td:eq(9)', row).html(formatCurrency(parseFloat(data[9])));
-                $('td:eq(10)', row).html(formatCurrency(parseFloat(data[10])));
+        function confirmDelete(jobNo) {
+            if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
+                const url = `/delete_job/${jobNo}`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jobNo })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload(); // Reload the page after successful deletion
+                    } else {
+                        displayFlashMessage(data.message, 'error'); // Display error message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting job record:', error);
+                    displayFlashMessage('Gagal memadam rekod tugas. Sila cuba lagi.', 'error');
+                });
             }
-        });
+        }
 
-        $('#filterInput').on('keyup', function() {
-            table.search(this.value).draw();
-        });
-    });
-</script>    
+        function displayFlashMessage(message, category) {
+            const flashMessages = document.querySelector('.flash-messages');
+            const newMessage = document.createElement('div');
+            newMessage.className = `flash-${category}`;
+            newMessage.textContent = message;
+            flashMessages.appendChild(newMessage);
+
+            // Automatically remove the flash message after 2 seconds
+            setTimeout(() => {
+                newMessage.remove();
+            }, 2000);
+        }
+    </script>
+</body>
 </html>
