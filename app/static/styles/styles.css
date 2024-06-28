@@ -271,8 +271,9 @@ table tbody tr:hover {
 }
 
 .table-container {
-    overflow-x: auto;
+    overflow-x: scroll; /* Always show horizontal scrollbar */
     overflow-y: auto;
+    max-width: 100%; /* Adjust max-width if necessary */
 }
 
 /* Specific alignments */

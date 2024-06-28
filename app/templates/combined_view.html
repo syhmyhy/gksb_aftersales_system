@@ -29,22 +29,22 @@
             </li>
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
                 <a href="{{ url_for('show_job_management') }}">
-                    <i class="fas fa-tasks"></i> Tugas
+                    <i class="fas fa-tasks"></i> Senarai Rekod Jualan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}">
                 <a href="{{ url_for('show_job_form') }}">
-                    <i class="fas fa-clipboard-list"></i> Borang Tugas
+                    <i class="fas fa-clipboard-list"></i> Butiran Rekod Jualan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
                 <a href="{{ url_for('show_aftersales_management') }}">
-                    <i class="fas fa-tools"></i> Aftersales
+                    <i class="fas fa-tools"></i> Senarai Rekod Aftersales
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
                 <a href="{{ url_for('show_aftersales_form') }}">
-                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                    <i class="fas fa-file-alt"></i> Butiran Rekod Aftersales
                 </a>
             </li>
         </ul>
@@ -53,7 +53,6 @@
     <header role="banner">
         <h2>Rekod Tugas dan Aftersales</h2>
     </header>
-    <a href="{{ url_for('aftersales_home') }}">Kembali ke Halaman Utama</a><br><br>
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

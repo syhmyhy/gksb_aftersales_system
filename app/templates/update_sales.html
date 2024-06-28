@@ -75,6 +75,7 @@
         <datalist id="purchaseMethodList">
             <option value="TENDER" data-calc="">TENDER</option>
             <option value="DIRECT NEGO" data-calc="">DIRECT NEGO</option>
+            <option value="SEBUT HARGA" data-calc="">SEBUT HARGA</option>            
             {% for purchaseMethod in purchaseMethods %}
                 <option value="{{ purchaseMethod }}">{{ purchaseMethod }}</option>
             {% endfor %}
@@ -167,8 +168,8 @@
         <select id="notes" name="notes" required>
             <option value="" {% if not sale.notes %}selected{% endif %} disabled>Pilih Status...</option>
             <option value="Berjaya" {% if sale.notes == 'Berjaya' %}selected{% endif %}>Berjaya</option>
-            <option value="Tidak Berjaya" {% if sale.notes == 'Tidak Berjaya' %}selected{% endif %}>Tidak Berjaya</option>
-            <option value="Dalam Rundingan" {% if sale.notes == 'Dalam Rundingan' %}selected{% endif %}>Dalam Rundingan</option>
+            <option value="Tidak Berjaya" {% if sale.notes == 'Tidak Berjaya' %}selected{% endif %}>Gagal</option>
+            <option value="Dalam Rundingan" {% if sale.notes == 'Dalam Rundingan' %}selected{% endif %}>Dalam Pertimbangan</option>
         </select>
 
 

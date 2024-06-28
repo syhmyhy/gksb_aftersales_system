@@ -29,22 +29,22 @@
             </li>
             <li class="{% if request.endpoint == 'show_job_management' %}active{% endif %}">
                 <a href="{{ url_for('show_job_management') }}">
-                    <i class="fas fa-tasks"></i> Tugas
+                    <i class="fas fa-tasks"></i> Senarai Rekod Jualan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_job_form' %}active{% endif %}">
                 <a href="{{ url_for('show_job_form') }}">
-                    <i class="fas fa-clipboard-list"></i> Borang Tugas
+                    <i class="fas fa-clipboard-list"></i> Butiran Rekod Jualan
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_aftersales_management' %}active{% endif %}">
                 <a href="{{ url_for('show_aftersales_management') }}">
-                    <i class="fas fa-tools"></i> Aftersales
+                    <i class="fas fa-tools"></i> Senarai Rekod Aftersales
                 </a>
             </li>
             <li class="{% if request.endpoint == 'show_aftersales_form' %}active{% endif %}">
                 <a href="{{ url_for('show_aftersales_form') }}">
-                    <i class="fas fa-file-alt"></i> Borang Aftersales
+                    <i class="fas fa-file-alt"></i> Butiran Rekod Aftersales
                 </a>
             </li>
         </ul>
@@ -117,7 +117,7 @@
                         <td class="table-left-align">{{ aftersales.notes }}</td>
                         <td class="table-right-align">{{ aftersales.jobNo }}</td>
                         <td class="table-left-align">
-                            <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Edit</a>
+                            <a href="{{ url_for('update_aftersales_route', registrationNo=aftersales.registrationNo) }}">Kemaskini</a>
                             <a href="#" onclick="confirmDelete('{{ aftersales.registrationNo }}')">Padam</a>
                         </td>
                     </tr>
