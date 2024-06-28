@@ -53,7 +53,7 @@
     
     <!-- Header -->
     <header role="banner">
-        <h2>Jumlah Keseluruhan Jualan</h2>
+        <h2>Jumlah Keseluruhan Jualan Mengikut Tahun</h2>
     </header>
 
     <!-- Flash Messages -->
@@ -70,25 +70,36 @@
     <!-- Main Content -->
     <main class="dashboard">
         <section id="overall-metrics" class="dashboard-section">
-            <h3>Projek Keseluruhan</h3>
-            <div class="grid-container">
-                <div class="metric-box">
-                    <p>Jumlah Keseluruhan Projek:</p>
-                    <p class="metric-value">RM {{ overall_sales | format_rm_currency }}</p>
-                </div>
-                <div class="metric-box">
-                    <p>Jumlah Keuntungan:</p>
-                    <p class="metric-value">RM {{ overall_profit | format_rm_currency }}</p>
-                </div>
-                <div class="metric-box">
-                    <p>Jumlah Keseluruhan Kuantiti:</p>
-                    <p class="metric-value">{{ overall_quantity }}</p>
-                </div>
-                <div class="metric-box">
-                    <p>Margin Keuntungan:</p>
-                    <p class="metric-value">{{ overall_margin_profit | round(2) }}%</p>
-                </div>
-            </div>
+            <h3>Projek Keseluruhan Mengikut Tahun</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tahun</th>
+                        <th>Jumlah Keseluruhan Projek (RM)</th>
+                        <th>Jumlah Keuntungan (RM)</th>
+                        <th>Jumlah Keseluruhan Kuantiti</th>
+                        <th>Margin Keuntungan (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for year, metrics in overall_metrics_by_year.items() %}
+                    <tr>
+                        <td class="table-center-align">{{ year }}</td>
+                        <td class="table-right-align">{{ metrics['overall_sales'] | format_rm_currency }}</td>
+                        <td class="table-right-align">{{ metrics['overall_profit'] | format_rm_currency }}</td>
+                        <td class="table-center-align">{{ metrics['overall_quantity'] }}</td>
+                        <td class="table-center-align">{{ metrics['overall_margin_profit'] | round(2) }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="table-center-align"><strong>Jumlah Keseluruhan</strong></td>
+                        <td class="table-right-align"><strong>{{ total_sales | format_rm_currency }}</strong></td>
+                        <td class="table-right-align"><strong>{{ total_profit | format_rm_currency }}</strong></td>
+                        <td class="table-center-align"><strong>{{ total_quantity }}</strong></td>
+                        <td class="table-center-align"><strong>{{ total_margin_profit | round(2) }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <section class="dashboard-section">
@@ -104,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="chart-item">
+            <!--div class="chart-item">
                 <h3>Trend Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>
                 <canvas id="jobProfitabilityTrendChart"></canvas>
                 <div class="slider-container">
@@ -112,7 +123,7 @@
                     <input type="range" id="dateRangeSlider" min="1" step="1">
                     <label id="dateRangeLabel"></label>
                 </div>
-            </div>
+            </div>-->
 
             <div class="chart-item">
                 <h3>Jumlah Kuantiti Mengikut Jenis Kenderaan</h3>

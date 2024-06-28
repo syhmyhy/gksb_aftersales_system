@@ -53,7 +53,7 @@
     {% endwith %}
     <br><button onclick="exportTableToCSV('sales_records.csv')">Muat Turun Rekod Jualan & Pemasaran</button><br><br>
     <div class="table-container">
-        <table id="salesTable" class="display">
+        <table id="salesTable">
             <thead>
                 <tr>
                     <th>#</th> <!-- Row counter column -->
@@ -100,7 +100,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        
     </div>
 </body>
 </html>

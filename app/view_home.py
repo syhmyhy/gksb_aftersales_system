@@ -30,18 +30,42 @@ def aftersales_home():
         flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
     
-    # Calculate overall metrics from the Job model
-    overall_sales = db.session.query(func.sum(Job.totalSales)).scalar() or 0
-    overall_profit = db.session.query(func.sum(Job.totalProfit)).scalar() or 0
-    overall_quantity = db.session.query(func.sum(Job.quantity)).scalar() or 0
-    overall_margin_profit = (overall_profit / (overall_sales - overall_profit)) * 100 if overall_sales > 0 else 0
+    # Calculate overall metrics by year
+    metrics_by_year = db.session.query(
+        func.date_format(Job.jobDateDelivered, '%Y').label('year'),
+        func.sum(Job.totalSales).label('overall_sales'),
+        func.sum(Job.totalProfit).label('overall_profit'),
+        func.sum(Job.quantity).label('overall_quantity')
+    ).group_by('year').all()
+
+    overall_metrics_by_year = {}
+    total_sales = 0
+    total_profit = 0
+    total_quantity = 0
+
+    for year, overall_sales, overall_profit, overall_quantity in metrics_by_year:
+        overall_sales = overall_sales or 0
+        overall_profit = overall_profit or 0
+        overall_quantity = overall_quantity or 0
+        overall_margin_profit = (overall_profit / (overall_sales - overall_profit)) * 100 if overall_sales > 0 else 0
+        overall_metrics_by_year[year] = {
+            'overall_sales': overall_sales,
+            'overall_profit': overall_profit,
+            'overall_quantity': overall_quantity,
+            'overall_margin_profit': overall_margin_profit
+        }
+        total_sales += overall_sales
+        total_profit += overall_profit
+        total_quantity += overall_quantity
+    
+    total_margin_profit = (total_profit / (total_sales - total_profit)) * 100 if total_sales > 0 else 0
     
     return render_template('aftersales_home.html', 
-                           overall_sales=overall_sales, 
-                           overall_profit=overall_profit, 
-                           overall_quantity=overall_quantity, 
-                           overall_margin_profit=overall_margin_profit)
-
+                           overall_metrics_by_year=overall_metrics_by_year,
+                           total_sales=total_sales,
+                           total_profit=total_profit,
+                           total_quantity=total_quantity,
+                           total_margin_profit=total_margin_profit)
 
 @app.route('/sales_marketing_home', methods=['GET'])
 def sales_marketing_home():
@@ -108,29 +132,29 @@ def get_combined_job_data():
         'overall_margin_percentage': overall_margin_percentage
     })
 
-@app.route('/get_job_profitability_trends')
-def get_job_profitability_trends():
-    from sqlalchemy import extract
+# @app.route('/get_job_profitability_trends')
+# def get_job_profitability_trends():
+#     from sqlalchemy import extract
 
-    job_data = db.session.query(
-        extract('year', Job.jobDateDelivered).label('year'),
-        db.func.sum(Job.totalSales).label('total_sales'),
-        db.func.sum(Job.totalProfit).label('total_profit')
-    ).group_by(
-        extract('year', Job.jobDateDelivered)
-    ).order_by(
-        extract('year', Job.jobDateDelivered)
-    ).all()
+#     job_data = db.session.query(
+#         extract('year', Job.jobDateDelivered).label('year'),
+#         db.func.sum(Job.totalSales).label('total_sales'),
+#         db.func.sum(Job.totalProfit).label('total_profit')
+#     ).group_by(
+#         extract('year', Job.jobDateDelivered)
+#     ).order_by(
+#         extract('year', Job.jobDateDelivered)
+#     ).all()
 
-    years = [item.year for item in job_data]
-    total_sales = [float(item.total_sales) for item in job_data]
-    total_profit = [float(item.total_profit) for item in job_data]
+#     years = [item.year for item in job_data]
+#     total_sales = [float(item.total_sales) for item in job_data]
+#     total_profit = [float(item.total_profit) for item in job_data]
 
-    return jsonify({
-        'years': years,
-        'total_sales': total_sales,
-        'total_profit': total_profit
-    })
+#     return jsonify({
+#         'years': years,
+#         'total_sales': total_sales,
+#         'total_profit': total_profit
+#     })
 
 @app.route('/get_job_quantities')
 def get_job_quantities():

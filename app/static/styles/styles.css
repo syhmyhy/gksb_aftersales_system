@@ -25,8 +25,15 @@ body {
     line-height: 1.7;
     font-size: 16px;
     letter-spacing: 0.5px;
-    overflow-x: auto;
     min-height: 100vh;
+    flex-direction: column;
+}
+
+.table-scroller {
+    margin: auto;
+    width: auto;
+    height: auto;
+    overflow: auto;
 }
 
 /* Header */
@@ -50,6 +57,7 @@ main {
     padding: 0 2rem;
     display: grid;
     gap: 2rem;
+    flex: 1;
 }
 
 h3 {
@@ -271,9 +279,8 @@ table tbody tr:hover {
 }
 
 .table-container {
-    overflow-x: scroll; /* Always show horizontal scrollbar */
+    overflow-x: auto;
     overflow-y: auto;
-    max-width: 100%; /* Adjust max-width if necessary */
 }
 
 /* Specific alignments */
