@@ -51,17 +51,26 @@
     {% endwith %}
     <!-- Dashboard Section -->
     <main class="dashboard">
+        <!-- Toggle button -->
         <section id="overall-metrics" class="dashboard-section">
             <h3>Keseluruhan Jualan & Pemasaran</h3>
+            <button id="toggleValuesButton" onclick="toggleValues()">Lihat/Tutup Jumlah</button><br><br>
+
             <div class="grid-container">
                 <div class="metric-box">
                     <p>Jumlah Keseluruhan Tender/Sebut Harga:</p>
-                    <p class="metric-value">RM {{ overall_sales | format_rm_currency }}</p>
+                    <p class="metric-value overall-sales-value">
+                        RM <span class="sales-value actual-value hidden">{{ overall_sales | format_rm_currency }}</span>
+                        <span class="hidden">******</span>
+                    </p>
                 </div>
                 <div class="metric-box">
                     <p>Jumlah Keseluruhan Keuntungan:</p>
-                    <p class="metric-value">RM {{ overall_profit | format_rm_currency }}</p>
-                </div>
+                    <p class="metric-value overall-profit-value">
+                        RM <span class="profit-value actual-value hidden">{{ overall_profit | format_rm_currency }}</span>
+                        <span class="hidden">******</span>
+                    </p>
+                </div>             
                 <div class="metric-box">
                     <p>Jumlah Keseluruhan Kuantiti:</p>
                     <p class="metric-value">{{ overall_quantity }}</p>
@@ -71,7 +80,7 @@
                     <p class="metric-value">{{ overall_margin_profit | round(2) }}%</p>
                 </div>
             </div>
-        </section>        
+        </section>
 
         <section class="chart-container dashboard-section">
             <!-- Chart Canvas -->
@@ -115,6 +124,34 @@
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        toggleValues(); // Call toggleValues to hide values on page load
+
+        function toggleValues() {
+            var salesElements = document.querySelectorAll('.overall-sales-value .actual-value');
+            var profitElements = document.querySelectorAll('.overall-profit-value .actual-value');
+
+            // Initially hide the elements
+            salesElements.forEach(function(element) {
+                element.classList.add('hidden');
+            });
+
+            profitElements.forEach(function(element) {
+                element.classList.add('hidden');
+            });
+
+            // Toggle visibility on button click
+            document.getElementById('toggleValuesButton').addEventListener('click', function() {
+                salesElements.forEach(function(element) {
+                    element.classList.toggle('hidden');
+                });
+
+                profitElements.forEach(function(element) {
+                    element.classList.toggle('hidden');
+                });
+            });
+        }
+
+        // Chart.js initialization code remains the same as you have
         var salesData = [];
         var profitData = [];
         var marginProfitData = [];

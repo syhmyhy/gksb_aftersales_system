@@ -497,3 +497,7 @@ section {
 h3, h2, p {
     margin-bottom: 1rem;
 }
+
+.hidden {
+    display: none;
+}
