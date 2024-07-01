@@ -119,29 +119,50 @@
     </div>
     <script>
         function exportToExcel() {
-            const table = document.getElementById('jobTable');
-            const ws = XLSX.utils.table_to_sheet(table);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-            XLSX.writeFile(wb, 'job_data.xlsx');
-        }
+        const table = document.getElementById('jobTable');
+        const ws = XLSX.utils.table_to_sheet(table);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'job_data.xlsx');
+    }
 
-        $(document).ready(function() {
-            $('#jobTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                "columnDefs": [
-                    { "targets": [0], "orderable": false }, // Disable ordering on the first column
-                    { "type": "num", "targets": 1 } // Ensure numerical sorting for 'jobNo' column
-                ],
-                "rowCallback": function(row, data, index) {
-                    $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
-                }
-            });
+    // Custom sorting function for jobNo
+    jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
+        return parseInt(d.replace(/\D/g, ''), 10); // Remove any non-numeric characters and parse as integer
+    };
+    
+    $(document).ready(function() {
+        const table = $('#jobTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            "columnDefs": [
+                { "type": "jobNo", "targets": 1 } // Apply custom sorting to the Job No column
+            ],
+            "rowCallback": function(row, data, index) {
+                $('td:eq(0)', row).html(index + 1);
+            }
         });
+
+        $('#filterInput').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+    });
+
+    function displayFlashMessage(message, category) {
+        const flashMessages = document.querySelector('.flash-messages');
+        const newMessage = document.createElement('div');
+        newMessage.className = `flash-${category}`;
+        newMessage.textContent = message;
+        flashMessages.appendChild(newMessage);
+
+        // Automatically remove the flash message after 2 seconds
+        setTimeout(() => {
+            newMessage.remove();
+        }, 2000);
+    }
 
         function confirmDelete(jobNo) {
             if (confirm("Adakah anda pasti ingin memadam rekod Tugas ini?")) {
@@ -166,19 +187,6 @@
                     displayFlashMessage('Gagal memadam rekod tugas. Sila cuba lagi.', 'error');
                 });
             }
-        }
-
-        function displayFlashMessage(message, category) {
-            const flashMessages = document.querySelector('.flash-messages');
-            const newMessage = document.createElement('div');
-            newMessage.className = `flash-${category}`;
-            newMessage.textContent = message;
-            flashMessages.appendChild(newMessage);
-
-            // Automatically remove the flash message after 2 seconds
-            setTimeout(() => {
-                newMessage.remove();
-            }, 2000);
         }
     </script>
 </body>
