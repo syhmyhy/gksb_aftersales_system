@@ -26,11 +26,11 @@ def show_staff_registration_form():
 def registration_status():
     return staff_controller.registration_status()
 
-@app.route('/approve_staff/<staff_id>', methods=['POST'])
+@app.route('/approve_staff/<staff_id>', methods=['GET', 'POST'])
 def approve_staff(staff_id):
     return staff_controller.approve_staff(staff_id)
 
-@app.route('/reject_staff/<staff_id>', methods=['POST'])
+@app.route('/reject_staff/<staff_id>', methods=['GET', 'POST'])
 def reject_staff(staff_id):
     return staff_controller.reject_staff(staff_id)
 
