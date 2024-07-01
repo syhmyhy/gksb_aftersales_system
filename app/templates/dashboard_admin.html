@@ -1,0 +1,75 @@
+<!--dashboard_admin.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Komited Sdn Bhd</title>
+    <link rel="stylesheet" href="../static/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header role="banner">
+        <h2>Selamat Datang ke Global Komited Sdn Bhd!</h2>
+    </header>
+
+    <main>
+        <section id="introduction">
+            <img src="../static/images/wgk1.png" alt="Logo Global Komited Sdn Bhd" class="logo">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        <p>Choose an option from the navigation menu below to get started.</p>
+        </section>
+        <nav id="icon-nav">
+            <ul>
+                <li>
+                    <a href="{{ url_for('aftersales_home') }}">
+                        <i class="fas fa-tools fa-4x"></i>
+                        <span>Projek Keseluruhan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('sales_marketing_home') }}">
+                        <i class="fas fa-chart-line fa-4x"></i>
+                        <span>Jualan & Pemasaran</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('show_staff_profile') }}">
+                        <i class="fas fa-user fa-4x"></i>
+                        <span>Profil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('registration_status') }}">
+                        <i class="fas fa-tools fa-4x"></i>
+                        <span>Status Pendaftaran Staff</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt fa-4x"></i>
+                        <span>Log Keluar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </main>
+    
+    <script>
+        function confirmLogout() {
+            if (confirm("Adakah anda pasti ingin log keluar?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+</body>
+</html>

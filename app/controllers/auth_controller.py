@@ -11,29 +11,31 @@ def show_login_form():
     return render_template('login.html')
 
 def login():
-    if 'staff_id' in session:
-        # If user already has an active session, redirect to home page
-        return redirect(url_for('select_page'))
-
     if request.method == 'POST':
         staff_id = request.form['staffID']
         password = request.form['password']
-
+        
+        # Find the staff by staffID
         staff = Staff.query.filter_by(staffID=staff_id).first()
+        
+        if not staff:
+            flash('ID Staff tidak dijumpai', 'error')
+            return redirect(url_for('show_login_form'))
 
-        if staff and check_password_hash(staff.password, password):
-            session['staff_id'] = staff.staffID
-            session['staffName'] = staff.staffName
-            session['department'] = staff.department
-            session['role'] = staff.role  # Set the user's role in the session
+        # Check if the staff is approved
+        if not staff.approved:
+            flash('Akaun belum diluluskan.', 'error')
+            return redirect(url_for('show_login_form'))
 
-            flash('Log masuk berjaya. Selamat datang!', 'success')
+        # Check if the password is correct
+        if not check_password_hash(staff.password, password):
+            flash('Kata laluan tidak sah', 'error')
+            return redirect(url_for('show_login_form'))
 
-            return redirect(url_for('select_page'))
-        else:
-            flash('Staff ID atau kata laluan tidak sah', 'error')
+        # Log in the staff
+        session['staff_id'] = staff.staffID
+        return redirect(url_for('select_page'))
 
-    # If login fails or it's a GET request, show the login form
     return redirect(url_for('show_login_form'))
 
 def logout():

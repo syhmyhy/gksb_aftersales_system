@@ -22,6 +22,18 @@ def register_staff():
 def show_staff_registration_form():
     return staff_controller.show_staff_registration_form()
 
+@app.route('/registration_status')
+def registration_status():
+    return staff_controller.registration_status()
+
+@app.route('/approve_staff/<staff_id>', methods=['POST'])
+def approve_staff(staff_id):
+    return staff_controller.approve_staff(staff_id)
+
+@app.route('/reject_staff/<staff_id>', methods=['POST'])
+def reject_staff(staff_id):
+    return staff_controller.reject_staff(staff_id)
+
 @app.route('/show_staff_profile')
 def show_staff_profile():
     if 'staff_id' not in session:

@@ -1,0 +1,65 @@
+<!-- registration_status.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
+                <a href="{{ url_for('select_page') }}">
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Header -->
+    <header role="banner">
+        <h2>Pending Staff Registrations</h2>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Staff ID</th>
+                <th>Staff Name</th>
+                <th>Department</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in pending_staff %}
+            <tr>
+                <td>{{ staff.staffID }}</td>
+                <td>{{ staff.staffName }}</td>
+                <td>{{ staff.department }}</td>
+                <td>{{ staff.staffEmail }}</td>
+                <td>
+                    <a href="{{ url_for('approve_staff', staff_id=staff.staffID) }}" class="action-btn approve-btn"><i class="fas fa-check-circle"></i> Approve</a>
+                    <a href="{{ url_for('reject_staff', staff_id=staff.staffID) }}" class="action-btn reject-btn"><i class="fas fa-times-circle"></i> Reject</a>
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

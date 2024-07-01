@@ -6,8 +6,8 @@ $(document).ready(function() {
         "info": true,
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columnDefs": [
-            { "targets": [0, 1], "orderable": false }, // Disable ordering on first and second columns
-            { "type": "currency", "targets": [7, 8, 9, 10] } // Apply currency sorting to specific columns
+            { "targets": [0], "orderable": false }, // Disable ordering on first and second columns
+            { "type": "num", "targets": [1] } // Apply currency sorting to specific columns
         ],
         "rowCallback": function(row, data, index) {
             $('td:eq(0)', row).html(index + 1); // Re-order the row numbering

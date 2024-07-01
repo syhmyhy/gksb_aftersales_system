@@ -28,16 +28,16 @@
             {% endif %}
         {% endwith %}<br>
         <label for="staffID">Employee No:</label>
-        <input type="text" id="staffID" name="staffID" placeholder="GSK001..." required><br>
-        
+        <input type="text" id="staffID" name="staffID" oninput="this.value = this.value.toUpperCase();" placeholder="GSK001..." required>
+                
         <label for="staffEmail">Email:</label>
-        <input type="email" id="staffEmail" name="staffEmail" placeholder="abc@weststardefence.com.my..." required><br>
+        <input type="email" id="staffEmail" name="staffEmail" oninput="this.value = this.value.toUpperCase();" placeholder="abc@weststardefence.com.my..." required><br>
 
         <label for="staffName">Nama:</label>
-        <input type="text" id="staffName" name="staffName" placeholder="Masukkan Nama..." required><br>
+        <input type="text" id="staffName" name="staffName" oninput="this.value = this.value.toUpperCase();" placeholder="Masukkan Nama..." required><br>
         
         <label for="department">Jabatan:</label>
-        <input type="text" list="departments" id="department" name="department" placeholder="Pilih Jabatan..." required>
+        <input type="text" list="departments" id="department" name="department" oninput="this.value = this.value.toUpperCase();" placeholder="Pilih Jabatan..." required>
         <datalist id="departments">
             <option value="">Pilih Jabatan</option>
             <option value="Management">Management</option>

@@ -16,7 +16,7 @@
         <ul>
             <li class="{% if request.endpoint == 'select_page' %}active{% endif %}">
                 <a href="{{ url_for('select_page') }}">
-                    <i class="fas fa-arrow-left"></i> Kembali
+                    <i class="fas fa-arrow-left"></i> Halaman Utama
                 </a>
             </li>
         </ul>
@@ -42,13 +42,13 @@
         <h4>Employee No: {{ staff.staffID }} </h4><br>
 
         <label for="staffEmail">Email:</label>
-        <input type="email" id="staffEmail" name="staffEmail" value="{{ staff.staffEmail }}" placeholder="Email..." required><br>
+        <input type="email" id="staffEmail" name="staffEmail" value="{{ staff.staffEmail }}" oninput="this.value = this.value.toUpperCase();" placeholder="Email..." required><br>
 
         <label for="staffName">Nama Pekerja:</label>
-        <input type="text" id="staffName" name="staffName" value="{{ staff.staffName }}" placeholder="Nama..." required><br>
+        <input type="text" id="staffName" name="staffName" value="{{ staff.staffName }}" oninput="this.value = this.value.toUpperCase();" placeholder="Nama..." required><br>
         
         <label for="department">Jabatan:</label>
-        <input type="text" list="departments" id="department" name="department" value="{{ staff.department }}" placeholder="Pilih Jabatan..." required>
+        <input type="text" list="departments" id="department" name="department" value="{{ staff.department }}" oninput="this.value = this.value.toUpperCase();" placeholder="Pilih Jabatan..." required>
         <datalist id="departments">
             <option value="">Pilih Jabatan</option>
             <option value="Management">Management</option>
@@ -78,7 +78,7 @@
         <label for="togglePassword">Papar Kata Laluan</label><br>
 
         <button type="submit">Kemaskini Profil</button>
-        <p><a href="{{ url_for('select_page') }}">Kembali ke Laman Utama</a>.</p>
+        <p><a href="{{ url_for('select_page') }}">Batal</a>.</p>
     </form>
 </body>
 <script>

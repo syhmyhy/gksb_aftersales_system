@@ -38,4 +38,10 @@ def select_page():
     if 'staff_id' not in session:
         flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
-    return render_template('select_page.html')
+    
+    staffID = session.get('staff_id')
+
+    if staffID in ['GSK39']:
+        return render_template('dashboard_admin.html')
+    else:
+        return render_template('dashboard_staff.html')
