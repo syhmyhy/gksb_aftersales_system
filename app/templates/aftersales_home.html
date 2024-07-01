@@ -71,6 +71,15 @@
     <main class="dashboard">
         <section id="overall-metrics" class="dashboard-section">
             <h3>Projek Keseluruhan Mengikut Tahun</h3>
+            <form method="get" action="{{ url_for('aftersales_home') }}">
+                <label for="year">Pilih Tahun:</label>
+                <select id="year" name="year" onchange="this.form.submit()">
+                    <option value="">Semua Tahun</option>
+                    {% for year in years %}
+                        <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </form>
             <table>
                 <thead>
                     <tr>
@@ -99,13 +108,12 @@
                         <td class="table-center-align"><strong>{{ total_margin_profit | round(2) }}</strong></td>
                     </tr>
                 </tbody>
+                <section class="dashboard-section">
+                    <a href="{{ url_for('combined_view') }}">Klik untuk lihat Data Projek Keseluruhan</a>
+                </section>
             </table>
         </section>
-
-        <section class="dashboard-section">
-            <a href="{{ url_for('combined_view') }}">Klik untuk lihat Data Projek Keseluruhan</a>
-        </section>
-
+        
         <section class="chart-container dashboard-section">
             <div class="chart-item">
                 <h3>Trend Margin Keuntungan, Jumlah Jualan dan Keuntungan Mengikut Tahun Penghantaran</h3>

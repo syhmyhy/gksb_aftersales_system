@@ -1,6 +1,6 @@
 # app\view_home.py
 
-from flask import Flask, jsonify, session, render_template, flash, redirect, url_for
+from flask import Flask, jsonify, session, render_template, flash, redirect, url_for, request
 from app.models.aftersales_model import Aftersales
 from app.models.job_model import Job
 from app.models.sales_model import Sales
@@ -29,7 +29,9 @@ def aftersales_home():
     if 'staff_id' not in session:
         flash('Sila log masuk untuk mengakses laman ini', 'error')
         return redirect(url_for('show_login_form'))
-    
+
+    selected_year = request.args.get('year')
+
     # Calculate overall metrics by year
     metrics_by_year = db.session.query(
         func.date_format(Job.jobDateDelivered, '%Y').label('year'),
@@ -59,13 +61,24 @@ def aftersales_home():
         total_quantity += overall_quantity
     
     total_margin_profit = (total_profit / (total_sales - total_profit)) * 100 if total_sales > 0 else 0
-    
+
+    # Sort the overall_metrics_by_year dictionary by year
+    overall_metrics_by_year = dict(sorted(overall_metrics_by_year.items()))
+
+    if selected_year and selected_year in overall_metrics_by_year:
+        filtered_metrics = {selected_year: overall_metrics_by_year[selected_year]}
+    else:
+        filtered_metrics = overall_metrics_by_year
+
     return render_template('aftersales_home.html', 
-                           overall_metrics_by_year=overall_metrics_by_year,
+                           overall_metrics_by_year=filtered_metrics,
                            total_sales=total_sales,
                            total_profit=total_profit,
                            total_quantity=total_quantity,
-                           total_margin_profit=total_margin_profit)
+                           total_margin_profit=total_margin_profit,
+                           years=overall_metrics_by_year.keys(),
+                           selected_year=selected_year)
+
 
 @app.route('/sales_marketing_home', methods=['GET'])
 def sales_marketing_home():
