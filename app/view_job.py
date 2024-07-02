@@ -106,23 +106,20 @@ def update_job_route(jobNo):
 def delete_job_route(jobNo):
     if 'staff_id' not in session:
         flash('Sila log masuk untuk mengakses laman ini', 'error')
-        return jsonify({'success': False, 'message': 'Sila log masuk untuk mengakses laman ini'}), 401
+        return redirect(url_for('show_login_form'))
 
     job = Job.query.get(jobNo)
 
     if not job:
         flash('Rekod Job tidak dijumpai', 'error')
-        return jsonify({'success': False, 'message': 'Rekod Job tidak dijumpai'}), 404
     else:
         try:
             db.session.delete(job)
             db.session.commit()
             flash('Rekod Job berjaya dipadam', 'success')
-            return jsonify({'success': True, 'message': 'Rekod Job berjaya dipadam'}), 200
         except Exception as e:
             db.session.rollback()
             flash(f'Gagal memadam rekod Job', 'error')
             print({str(e)})
-            return jsonify({'success': False, 'message': f'Gagal memadam rekod Job'}), 500
 
     return redirect(url_for('show_job_management'))

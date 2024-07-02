@@ -17,7 +17,7 @@ function searchJob() {
                 // Populate other fields as needed
             } else if (xhr.status === 404) {
                 // Handle case where job number does not exist
-                alert('Job No tidak dijumpai! Sila pastikan tugas telah wujud.');
+                alert('Job No tidak dijumpai! Sila pastikan Jualan telah wujud.');
                 // Clear readonly fields or show an error message
                 document.getElementById('title').value = '';
                 document.getElementById('custName').value = '';

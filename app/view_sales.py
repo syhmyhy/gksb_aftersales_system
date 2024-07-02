@@ -13,8 +13,8 @@ def show_sales_form():
     
     staffID = session.get('staff_id')
 
-    sales_records = Sales.query.all()
-    return render_template('sales_form.html', sales_records=sales_records, staffID=staffID)
+    sales_data = Sales.query.all()
+    return render_template('sales_form.html', sales_data=sales_data, staffID=staffID)
 
 @app.route('/submit_sales', methods=['POST'])
 def submit_sales_form():
@@ -29,9 +29,9 @@ def edit_sales_form(salesID):
     return sales_controller.edit_sales_form(salesID)
 
 @app.route('/sales/update/<int:salesID>', methods=['POST'])
-def update_sales_record(salesID):
-    return sales_controller.update_sales_record(salesID)
+def update_sales_data(salesID):
+    return sales_controller.update_sales_data(salesID)
 
 @app.route('/sales/delete/<int:salesID>', methods=['GET'])
-def delete_sales_record(salesID):
-    return sales_controller.delete_sales_record(salesID)
+def delete_sales_data(salesID):
+    return sales_controller.delete_sales_data(salesID)

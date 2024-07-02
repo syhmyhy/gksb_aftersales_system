@@ -73,20 +73,20 @@
         <table id="jobTable">
             <thead>
                 <tr>
-                    <th>#</th> <!-- Count column -->
-                    <th class="jobNo">Job No</th>
-                    <th class="title">Tajuk</th>
-                    <th class="custName">Nama Pelanggan</th>
-                    <th class="vehicleType">Jenis Kenderaan</th>
-                    <th class="quantity">Kuantiti</th>
-                    <th class="dateReceived">Tarikh SST</th>
-                    <th class="salesUnit">Jualan(RM) /Unit</th>
-                    <th class="totalSales">Jumlah Jualan(RM)</th>
-                    <th class="profitUnit">Untung(RM) /Unit</th>
-                    <th class="totalProfit">Jumlah Untung(RM)</th>
-                    <th class="marginProfit">Margin Keuntungan(%)</th>
-                    <th class="jobDateDelivered">Tarikh Penghantaran</th>
-                    <th class="staffID">Staff ID</th>
+                    <th>#</th>
+                    <th>Job No</th>
+                    <th>Tajuk</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Jenis Kenderaan</th>
+                    <th>Kuantiti</th>
+                    <th>Tarikh SST</th>
+                    <th>Jualan(RM) /Unit</th>
+                    <th>Jumlah Jualan(RM)</th>
+                    <th>Untung(RM) /Unit</th>
+                    <th>Jumlah Untung(RM)</th>
+                    <th>Margin Keuntungan(%)</th>
+                    <th>Tarikh Penghantaran</th>
+                    <th>Staff ID</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,13 +98,13 @@
                     <td class="table-left-align">{{ job.custName }}</td>
                     <td class="table-left-align">{{ job.vehicleType }}</td>
                     <td class="table-center-align">{{ '%.1f'|format(job.quantity) }}</td>
-                    <td class="table-right-align">{{ job.dateReceived }}</td>
+                    <td class="table-right-align">{{ job.dateReceived|dateformat }}</td>
                     <td class="table-right-align">{{ job.salesUnit| format_rm_currency }}</td>
                     <td class="table-right-align">{{ job.totalSales| format_rm_currency }}</td>
                     <td class="table-right-align">{{ job.profitUnit| format_rm_currency }}</td>
                     <td class="table-right-align">{{ job.totalProfit| format_rm_currency }}</td>
                     <td class="table-center-align">{{ job.marginProfit }}</td>
-                    <td class="table-right-align">{{ job.jobDateDelivered }}</td>
+                    <td class="table-right-align">{{ job.jobDateDelivered|dateformat }}</td>
                     <td class="table-center-align">{{ job.staffID }}</td>
                 </tr>
                 {% endfor %}
@@ -115,50 +115,60 @@
 <!-- JavaScript function to confirm deletion -->
 <script>
     function exportToExcel() {
-        const table = document.getElementById('jobTable');
-        const ws = XLSX.utils.table_to_sheet(table);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, 'job_data.xlsx');
-    }
+            const table = document.getElementById('jobTable');
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'job_data.xlsx');
+        }
 
-    // Custom sorting function for jobNo
-    jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
-        return parseInt(d.replace(/\D/g, ''), 10); // Remove any non-numeric characters and parse as integer
-    };
-    
-    $(document).ready(function() {
-        const table = $('#jobTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-            "columnDefs": [
-                { "type": "jobNo", "targets": 1 } // Apply custom sorting to the Job No column
-            ],
-            "rowCallback": function(row, data, index) {
-                $('td:eq(0)', row).html(index + 1);
-            }
+        // Custom sorting function for jobNo
+        jQuery.fn.dataTable.ext.type.order['jobNo-pre'] = function (d) {
+            return parseInt(d.replace(/\D/g, ''), 10); // Remove any non-numeric characters and parse as integer
+        };
+        
+        $(document).ready(function() {
+            const table = $('#jobTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "columnDefs": [
+                    { "type": "jobNo", "targets": 1 }, // Apply custom sorting to the Job No column
+                    {
+                        "targets": [6, 12], // Indices of date columns (Tarikh SST and Tarikh Penghantaran)
+                        "render": function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                var date = new Date(data);
+                                return date.toLocaleDateString('en-GB'); // Format to dd-mm-yyyy
+                            }
+                            return data;
+                        }
+                    }
+                ],
+                "rowCallback": function(row, data, index) {
+                    $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
+                }
+            });
+
+            $('#filterInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
         });
 
-        $('#filterInput').on('keyup', function() {
-            table.search(this.value).draw();
-        });
-    });
+        function displayFlashMessage(message, category) {
+            const flashMessages = document.querySelector('.flash-messages');
+            const newMessage = document.createElement('div');
+            newMessage.className = `flash-${category}`;
+            newMessage.textContent = message;
+            flashMessages.appendChild(newMessage);
 
-    function displayFlashMessage(message, category) {
-        const flashMessages = document.querySelector('.flash-messages');
-        const newMessage = document.createElement('div');
-        newMessage.className = `flash-${category}`;
-        newMessage.textContent = message;
-        flashMessages.appendChild(newMessage);
-
-        // Automatically remove the flash message after 2 seconds
-        setTimeout(() => {
-            newMessage.remove();
-        }, 2000);
-    }
+            // Automatically remove the flash message after 2 seconds
+            setTimeout(() => {
+                newMessage.remove();
+            }, 2000);
+        }
 </script>
 </html>
 

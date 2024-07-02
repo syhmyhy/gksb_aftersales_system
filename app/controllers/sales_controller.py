@@ -8,47 +8,46 @@ from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 
 def submit_sales_form():
-    sales_data = request.form
+    if request.method == 'POST':
+        try:
+            sales_data = request.form
 
-    staff_id = session.get('staff_id')  # Use 'staff_id' to match the session key
+            new_sales = Sales(
+                salesPerson=sales_data['salesPerson'],
+                purchaseMethod=sales_data['purchaseMethod'],
+                tenderTitle=sales_data['tenderTitle'],
+                custName=sales_data['custName'],
+                chassisType=sales_data['chassisType'],
+                chassisModel=sales_data['chassisModel'],
+                quantity=int(sales_data['quantity']),  # Assuming quantity is integer
+                tenderDate=sales_data['tenderDate'],
+                unitPrice=float(sales_data['unitPrice']),
+                tenderTotalPrice=float(sales_data['tenderTotalPrice']),
+                unitProfit=float(sales_data['unitProfit']),
+                tenderTotalProfit=float(sales_data['tenderTotalProfit']),
+                marginProfit=float(sales_data['marginProfit']),
+                notes=sales_data['notes'],
+                staffID=sales_data['staffID']
+            )
 
-    # Check if staff_id exists in the staff table
-    staff = Staff.query.filter_by(staffID=staff_id).first()
-    if not staff:
-        flash(f'Staff ID {staff_id} not found in database', 'error')
-        return redirect(url_for('show_sales_list'))
+            db.session.add(new_sales)
+            db.session.commit()
+            print("Add Sales: ", new_sales)
+            flash('Rekod Sales berjaya ditambah', 'success')
+            return render_template('sales_form.html', status='success')
 
-    new_sale = Sales(
-        salesPerson=sales_data['salesPerson'],
-        purchaseMethod=sales_data['purchaseMethod'],
-        tenderTitle=sales_data['tenderTitle'],
-        custName=sales_data.get('custName'),
-        chassisType=sales_data.get('chassisType'),
-        chassisModel=sales_data.get('chassisModel'),
-        quantity=int(sales_data['quantity']),
-        tenderDate=datetime.strptime(sales_data['tenderDate'], '%Y-%m-%d').date(),
-        unitPrice=float(sales_data['unitPrice']),
-        tenderTotalPrice=float(sales_data.get('tenderTotalPrice', 0.0)),
-        unitProfit=float(sales_data.get('unitProfit', 0.0)),
-        tenderTotalProfit=float(sales_data.get('tenderTotalProfit', 0.0)),
-        marginProfit=float(sales_data.get('marginProfit', 0.0)),
-        notes=sales_data.get('notes', ''),
-        staffID=staff_id  # Use 'staff_id' to match the session key
-    )
+        except (KeyError, ValueError, IntegrityError) as e:
+            db.session.rollback()
+            error_message = str(e)
+            print(f"Failed to add Sales: {error_message}")  # Detailed error message
+            flash(f'Gagal menambah rekod Sales. Sila lengkapkan semua ruang.', 'error')
+            return render_template('sales_form.html', status='error')
 
-    try:
-        db.session.add(new_sale)
-        db.session.commit()
-        flash('Rekod Jualan Berjaya Ditambah', 'success')
-    except (KeyError, ValueError, IntegrityError) as e:
-        db.session.rollback()
-        flash(f'Gagal Menambah Rekod Jualan: {str(e)}', 'error')
-
-    return redirect(url_for('show_sales_list'))
+    return redirect(url_for('show_sales_form'))
 
 def show_sales_list():
-    sales_records = Sales.query.all()
-    return render_template('sales_list.html', sales_records=sales_records)
+    sales_data = Sales.query.all()
+    return render_template('sales_list.html', sales_data=sales_data)
 
 def edit_sales_form(salesID):
     sale = Sales.query.get(salesID)
@@ -58,49 +57,62 @@ def edit_sales_form(salesID):
 
     return render_template('update_sales.html', sale=sale)
 
-def update_sales_record(salesID):
-    sale = Sales.query.get(salesID)
-    if not sale:
+def update_sales_data(salesID):
+    if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
+        return redirect(url_for('show_login_form'))
+
+    sales = Sales.query.get(salesID)
+
+    if not sales:
         flash('Rekod Jualan Tidak Dijumpai', 'error')
         return redirect(url_for('show_sales_list'))
 
-    sales_data = request.form
+    if request.method == 'POST':
+        try:
+            sales.salesPerson = request.form['salesPerson']
+            sales.purchaseMethod = request.form['purchaseMethod']
+            sales.tenderTitle = request.form['tenderTitle']
+            sales.custName = request.form['custName']
+            sales.chassisType = request.form['chassisType']
+            sales.chassisModel = request.form['chassisModel']
+            sales.quantity = int(request.form['quantity'])
+            sales.tenderDate = request.form['tenderDate']
+            sales.unitPrice = float(request.form['unitPrice'])
+            sales.tenderTotalPrice = float(request.form['tenderTotalPrice'])
+            sales.unitProfit = float(request.form['unitProfit'])
+            sales.tenderTotalProfit = float(request.form['tenderTotalProfit'])
+            sales.marginProfit = float(request.form['marginProfit'])
+            sales.notes = request.form['notes']
 
-    sale.salesPerson = sales_data['salesPerson']
-    sale.purchaseMethod = sales_data['purchaseMethod']
-    sale.tenderTitle = sales_data['tenderTitle']
-    sale.custName = sales_data.get('custName')
-    sale.chassisType = sales_data.get('chassisType')
-    sale.chassisModel = sales_data.get('chassisModel')
-    sale.quantity = int(sales_data['quantity'])
-    sale.tenderDate = datetime.strptime(sales_data['tenderDate'], '%Y-%m-%d').date()
-    sale.unitPrice = float(sales_data['unitPrice'])
-    sale.tenderTotalPrice = float(sales_data.get('tenderTotalPrice', 0.0))
-    sale.unitProfit = float(sales_data.get('unitProfit', 0.0))
-    sale.tenderTotalProfit = float(sales_data.get('tenderTotalProfit', 0.0))
-    sale.marginProfit = float(sales_data.get('marginProfit', 0.0))
-    sale.notes = sales_data.get('notes', '')
+            db.session.commit()
+            print("Update Sales: ", sales)
+            flash('Rekod Jualan berjaya dikemaskini', 'success')
 
-    try:
-        db.session.commit()
-        flash('Rekod Jualan Berjaya Dikemaskini', 'success')
-    except (KeyError, ValueError, IntegrityError) as e:
-        db.session.rollback()
-        flash(f'Gagal Mengemaskini Rekod Jualan: {str(e)}', 'error')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Gagal mengemaskini rekod Jualan: {str(e)}', 'error')
 
-    return redirect(url_for('show_sales_list'))
+        return redirect(url_for('show_sales_list'))
 
-def delete_sales_record(salesID):
-    sale = Sales.query.get(salesID)
-    if not sale:
-        flash('Rekod Jualan Tidak Dijumpai', 'error')
+    return render_template('update_sales.html', sales=sales)
+
+def delete_sales_data(salesID):
+    if 'staff_id' not in session:
+        flash('Sila log masuk untuk mengakses laman ini', 'error')
+        return redirect(url_for('show_login_form'))
+    
+    sales = Sales.query.get(salesID)
+    
+    if not sales:
+        flash('Rekod Jualan tidak dijumpai', 'error')
     else:
         try:
-            db.session.delete(sale)
+            db.session.delete(sales)
             db.session.commit()
-            flash('Rekod Jualan Berjaya Dipadam', 'success')
-        except IntegrityError as e:
+            flash('Rekod Jualan berjaya dipadam', 'success')
+        except Exception as e:
             db.session.rollback()
-            flash(f'Gagal Memadam Rekod Jualan: {str(e)}', 'error')
-
+            flash(f'Gagal memadam rekod Jualan: {str(e)}', 'error')
+    
     return redirect(url_for('show_sales_list'))

@@ -79,7 +79,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for sale in sales_records %}
+                {% for sale in sales_data %}
                     <tr>
                         <td></td> <!-- Will be populated dynamically -->
                         <td class="table-left-align">{{ sale.salesPerson }}</td>
@@ -89,16 +89,16 @@
                         <td class="table-left-align">{{ sale.chassisType }}</td>
                         <td class="table-left-align">{{ sale.chassisModel }}</td>
                         <td class="table-center-align">{{ sale.quantity }}</td>
-                        <td class="table-right-align">{{ sale.tenderDate }}</td>
-                        <td class="table-right-align">{{ sale.unitPrice| format_rm_currency }}</td>
-                        <td class="table-right-align">{{ sale.tenderTotalPrice| format_rm_currency }}</td>
-                        <td class="table-right-align">{{ sale.unitProfit| format_rm_currency }}</td>
-                        <td class="table-right-align">{{ sale.tenderTotalProfit| format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.tenderDate|dateformat }}</td>
+                        <td class="table-right-align">{{ sale.unitPrice|format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.tenderTotalPrice|format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.unitProfit|format_rm_currency }}</td>
+                        <td class="table-right-align">{{ sale.tenderTotalProfit|format_rm_currency }}</td>
                         <td class="table-right-align">{{ sale.marginProfit }}</td>
                         <td class="table-left-align">{{ sale.notes }}</td>
                         <td class="table-left-align">
                             <a href="{{ url_for('edit_sales_form', salesID=sale.salesID) }}">Kemaskini</a>
-                            <a href="{{ url_for('delete_sales_record', salesID=sale.salesID) }}" onclick="return confirm('Adakah anda pasti ingin memadam rekod ini?');">Padam</a>
+                            <a href="{{ url_for('delete_sales_data', salesID=sale.salesID) }}" onclick="return confirm('Adakah anda pasti ingin memadam rekod ini?');">Padam</a>
                         </td>
                     </tr>
                 {% endfor %}

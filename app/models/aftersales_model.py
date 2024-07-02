@@ -12,7 +12,7 @@ class Aftersales(db.Model):
     chassisNo = db.Column(db.String(255), nullable=False)
     engineNo = db.Column(db.String(255), nullable=False)
     registrationNo = db.Column(db.String(10), nullable=False, primary_key=True)
-    dateDelivered = db.Column(db.DATETIME, nullable=False)
+    dateDelivered = db.Column(db.DateTime, nullable=False)
     stateLocality = db.Column(db.String(45), nullable=False)
     detailLocality = db.Column(db.String(255), nullable=False)
     chassisMileageWarranty = db.Column(db.Integer, nullable=False)

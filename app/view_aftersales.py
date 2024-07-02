@@ -27,6 +27,12 @@ def show_aftersales_management():
         return redirect(url_for('show_login_form'))
 
     aftersales_data = Aftersales.query.all()
+    
+    # Debugging: print date formats
+    for aftersales in aftersales_data:
+        print(f"Date Delivered: {aftersales.dateDelivered}")
+        print(f"Formatted Date Delivered: {aftersales.dateDelivered.strftime('%d-%m-%Y')}")
+
     return render_template('aftersales_management.html', aftersales_data=aftersales_data)
 
 @app.route('/update_aftersales/<string:registrationNo>', methods=['GET', 'POST'])

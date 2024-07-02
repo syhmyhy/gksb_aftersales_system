@@ -104,14 +104,14 @@
                         <td class="table-left-align">{{ aftersales.chassisModel }}</td>
                         <td class="table-left-align">{{ aftersales.chassisNo }}</td>
                         <td class="table-left-align">{{ aftersales.engineNo }}</td>
-                        <td class="table-right-align">{{ aftersales.dateDelivered }}</td>
+                        <td class="table-right-align">{{ aftersales.dateDelivered|dateformat }}</td>
                         <td class="table-left-align">{{ aftersales.stateLocality }}</td>
                         <td class="table-left-align">{{ aftersales.detailLocality }}</td>
                         <td class="table-right-align">{{ aftersales.chassisMileageWarranty }}</td>
                         <td class="table-center-align">{{ aftersales.chassisPeriodWarranty }}</td>
-                        <td class="table-right-align">{{ aftersales.chassisExpired }}</td>
+                        <td class="table-right-align">{{ aftersales.chassisExpired|dateformat }}</td>
                         <td class="table-center-align">{{ aftersales.bodyPeriodWarranty }}</td>
-                        <td class="table-right-align">{{ aftersales.bodyExpired }}</td>
+                        <td class="table-right-align">{{ aftersales.bodyExpired|dateformat }}</td>
                         <td class="table-left-align">{{ aftersales.custPhone }}</td>
                         <td class="table-left-align">{{ aftersales.custEmail }}</td>
                         <td class="table-left-align">{{ aftersales.notes }}</td>
@@ -128,22 +128,30 @@
 </body>
 <script>
     $(document).ready(function() {
-            $('#aftersalesTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                "columnDefs": [
-                    { "targets": [0], "orderable": false }, // Disable ordering on first and second columns
-                    { "type": "currency", "targets": [7, 8, 9, 10] } // Apply currency sorting to specific columns
-                ],
-                "rowCallback": function(row, data, index) {
-                    $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
+        $('#aftersalesTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            "columnDefs": [
+                { "targets": [0], "orderable": false }, // Disable ordering on first and second columns
+                {
+                    "targets": [8, 13, 15], // Indices of date columns
+                    "render": function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            var date = new Date(data);
+                            return date.toLocaleDateString('en-GB'); // Format to dd-mm-yyyy
+                        }
+                        return data;
+                    }
                 }
-            });
+            ],
+            "rowCallback": function(row, data, index) {
+                $('td:eq(0)', row).html(index + 1); // Re-order the row numbering
+            }
         });
-
+    });
 
     function confirmLogout() {
         if (confirm("Adakah anda pasti ingin log keluar?")) {

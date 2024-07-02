@@ -12,7 +12,7 @@ class Sales(db.Model):
     chassisType = db.Column(db.String(255), nullable=True)
     chassisModel = db.Column(db.String(255), nullable=True)
     quantity = db.Column(db.Integer, nullable=False)
-    tenderDate = db.Column(db.Date, nullable=False)
+    tenderDate = db.Column(db.DateTime, nullable=False)
     unitPrice = db.Column(db.Numeric(65, 2), nullable=False)
     tenderTotalPrice = db.Column(db.Numeric(65, 2), nullable=False)
     unitProfit = db.Column(db.Numeric(65, 2), nullable=False)

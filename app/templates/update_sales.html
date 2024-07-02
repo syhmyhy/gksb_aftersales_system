@@ -40,7 +40,7 @@
         <h2>Kemaskini Rekod Jualan & Pemasaran</h2>
     </header>
     <!-- Navigation -->
-    <form action="{{ url_for('update_sales_record', salesID=sale.salesID) }}" method="post">
+    <form action="{{ url_for('update_sales_data', salesID=sale.salesID) }}" method="post">
         <!-- Form Fields -->
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
